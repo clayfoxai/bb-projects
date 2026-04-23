@@ -177,6 +177,128 @@ a{color:var(--gold);text-decoration:none;}
 .infobar-label{font-size:10px;letter-spacing:0.12em;color:var(--text-muted);text-transform:uppercase;}
 .infobar-value{font-size:13px;font-weight:500;}
 
+/* =========================================================
+   RESPONSIVE — TABLET (≤768px)
+   ========================================================= */
+@media (max-width: 768px) {
+
+  /* Hero */
+  .hero { padding: 48px 24px 44px; }
+  .hero h1 { font-size: 38px; }
+  .hero-sub { font-size: 14px; margin-bottom: 36px; }
+  .hero-meta { flex-wrap: wrap; gap: 24px 40px; }
+
+  /* Layout */
+  .container { padding: 0 24px; }
+  .section { padding: 52px 0; }
+
+  /* Callout strip */
+  .callout-strip { padding: 40px 24px; }
+  .callout-headline { font-size: 22px; }
+  .stat-grid { grid-template-columns: 1fr; gap: 1px; }
+
+  /* Scorecard */
+  .score-summary { grid-template-columns: 1fr; gap: 32px; }
+  .overall-score-card { max-width: 300px; }
+  .score-row { grid-template-columns: 1fr auto; gap: 12px; grid-template-rows: auto auto; }
+  .sr-name { grid-column: 1 / -1; font-size: 12px; }
+  .sr-bar { align-self: center; }
+
+  /* Section titles */
+  .section-title { font-size: 26px; }
+
+  /* Dimension cards — stack 3 cols → single col */
+  .dim-header { padding: 20px 20px; }
+  .dim-body { grid-template-columns: 1fr; }
+  .dim-divider { display: none; }
+  .dim-col {
+    padding: 20px 20px;
+    border-bottom: 1px solid var(--border-sub);
+  }
+  .dim-col:last-child { border-bottom: none; }
+
+  /* Blueprint timeline */
+  .timeline { padding-left: 28px; }
+  .tl-dot { left: -28px; }
+  .tl-items { grid-template-columns: 1fr; }
+
+  /* PR grid — 3 col → 1 col */
+  .pr-grid { grid-template-columns: 1fr; }
+
+  /* Wiki steps — 4 col → 2x2 */
+  .wiki-steps { grid-template-columns: 1fr 1fr; }
+
+  /* Next steps — 2 col → 1 col */
+  .next-grid { grid-template-columns: 1fr; }
+
+  /* Infobar */
+  .infobar { flex-wrap: wrap; gap: 18px 32px; padding: 20px 24px; }
+
+  /* Opportunity box */
+  .opp-box { padding: 24px 20px; }
+
+  /* Footer */
+  .footer { flex-direction: column; gap: 20px; padding: 40px 24px; text-align: center; }
+  .footer-note { text-align: center; max-width: 100%; }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE (≤480px)
+   ========================================================= */
+@media (max-width: 480px) {
+
+  /* Hero */
+  .hero { padding: 36px 20px 40px; }
+  .hero-eyebrow { margin-bottom: 36px; }
+  .hero h1 { font-size: 30px; line-height: 1.2; }
+  .hero-sub { font-size: 13px; }
+  .hero-meta { gap: 20px 32px; }
+  .hero-meta-item .meta-value { font-size: 13px; }
+
+  /* Layout */
+  .container { padding: 0 20px; }
+  .section { padding: 44px 0; }
+
+  /* Callout */
+  .callout-strip { padding: 36px 20px; }
+  .stat-number { font-size: 36px; }
+
+  /* Score rows — fully stacked */
+  .score-row { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; }
+  .sr-bar { width: 100%; }
+  .sr-score { text-align: left; }
+
+  /* Section */
+  .section-title { font-size: 22px; }
+  .section-intro { font-size: 13px; }
+
+  /* Dim cards */
+  .dim-header { padding: 16px 16px; gap: 16px; }
+  .dim-title { font-size: 15px; }
+  .dim-score { font-size: 28px; }
+  .dim-col { padding: 16px 16px; }
+  .dim-col p, .dim-col li { font-size: 12px; }
+
+  /* Timeline */
+  .timeline { padding-left: 24px; }
+  .tl-dot { left: -24px; width: 14px; height: 14px; }
+  .tl-phase-title { font-size: 17px; }
+  .tl-item { padding: 12px 14px; }
+
+  /* Wiki steps — 2 col → 1 col */
+  .wiki-steps { grid-template-columns: 1fr; }
+  .wiki-step-num { font-size: 28px; }
+
+  /* PR cards */
+  .pr-card { padding: 20px; }
+
+  /* Infobar */
+  .infobar { gap: 16px 24px; }
+
+  /* Footer */
+  .footer { padding: 32px 20px; }
+}
+
 </style>
 </head>
 <body>
