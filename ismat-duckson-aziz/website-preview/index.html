@@ -245,6 +245,10 @@
     .btn{padding:15px 24px;}
     .svc-card-body,.fc-body{padding-left:22px;padding-right:22px;}
   }
+  @media(min-width:481px) and (max-width:880px){
+    .stats > .stat:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;}
+    .cust > div:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 9px);}
+  }
 </style>
 </head>
 <body>
