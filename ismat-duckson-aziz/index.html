@@ -873,7 +873,10 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   .cm-fields{display:flex;flex-direction:column;gap:11px;}
   #cmForm input[type=text],#cmForm input[type=email],#cmForm textarea{width:100%;border:1px solid var(--silver);border-radius:6px;padding:12px 14px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);background:#fdfdff;}
   #cmForm textarea{min-height:92px;resize:vertical;}
-  #cmForm input:focus,#cmForm textarea:focus{outline:none;border-color:var(--fern);}
+  #cmForm input:focus,#cmForm textarea:focus,#cmForm select:focus{outline:none;border-color:var(--fern);}
+  #cmForm select{width:100%;border:1px solid var(--silver);border-radius:6px;padding:12px 38px 12px 14px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);background-color:#fdfdff;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2345506a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+  #cmForm select:invalid{color:var(--silver-d);}
+  .cm-avatar{display:block;width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:50% 22%;margin:0 auto 16px;border:3px solid var(--silver-l);box-shadow:0 6px 18px rgba(11,28,58,.16);}
   #cmForm .btn{width:100%;text-align:center;margin-top:2px;cursor:pointer;}
   .cm-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;}
   .cm-status{font-size:12.5px;font-weight:600;color:#c0392b;min-height:15px;}
@@ -885,11 +888,18 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   .cm-cal-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted-d);font-size:14px;line-height:1.6;padding:30px 16px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);min-height:280px;}
   .cm-cal-soon svg{width:38px;height:38px;color:var(--fern);margin-bottom:14px;}
   @media(max-width:760px){
-    .cm-grid{grid-template-columns:1fr;padding:14px 22px 30px;}
-    .cm-panel{padding:6px 0;}
-    .cm-or{margin:10px 0;height:1px;}
+    .cm-bg{padding:14px;align-items:flex-start;}
+    .cm-box{border-radius:14px;}
+    .cm-head{padding:26px 22px 2px;}
+    .cm-head h3{font-size:25px;}
+    .cm-grid{grid-template-columns:1fr;padding:18px 20px 28px;}
+    .cm-panel{padding:4px 0;}
+    .cm-or{margin:18px 0;height:1px;}
     .cm-or:before{top:50%;bottom:auto;left:0;right:0;width:100%;height:1px;}
-    .cm-panel.cm-cal{margin-top:6px;}
+    .cm-or span{background:#fff;}
+    .cm-panel.cm-cal{margin-top:8px;}
+    .cm-avatar{width:64px;height:64px;margin-bottom:12px;}
+    .cm-cal-soon{min-height:200px;}
   }
 </style>
 
@@ -899,17 +909,28 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
     <div class="cm-head"><span class="eyebrow">Start a conversation</span><h3 id="cmTitle">Connect with Ismat</h3></div>
     <div class="cm-grid">
       <div class="cm-panel" id="cmFormPanel">
+        <img class="cm-avatar" data-edit-img="hero_photo" src="assets/ismat-bio-02.webp" alt="Ismat Duckson Aziz">
         <div class="cm-pl">Send a message</div>
-        <form id="cmForm" novalidate>
-          <div class="cm-fields">
-            <input id="cm_name" type="text" placeholder="Your name" required autocomplete="name">
-            <input id="cm_email" type="email" placeholder="you@company.com" required autocomplete="email">
-            <textarea id="cm_msg" placeholder="A little about what you're looking for"></textarea>
-            <input type="text" id="cm_hp" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <div id="cm_status" class="cm-status"></div>
-            <button type="submit" class="btn btn-solid" id="cm_submit">Send message</button>
-          </div>
-        </form>
+        <div id="cmFormWrap">
+          <form id="cmForm" novalidate>
+            <div class="cm-fields">
+              <input id="cm_name" type="text" placeholder="Your name" required autocomplete="name">
+              <input id="cm_email" type="email" placeholder="you@company.com" required autocomplete="email">
+              <select id="cm_interest" aria-label="What are you exploring?">
+                <option value="" disabled selected>What are you exploring?</option>
+                <option>Advisory engagement</option>
+                <option>Board or governance role</option>
+                <option>Speaking or keynote</option>
+                <option>Executive mentorship</option>
+                <option>Something else</option>
+              </select>
+              <textarea id="cm_msg" placeholder="A little about what you're looking for"></textarea>
+              <input type="text" id="cm_hp" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div id="cm_status" class="cm-status"></div>
+              <button type="submit" class="btn btn-solid" id="cm_submit">Send message</button>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="cm-or"><span>or</span></div>
       <div class="cm-panel cm-cal">
@@ -944,13 +965,14 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   f.addEventListener("submit",function(e){
     e.preventDefault(); st.textContent="";
     var name=document.getElementById("cm_name").value.trim(), email=document.getElementById("cm_email").value.trim(), msg=document.getElementById("cm_msg").value.trim();
+    var interest=document.getElementById("cm_interest").value||"Website inquiry";
     if(!name){st.textContent="Please add your name.";return;}
     if(!emailOk(email)){st.textContent="Please add a valid email address.";return;}
     btn.disabled=true; var o=btn.textContent; btn.textContent="Sending…";
-    fetch(EP,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY},body:JSON.stringify({name:name,email:email,message:msg,interest:"Website inquiry (modal)",company_website:document.getElementById("cm_hp").value})})
+    fetch(EP,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY},body:JSON.stringify({name:name,email:email,message:msg,interest:interest,company_website:document.getElementById("cm_hp").value})})
       .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
       .then(function(d){ btn.disabled=false; btn.textContent=o;
-        if(d&&d.ok){ document.getElementById("cmFormPanel").innerHTML='<div class="cm-pl">Send a message</div><div class="cm-success"><div class="cm-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><p>Thank you, '+name.split(" ")[0].replace(/[<>&]/g,"")+'. Ismat will review your note personally and get back to you soon.</p></div>'; }
+        if(d&&d.ok){ document.getElementById("cmFormWrap").innerHTML='<div class="cm-success"><div class="cm-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><p>Thank you, '+name.split(" ")[0].replace(/[<>&]/g,"")+'. Ismat will review your note personally and get back to you soon.</p></div>'; }
         else{ st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
       })
       .catch(function(){ btn.disabled=false; btn.textContent=o; st.textContent="Network error. Please try again."; });
