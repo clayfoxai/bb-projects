@@ -119,7 +119,7 @@
   .logo-group img.logo-duke{height:46px;}
 
   /* THREE WHO CARDS */
-  .who-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .who-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
   .who-card{background:var(--evergreen-l);border:1px solid rgba(143,169,210,.2);border-radius:5px;padding:42px 34px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:.25s;cursor:pointer;}
   .who-card:hover{transform:translateY(-4px);border-color:var(--sage);box-shadow:0 14px 34px rgba(0,0,0,.22);}
   .who-card .who-num{font-family:'Cormorant Garamond',serif;font-size:46px;line-height:1;color:var(--sage);opacity:.55;font-weight:500;margin-bottom:4px;}
@@ -229,6 +229,9 @@
   .foot-in .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--sage);margin-top:4px;}
   .foot-nav{display:flex;gap:24px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;}
 
+  @media(min-width:881px) and (max-width:1080px){
+    .who-cards{grid-template-columns:repeat(2,1fr);}
+  }
   @media(max-width:880px){
     .hero-in,.connect-grid,.split{grid-template-columns:1fr;gap:40px;}
     .who-cards{grid-template-columns:1fr;}
@@ -368,30 +371,37 @@
 <section class="dark" id="work">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow" data-edit="overview_eyebrow">Three ways she leads now</span>
-      <h2 data-edit="overview_title">One career, operating in three rooms.</h2>
-      <p data-edit="overview_sub">Today that experience takes three forms: advising CEOs and executive teams, serving on boards, and teaching the next generation of leaders. Each one is a way to work with her.</p>
+      <span class="eyebrow" data-edit="overview_eyebrow">Four ways she leads now</span>
+      <h2 data-edit="overview_title">One career, operating on four fronts.</h2>
+      <p data-edit="overview_sub">Today that experience takes four forms: advising CEOs and executive teams, serving on boards, teaching the next generation of leaders, and giving back to the causes she has supported for years. The first three are how to work with her. The fourth is how she chooses to use the position she has earned.</p>
     </div>
     <div class="who-cards">
       <a href="#advisor" class="who-card">
         <div class="who-num">01</div>
         <h3 data-edit="who1_role">The Advisor</h3>
-        <span class="who-cat">Enterprise &amp; transformation</span>
+        <span class="who-cat" data-edit="who1_cat">Enterprise &amp; transformation</span>
         <p data-edit="who1_body">Senior Advisor in McKinsey's global Transformation practice. She helps CEOs and executive teams lead large-scale, AI-era change without losing the workforce along the way.</p>
         <span class="more">Learn more</span>
       </a>
       <a href="#director" class="who-card">
         <div class="who-num">02</div>
         <h3 data-edit="who2_role">The Director</h3>
-        <span class="who-cat">Boards &amp; governance</span>
+        <span class="who-cat" data-edit="who2_cat">Boards &amp; governance</span>
         <p data-edit="who2_body">Board director and Chartered Director (C.Dir.). She brings governance-level judgment on talent, compensation, and culture to boards deciding their company's next decade.</p>
         <span class="more">Learn more</span>
       </a>
       <a href="#educator" class="who-card">
         <div class="who-num">03</div>
         <h3 data-edit="who3_role">The Educator</h3>
-        <span class="who-cat">The next generation</span>
+        <span class="who-cat" data-edit="who3_cat">The next generation</span>
         <p data-edit="who3_body">Instructor and Executive in Residence at Duke's Fuqua School of Business. She is developing the next generation of CHROs and corporate directors.</p>
+        <span class="more">Learn more</span>
+      </a>
+      <a href="#philanthropist" class="who-card">
+        <div class="who-num">04</div>
+        <h3 data-edit="who4_role">The Philanthropist</h3>
+        <span class="who-cat" data-edit="who4_cat">Giving back</span>
+        <p data-edit="who4_body">She directs a portion of her income to causes she has long supported: children's health, caregiving, and the advancement of women into leadership. It continues the work she once owned inside the companies she led, now on her own terms.</p>
         <span class="more">Learn more</span>
       </a>
     </div>
@@ -570,6 +580,21 @@
       <div class="role-related">Also explore <a href="#advisor">The Advisor</a> and <a href="#director">The Director</a></div>
     </div>
     <div class="media"><img data-edit-img="educator_photo" src="assets/ismat-bio-01.webp" alt="Ismat Duckson Aziz"></div>
+  </div>
+</section>
+
+<!-- PHILANTHROPIST expanded -->
+<section class="dark" id="philanthropist">
+  <div class="wrap split">
+    <div class="media"><img data-edit-img="philanthropist_photo" src="assets/ismat-bio-05.webp" alt="Ismat Duckson Aziz"></div>
+    <div class="body">
+      <div class="role-kicker"><span class="rk-num">04</span><span class="rk-name">The Philanthropist</span></div>
+      <h2 data-edit="phil_title">Giving back, quietly and on purpose.</h2>
+      <p data-edit="phil_body1">Throughout her career, Ismat carried responsibility for philanthropy, ESG, and corporate social responsibility inside the companies she led. That was never just a line in a budget to her. It reflected a belief about what a company, and a leader, owes the people and communities they depend on.</p>
+      <p data-edit="phil_body2">She continues it personally today, directing a portion of her income each year to causes close to her: children's health, support for caregivers, and the advancement of women into leadership and the boardroom. She does it quietly, because being seen doing it was never the point.</p>
+      <a href="#connect" class="btn btn-ghost">Connect with Ismat</a>
+      <div class="role-related">Also explore <a href="#advisor">The Advisor</a> and <a href="#educator">The Educator</a></div>
+    </div>
   </div>
 </section>
 
