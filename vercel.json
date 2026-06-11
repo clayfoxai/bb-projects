@@ -6,13 +6,23 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/ismat-duckson-aziz/website-preview/edit/",
+      "destination": "/ismat-duckson-aziz/edit/",
+      "permanent": true
+    },
+    {
       "source": "/ismat-duckson-aziz/website-preview/edit",
       "destination": "/ismat-duckson-aziz/edit/",
       "permanent": true
     },
     {
-      "source": "/ismat-duckson-aziz/website-preview/edit/:path*",
+      "source": "/ismat-duckson-aziz/website-preview/edit/:path+",
       "destination": "/ismat-duckson-aziz/edit/",
+      "permanent": true
+    },
+    {
+      "source": "/ismat-duckson-aziz/website-preview/",
+      "destination": "/ismat-duckson-aziz/",
       "permanent": true
     },
     {
@@ -21,7 +31,7 @@
       "permanent": true
     },
     {
-      "source": "/ismat-duckson-aziz/website-preview/:path*",
+      "source": "/ismat-duckson-aziz/website-preview/:path+",
       "destination": "/ismat-duckson-aziz/",
       "permanent": true
     }
