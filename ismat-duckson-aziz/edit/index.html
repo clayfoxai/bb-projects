@@ -280,12 +280,12 @@
     fieldsEl.querySelectorAll("[data-vsel]").forEach(function(r){ r.addEventListener("change",function(){ if(!r.checked)return; var key=r.closest("[data-vsrcfor]").getAttribute("data-vsrcfor"),sel=r.getAttribute("data-vsel"); var o=videoData(key); o.mode=(sel==="file")?"file":(/vimeo\.com/i.test(o.linkUrl)?"vimeo":"youtube"); setVideoData(key,o,true); }); });
     fieldsEl.querySelectorAll("[data-vurl]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vurl"),u=inp.value.trim(); var o=videoData(key); o.linkUrl=u; if(o.mode!=="file"||!o.fileUrl){ o.mode=/vimeo\.com/i.test(u)?"vimeo":"youtube"; } setVideoData(key,o,true); }); });
     fieldsEl.querySelectorAll("[data-vfile]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vfile"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading video..."; uploadVideo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Uploaded. Save draft to apply."; var o=videoData(key); o.fileUrl=url; if(!o.linkUrl)o.mode="file"; setVideoData(key,o,true); }); }); });
-    fieldsEl.querySelectorAll("[data-vthumb]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vthumb"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading thumbnail..."; uploadImage("video-thumb",f,{minW:1000,minH:560},function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Thumbnail set. Save draft to apply."; var o=videoData(key);o.thumb=url;setVideoData(key,o,true); }); }); });
+    fieldsEl.querySelectorAll("[data-vthumb]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vthumb"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Optimizing thumbnail…"; uploadImage("video-thumb",f,{minW:1000,minH:560},function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Thumbnail set. Save draft to apply."; var o=videoData(key);o.thumb=url;setVideoData(key,o,true); }); }); });
     fieldsEl.querySelectorAll("input[data-vurl]").forEach(function(inp){renderVideoEditor(inp.getAttribute("data-vurl"));});
     fieldsEl.querySelectorAll(".group h2").forEach(function(hh){ hh.addEventListener("click",function(){scrollPreview(hh.getAttribute("data-anchor"),true);}); });
     fieldsEl.querySelectorAll("[data-imgfor]").forEach(function(inp){
-      inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Checking image..."; scrollPreview(anchors[fSection[key]]||"top",true);
-        uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){ if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;} st.style.color="#2e8b57";st.textContent="Uploaded. Preview or Save draft."; var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); }); });
+      inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Optimizing image…"; scrollPreview(anchors[fSection[key]]||"top",true);
+        uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){ if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;} st.style.color="#2e8b57";st.textContent="Optimized to WebP, uploaded. Preview or Save draft."; var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); }); });
     });
     fieldsEl.querySelectorAll(".mini.preview").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var doc=frameDoc(); if(doc)injectOne(doc,key); scrollPreview(anchors[fSection[key]]||"top",true); b.parentNode.querySelector(".fstatus").textContent="Showing in preview (not published)"; }); });
     fieldsEl.querySelectorAll(".mini.save").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateNav();} else fs.textContent="Save failed — try again."; }); }); });
@@ -320,13 +320,29 @@
 
   function uploadImage(key,file,specs,cb){
     if(!/^image\/(jpeg|png|webp)$/.test(file.type))return cb("Please use a JPG, PNG, or WebP image.");
-    if(file.size>8*1024*1024)return cb("Image must be under 8 MB.");
-    var im=new Image(),u=URL.createObjectURL(file);
-    im.onload=function(){ if(im.naturalWidth<specs.minW||im.naturalHeight<specs.minH)return cb("Image is too small ("+im.naturalWidth+"×"+im.naturalHeight+"). Needs at least "+specs.minW+"×"+specs.minH+"px.");
-      var ext=file.type.split("/")[1].replace("jpeg","jpg"),path=SITE+"/"+key+"-"+Date.now()+"."+ext;
-      fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("Upload failed. Please try again.");});
-    };
-    im.onerror=function(){cb("Could not read that image file.");}; im.src=u;
+    if(file.size>25*1024*1024)return cb("Image must be under 25 MB.");
+    var maxEdge=specs.maxEdge||2200; // cap longest side; keeps retina sharpness, kills oversized phone photos
+    // decode (honoring EXIF orientation), downscale, then re-encode to compressed WebP before upload
+    function process(w,h,src){
+      if(w<specs.minW||h<specs.minH)return cb("Image is too small ("+w+"×"+h+"). Needs at least "+specs.minW+"×"+specs.minH+"px.");
+      var scale=Math.min(1,maxEdge/Math.max(w,h)),dw=Math.max(1,Math.round(w*scale)),dh=Math.max(1,Math.round(h*scale));
+      var cv=document.createElement("canvas");cv.width=dw;cv.height=dh;
+      var cx=cv.getContext("2d");cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality="high";
+      try{cx.drawImage(src,0,0,dw,dh);}catch(e){return cb("Could not process that image.");}
+      cv.toBlob(function(b){
+        var useWebp=b&&b.size<file.size; // pick whichever is smaller; falls back to original if WebP encode unsupported
+        var blob=useWebp?b:file, type=useWebp?"image/webp":file.type, ext=useWebp?"webp":file.type.split("/")[1].replace("jpeg","jpg");
+        var path=SITE+"/"+key+"-"+Date.now()+"."+ext;
+        fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":type,"x-upsert":"true"},body:blob})
+          .then(function(r){if(!r.ok)throw 0;return r.json();})
+          .then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);})
+          .catch(function(){cb("Upload failed. Please try again.");});
+      },"image/webp",0.82);
+    }
+    if(window.createImageBitmap){
+      createImageBitmap(file,{imageOrientation:"from-image"}).then(function(bmp){process(bmp.width,bmp.height,bmp);if(bmp.close)bmp.close();}).catch(imgEl);
+    } else imgEl();
+    function imgEl(){ var im=new Image(),u=URL.createObjectURL(file); im.onload=function(){process(im.naturalWidth,im.naturalHeight,im);URL.revokeObjectURL(u);}; im.onerror=function(){cb("Could not read that image file.");}; im.src=u; }
   }
   // ---- logos ----
   function logoData(key){ try{return JSON.parse($("f_"+key).querySelector('input[type="hidden"]').value||"[]");}catch(e){return [];} }
