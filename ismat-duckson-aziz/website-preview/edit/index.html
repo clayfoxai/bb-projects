@@ -61,6 +61,29 @@
   .field-img input[type=file]{font-size:12.5px;color:#5a6480;width:100%;}
   .field-img .hint{font-size:11px;color:#9aa3b5;margin-top:7px;}
   .field-img .imgstatus{font-size:12px;margin-top:7px;font-weight:600;min-height:16px;}
+  .guide{background:#eef3fb;border:1px solid #cfe0f5;border-radius:7px;padding:13px 15px;margin-bottom:14px;font-size:12px;color:#37527d;line-height:1.55;}
+  .guide b{color:#234E92;}.guide ul{margin:7px 0 0 16px;}.guide li{margin-bottom:3px;}
+  .logo-list{display:flex;flex-direction:column;gap:10px;}
+  .logo-item{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 11px;}
+  .logo-item .lthumb{width:92px;height:38px;object-fit:contain;background:#11203a;border-radius:4px;padding:5px;flex:none;}
+  .logo-item .lalt{flex:1;min-width:0;}
+  .logo-item .lalt label{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:#9aa3b5;font-weight:600;margin-bottom:3px;display:block;}
+  .logo-item .lalt input{width:100%;border:1px solid var(--line);border-radius:5px;padding:7px 9px;font-size:13px;font-family:'Montserrat';}
+  .logo-item .lalt input:focus{outline:none;border-color:var(--blue);}
+  .logo-item .lord{display:flex;flex-direction:column;gap:3px;}
+  .logo-item .lord button{border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;font-size:10px;width:24px;height:18px;line-height:1;color:#5a6480;}
+  .logo-item .lord button:hover{background:#eef3fb;}
+  .logo-item .lrm{height:40px;width:30px;border:1px solid #e3b7b0;background:#fff;color:#b0584e;border-radius:5px;cursor:pointer;font-size:13px;}
+  .logo-item .lrm:hover{background:#fcf0ee;}
+  .logo-add{margin-top:12px;}
+  .logo-add label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;}
+  .logo-add input[type=file]{font-size:12.5px;color:#5a6480;}
+  .logo-addstatus{font-size:12px;font-weight:600;margin-top:6px;min-height:15px;}
+  .vid-tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .vid-tab{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:8px 14px;border-radius:5px;border:1px solid var(--line);background:#fff;color:#5a6480;cursor:pointer;}
+  .vid-tab.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .vid-panel{display:none;}.vid-panel.on{display:block;}
+  .vid-status{font-size:12px;font-weight:600;margin-top:7px;min-height:15px;}
 
   .gate{max-width:380px;margin:14vh auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:38px 34px;text-align:center;}
   .gate .lock{font-family:'Cinzel',serif;letter-spacing:.2em;color:var(--navy);font-size:18px;margin-bottom:6px;}
@@ -139,7 +162,7 @@
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
       KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
       SITE="ismat", PASS="", lastAnchor="top";
-  var anchors={"Hero":"top","Who Is Ismat":"about","Overview":"work","Overview — Cards":"work","Connect":"connect","Services":"speaking","The Advisor":"advisor","Quote":"quote","The Director":"director","The Educator":"educator","Closing":"closing"};
+  var anchors={"Hero":"top","Who Is Ismat":"about","Business Logos":"recognized","Overview":"work","Overview — Cards":"work","Connect":"connect","Services":"speaking","The Advisor":"advisor","Quote":"quote","The Director":"director","The Educator":"educator","Closing":"closing"};
   var imageSpecs={
     hero_photo:{minW:700,minH:850,rec:"Portrait JPG/PNG/WebP, about 1200×1500px"},
     advisor_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},director_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},educator_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
@@ -167,13 +190,15 @@
   }
   function injectOne(doc,key){ var v=getValue(key);
     if(fType[key]==="image"){doc.querySelectorAll('[data-edit-img="'+key+'"]').forEach(function(el){el.src=v;});}
+    else if(fType[key]==="logos"){ var arr; try{arr=JSON.parse(v||"[]");}catch(e){arr=[];} doc.querySelectorAll('[data-edit-logos="'+key+'"]').forEach(function(c){c.innerHTML="";arr.forEach(function(l){var im=doc.createElement("img");im.src=l.url;im.alt=l.alt||"";c.appendChild(im);});}); }
+    else if(fType[key]==="video"){ var V; try{V=JSON.parse(v||"{}");}catch(e){V={};} doc.querySelectorAll('[data-edit-video="'+key+'"]').forEach(function(c){var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb;}); }
     else {doc.querySelectorAll('[data-edit="'+key+'"]').forEach(function(el){el.textContent=v;});} }
   function injectAll(){ var doc=frameDoc(); if(!doc)return; allKeys.forEach(function(k){injectOne(doc,k);}); }
   function getValue(key){ var f=$("f_"+key); var el=f.querySelector("[data-key]"); return el?el.value:""; }
-  function setValue(key,val){ var f=$("f_"+key); var el=f.querySelector("[data-key]"); if(el)el.value=val; if(fType[key]==="image"){var t=f.querySelector(".thumb"); if(t)t.src=resolveImg(val);} }
+  function setValue(key,val){ var f=$("f_"+key); var el=f.querySelector("[data-key]"); if(el)el.value=val; if(fType[key]==="image"){var t=f.querySelector(".thumb"); if(t)t.src=resolveImg(val);} if(fType[key]==="logos")renderLogoManager(key); if(fType[key]==="video")renderVideoEditor(key); }
 
   // ---- click-on-preview ----
-  var idToSection={top:"Hero",about:"Who Is Ismat",work:"Overview",connect:"Connect",speaking:"Services",advisor:"The Advisor",quote:"Quote",director:"The Director",educator:"The Educator",closing:"Closing"};
+  var idToSection={top:"Hero",about:"Who Is Ismat",recognized:"Business Logos",work:"Overview",connect:"Connect",speaking:"Services",advisor:"The Advisor",quote:"Quote",director:"The Director",educator:"The Educator",closing:"Closing"};
   function flash(el,strong){ el.style.transition="box-shadow .2s"; el.style.boxShadow="0 0 0 3px rgba(46,99,181,"+(strong?".4":".25")+")"; setTimeout(function(){el.style.boxShadow="";},1300); }
   function focusEditorSection(name){ if(!name)return; var g=fieldsEl.querySelector('.group[data-section="'+name+'"]'); if(!g)return; g.scrollIntoView({behavior:"smooth",block:"start"}); flash(g,false); var inp=g.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450); }
   function focusEditorField(key){ var f=$("f_"+key); if(!f)return; f.scrollIntoView({behavior:"smooth",block:"center"}); flash(f,true); var inp=f.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450); }
@@ -196,10 +221,27 @@
     rows.forEach(function(r){
       fType[r.field_key]=r.field_type; fSection[r.field_key]=r.section; fPub[r.field_key]=r.value||""; var dv=(r.draft_value!=null?r.draft_value:r.value)||""; fDraft[r.field_key]=dv; allKeys.push(r.field_key);
       if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; cur=r.section; }
-      var body;
-      if(r.field_type==="image"){ var sp=imageSpecs[r.field_key]||{rec:""};
-        body='<div class="imgrow"><img class="thumb" src="'+attr(resolveImg(dv))+'" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+r.field_key+'"><div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div><input type="hidden" data-key="'+r.field_key+'" value="'+attr(dv)+'">';
-      } else { body=r.field_type==="textarea"?'<textarea data-key="'+r.field_key+'">'+esc(dv)+'</textarea>':'<input type="text" data-key="'+r.field_key+'" value="'+attr(dv)+'">'; }
+      var body, K=r.field_key, lbl='font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;';
+      if(r.field_type==="logos"){
+        body='<div class="guide"><b>Logo guidelines — please follow exactly:</b><ul>'
+          +'<li>Use only the official logo of a company or publication that has genuinely featured or recognized Ismat.</li>'
+          +'<li>Upload a <b>transparent-background PNG or WebP</b> (no white box). Horizontal / wordmark version preferred.</li>'
+          +'<li>Logos display in one uniform dark tone for consistency, so color logos are auto-darkened.</li>'
+          +'<li>Minimum 300×80px, under 1.5 MB. No screenshots, photos, or text you typed yourself.</li>'
+          +'<li>Add the company name as <b>Alt text</b> on each (accessibility &amp; SEO).</li></ul></div>'
+          +'<div class="logo-list" data-logolist="'+K+'"></div>'
+          +'<div class="logo-add"><label>Add a logo</label><input type="file" accept="image/png,image/webp" data-logoadd="'+K+'"><div class="logo-addstatus"></div></div>'
+          +'<input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
+      } else if(r.field_type==="video"){
+        body='<div class="guide"><b>Video:</b> paste a YouTube link (recommended) or upload a file, and set a thumbnail image shown before play.</div>'
+          +'<div class="vid-tabs"><button class="vid-tab" data-vtab="youtube" data-vfor="'+K+'">YouTube link</button><button class="vid-tab" data-vtab="file" data-vfor="'+K+'">Upload file</button></div>'
+          +'<div class="vid-panel" data-vpanel="youtube" data-vfor="'+K+'"><label style="'+lbl+'">YouTube URL</label><input type="text" data-vurl="'+K+'" placeholder="https://www.youtube.com/watch?v=..."></div>'
+          +'<div class="vid-panel" data-vpanel="file" data-vfor="'+K+'"><label style="'+lbl+'">Video file (MP4 or WebM, under 50 MB)</label><input type="file" accept="video/mp4,video/webm" data-vfile="'+K+'"><div class="vid-status" data-vstatus="'+K+'"></div></div>'
+          +'<div style="margin-top:14px;"><label style="'+lbl+'">Thumbnail image (shown before play, about 1600×900)</label><div class="imgrow"><img class="thumb" data-vthumbimg="'+K+'" src="" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-vthumb="'+K+'"><div class="vid-status" data-vthstatus="'+K+'"></div></div></div></div>'
+          +'<input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
+      } else if(r.field_type==="image"){ var sp=imageSpecs[K]||{rec:""};
+        body='<div class="imgrow"><img class="thumb" src="'+attr(resolveImg(dv))+'" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+K+'"><div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div><input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
+      } else { body=r.field_type==="textarea"?'<textarea data-key="'+K+'">'+esc(dv)+'</textarea>':'<input type="text" data-key="'+K+'" value="'+attr(dv)+'">'; }
       html+='<div class="field'+(r.field_type==="image"?" field-img":"")+'" id="f_'+r.field_key+'" data-key-id="'+r.field_key+'"><span class="pending-badge">Draft · unpublished</span><label>'+esc(r.label||r.field_key)+'</label>'+body
         +'<div class="rowactions"><button class="mini preview">Preview</button><button class="mini save">Save draft</button><button class="mini revert">Revert</button><span class="fstatus"></span></div></div>';
     });
@@ -221,10 +263,17 @@
   }
 
   function wire(){
-    fieldsEl.querySelectorAll('input[type=text],textarea').forEach(function(el){
+    fieldsEl.querySelectorAll('input[type=text][data-key],textarea[data-key]').forEach(function(el){
       el.addEventListener("input",function(){markDirty(el.getAttribute("data-key"));});
       el.addEventListener("focus",function(){scrollPreview(anchors[fSection[el.getAttribute("data-key")]]||"top",true);});
     });
+    fieldsEl.querySelectorAll("[data-logolist]").forEach(function(el){renderLogoManager(el.getAttribute("data-logolist"));});
+    fieldsEl.querySelectorAll("[data-logoadd]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-logoadd"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".logo-addstatus"); st.style.color="#5a6480"; st.textContent="Checking & uploading..."; scrollPreview("recognized",true); uploadLogo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Added below. Set its alt text, then Save draft."; var a=logoData(key); a.push({url:url,alt:""}); setLogoData(key,a,true); }); }); });
+    fieldsEl.querySelectorAll("[data-vfor].vid-tab").forEach(function(b){ b.addEventListener("click",function(){ var key=b.getAttribute("data-vfor"); var o=videoData(key); o.mode=b.getAttribute("data-vtab"); setVideoData(key,o,true); }); });
+    fieldsEl.querySelectorAll("[data-vurl]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vurl"); var o=videoData(key); o.mode="youtube"; o.url=inp.value.trim(); setVideoData(key,o,true); }); });
+    fieldsEl.querySelectorAll("[data-vfile]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vfile"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading video..."; uploadVideo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Uploaded. Save draft to apply."; var o=videoData(key);o.mode="file";o.url=url;setVideoData(key,o,true); }); }); });
+    fieldsEl.querySelectorAll("[data-vthumb]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vthumb"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading thumbnail..."; uploadImage("video-thumb",f,{minW:1000,minH:560},function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Thumbnail set. Save draft to apply."; var o=videoData(key);o.thumb=url;setVideoData(key,o,true); }); }); });
+    fieldsEl.querySelectorAll("[data-vfor].vid-tab").length && fieldsEl.querySelectorAll('input[data-vurl]').forEach(function(inp){renderVideoEditor(inp.getAttribute("data-vurl"));});
     fieldsEl.querySelectorAll(".group h2").forEach(function(hh){ hh.addEventListener("click",function(){scrollPreview(hh.getAttribute("data-anchor"),true);}); });
     fieldsEl.querySelectorAll("[data-imgfor]").forEach(function(inp){
       inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Checking image..."; scrollPreview(anchors[fSection[key]]||"top",true);
@@ -271,6 +320,27 @@
     };
     im.onerror=function(){cb("Could not read that image file.");}; im.src=u;
   }
+  // ---- logos ----
+  function logoData(key){ try{return JSON.parse($("f_"+key).querySelector('input[type="hidden"]').value||"[]");}catch(e){return [];} }
+  function setLogoData(key,arr,dirty){ $("f_"+key).querySelector('input[type="hidden"]').value=JSON.stringify(arr); renderLogoManager(key); var doc=frameDoc(); if(doc)injectOne(doc,key); if(dirty)markDirty(key); }
+  function renderLogoManager(key){ var list=$("f_"+key).querySelector('[data-logolist="'+key+'"]'); if(!list)return; var arr=logoData(key);
+    list.innerHTML=arr.map(function(l,i){ return '<div class="logo-item"><div class="lord"><button data-lup="'+i+'" title="Move up">▲</button><button data-ldn="'+i+'" title="Move down">▼</button></div><img class="lthumb" src="'+attr(resolveImg(l.url))+'" alt=""><div class="lalt"><label>Alt text (company name)</label><input type="text" data-lalt="'+i+'" value="'+attr(l.alt||"")+'"></div><button class="lrm" data-lrm="'+i+'" title="Remove">✕</button></div>'; }).join("")||'<div style="font-size:12px;color:#9aa3b5;">No logos yet. Add one below.</div>';
+    list.querySelectorAll("[data-lup]").forEach(function(b){b.onclick=function(){var i=+b.getAttribute("data-lup"),a=logoData(key);if(i>0){var t=a[i];a[i]=a[i-1];a[i-1]=t;setLogoData(key,a,true);}};});
+    list.querySelectorAll("[data-ldn]").forEach(function(b){b.onclick=function(){var i=+b.getAttribute("data-ldn"),a=logoData(key);if(i<a.length-1){var t=a[i];a[i]=a[i+1];a[i+1]=t;setLogoData(key,a,true);}};});
+    list.querySelectorAll("[data-lrm]").forEach(function(b){b.onclick=function(){var i=+b.getAttribute("data-lrm"),a=logoData(key);a.splice(i,1);setLogoData(key,a,true);};});
+    list.querySelectorAll("[data-lalt]").forEach(function(inp){inp.onchange=function(){var i=+inp.getAttribute("data-lalt"),a=logoData(key);if(a[i]){a[i].alt=inp.value;setLogoData(key,a,true);}};});
+  }
+  function uploadLogo(file,cb){ if(!/^image\/(png|webp)$/.test(file.type))return cb("Use a transparent PNG or WebP logo."); if(file.size>1.5*1024*1024)return cb("Logo must be under 1.5 MB."); var im=new Image(),u=URL.createObjectURL(file); im.onload=function(){ if(im.naturalWidth<300||im.naturalHeight<80)return cb("Logo too small ("+im.naturalWidth+"×"+im.naturalHeight+"). Needs at least 300×80px."); var ext=file.type.split("/")[1],path=SITE+"/logos/logo-"+Date.now()+"."+ext; fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("Upload failed. Try again.");}); }; im.onerror=function(){cb("Could not read that image.");}; im.src=u; }
+  // ---- video ----
+  function videoData(key){ try{var o=JSON.parse($("f_"+key).querySelector('input[type="hidden"]').value||"{}"); return {mode:o.mode||"youtube",url:o.url||"",thumb:o.thumb||""};}catch(e){return {mode:"youtube",url:"",thumb:""};} }
+  function setVideoData(key,o,dirty){ $("f_"+key).querySelector('input[type="hidden"]').value=JSON.stringify(o); renderVideoEditor(key); var doc=frameDoc(); if(doc)injectOne(doc,key); if(dirty)markDirty(key); }
+  function renderVideoEditor(key){ var f=$("f_"+key); if(!f)return; var o=videoData(key);
+    f.querySelectorAll(".vid-tab").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-vtab")===o.mode); });
+    f.querySelectorAll(".vid-panel").forEach(function(p){ p.classList.toggle("on", p.getAttribute("data-vpanel")===o.mode); });
+    var url=f.querySelector("[data-vurl]"); if(url && document.activeElement!==url) url.value=(o.mode==="youtube"?o.url:"");
+    var th=f.querySelector("[data-vthumbimg]"); if(th) th.src=resolveImg(o.thumb);
+  }
+  function uploadVideo(file,cb){ if(!/^video\/(mp4|webm)$/.test(file.type))return cb("Use an MP4 or WebM video."); if(file.size>50*1024*1024)return cb("Video must be under 50 MB. For a larger video, use a YouTube link instead."); var ext=file.type.split("/")[1],path=SITE+"/videos/vid-"+Date.now()+"."+ext; fetch(SB+"/storage/v1/object/site-videos/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-videos/"+path);}).catch(function(){cb("Upload failed. Try again.");}); }
   function resolveImg(v){ return /^https?:\/\//.test(v||"")? v : "../"+(v||""); }
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function attr(s){return esc(s).replace(/"/g,"&quot;");}

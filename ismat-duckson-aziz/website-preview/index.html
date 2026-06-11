@@ -92,7 +92,7 @@
   .logos span{font-family:'Cinzel',serif;font-size:clamp(15px,1.7vw,21px);letter-spacing:.1em;color:var(--evergreen);text-transform:uppercase;}
   .logos .sep{color:var(--fern);font-size:13px;}
   .logo-group{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:22px 38px;margin-bottom:30px;}
-  .logo-group img{height:24px;width:auto;object-fit:contain;opacity:.68;}
+  .logo-group img{height:24px;width:auto;object-fit:contain;opacity:.7;filter:grayscale(1) brightness(0);}
   .logo-group img.logo-duke{height:46px;}
 
   /* THREE WHO CARDS */
@@ -294,7 +294,7 @@
   <div class="wrap">
     <div class="sec-head"><h2 class="whois-title" data-edit="whois_title">Who Is Ismat?</h2></div>
     <p data-edit="whois_body">Ismat Duckson Aziz is one of the most experienced human capital leaders in American business, and one of the quieter ones about it. Across five Fortune 500 CHRO roles, she sat in the rooms where the largest workforce decisions were made, and built a point of view there that she is only now beginning to share widely. Hear it from her directly.</p>
-    <div class="vsl">
+    <div class="vsl" data-edit-video="video">
       <img src="assets/ismat-02.webp" alt="Ismat Duckson Aziz">
       <div class="play"></div>
     </div>
@@ -303,10 +303,10 @@
 </section>
 
 <!-- AS SEEN IN -->
-<section class="light" style="padding:60px 0;">
+<section class="light" id="recognized" style="padding:60px 0;">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:28px;"><span class="eyebrow">Recognized by</span></div>
-    <div class="logo-group">
+    <div class="logo-group" data-edit-logos="logos">
       <img src="assets/logo-reuters.png" alt="Reuters" onerror="this.style.display='none'">
       <img src="assets/logo-mckinsey.png" alt="McKinsey &amp; Company" onerror="this.style.display='none'">
       <img src="assets/logo-duke.png" alt="Duke Fuqua" class="logo-duke" onerror="this.style.display='none'">
@@ -617,7 +617,10 @@
      if(!Array.isArray(rows))return;
      rows.forEach(function(row){ if(row.value==null)return;
        if(row.field_type==="image"){ document.querySelectorAll('[data-edit-img="'+row.field_key+'"]').forEach(function(el){el.src=row.value;}); }
+       else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.src=l.url;im.alt=l.alt||"";c.appendChild(im);});}); }
+       else if(row.field_type==="video"){ var V; try{V=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-video="'+row.field_key+'"]').forEach(function(c){ var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb; c.style.cursor=V.url?"pointer":"default"; c.onclick=function(){ if(!V.url)return; if(V.mode==="youtube"){ var id=ytid(V.url); if(!id)return; c.innerHTML='<iframe style="position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3" src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>'; } else { c.innerHTML='<video style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3" src="'+V.url+'" controls autoplay playsinline></video>'; } }; }); }
        else { document.querySelectorAll('[data-edit="'+row.field_key+'"]').forEach(function(el){el.textContent=row.value;}); } });
+       function ytid(u){ if(!u)return ""; var m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/); return m?m[1]:(/^[\w-]{11}$/.test(u)?u:""); }
    }).catch(function(){});
 })();
 </script>
