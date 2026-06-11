@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit — Ismat Duckson Aziz</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Montserrat',sans-serif;background:var(--mist);color:var(--ink);line-height:1.5;}
+  .top{position:sticky;top:0;z-index:10;background:var(--navy-d);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;flex-wrap:wrap;gap:12px;}
+  .top .wm{font-family:'Cinzel',serif;letter-spacing:.18em;font-size:14px;}
+  .top .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--steel);margin-top:3px;}
+  .top .actions{display:flex;gap:12px;align-items:center;}
+  .btn{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 20px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;display:inline-block;}
+  .btn-go{background:var(--blue);color:#fff;}
+  .btn-go:hover{background:var(--blue-d);}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);}
+  .wrap{max-width:780px;margin:0 auto;padding:34px 22px 90px;}
+  .intro{margin-bottom:26px;}
+  .intro h1{font-family:'Cinzel',serif;font-size:22px;letter-spacing:.04em;color:var(--navy);margin-bottom:6px;font-weight:600;}
+  .intro p{font-size:14px;color:#5a6480;}
+  .group{margin-top:30px;}
+  .group h2{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .field{margin-bottom:20px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;}
+  .field label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7a8398;font-weight:600;margin-bottom:8px;}
+  .field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:5px;padding:11px 13px;font-family:'Montserrat';font-size:15px;color:var(--ink);resize:vertical;background:#fdfdff;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--blue);}
+  .field textarea{min-height:90px;line-height:1.5;}
+  .field .saved{font-size:11px;color:#2e8b57;margin-top:7px;opacity:0;transition:.2s;font-weight:600;letter-spacing:.04em;}
+  .field.is-saved .saved{opacity:1;}
+  .field.is-dirty{border-color:var(--blue);}
+  /* login */
+  .gate{max-width:380px;margin:14vh auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:38px 34px;text-align:center;}
+  .gate .lock{font-family:'Cinzel',serif;letter-spacing:.2em;color:var(--navy);font-size:18px;margin-bottom:6px;}
+  .gate p{font-size:13px;color:#5a6480;margin-bottom:22px;}
+  .gate input{width:100%;border:1px solid var(--line);border-radius:6px;padding:13px;font-size:15px;margin-bottom:14px;text-align:center;}
+  .gate input:focus{outline:none;border-color:var(--blue);}
+  .gate button{width:100%;}
+  .gate .err{color:#c0392b;font-size:13px;margin-top:12px;min-height:18px;}
+  .status{font-size:12px;color:var(--steel);}
+  .hide{display:none!important;}
+</style>
+</head>
+<body>
+
+<div id="gate" class="gate">
+  <div class="lock">EVERGREEN</div>
+  <p>Enter your editor password to make changes to your site.</p>
+  <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="btn btn-go" id="unlock">Unlock editor</button>
+  <div class="err" id="err"></div>
+</div>
+
+<div id="app" class="hide">
+  <div class="top">
+    <div class="wm">EVERGREEN<span>Site Editor · Ismat Duckson Aziz</span></div>
+    <div class="actions">
+      <span class="status" id="status"></span>
+      <a class="btn btn-ghost" href="../" target="_blank">View live site</a>
+      <button class="btn btn-go" id="saveAll">Save changes</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Edit your site copy</h1>
+      <p>Change any text below and click Save changes. Your live site updates right away. Refresh the live site to see it.</p>
+    </div>
+    <div id="fields"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
+      KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
+      SITE="ismat", PASS="";
+  function h(t){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+  var gate=document.getElementById("gate"),app=document.getElementById("app"),
+      err=document.getElementById("err"),fieldsEl=document.getElementById("fields"),
+      statusEl=document.getElementById("status");
+
+  document.getElementById("unlock").onclick=unlock;
+  document.getElementById("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
+  function unlock(){
+    var p=document.getElementById("pass").value;
+    err.textContent="Checking...";
+    fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:h(),body:JSON.stringify({p_site:SITE,p_pass:p})})
+     .then(function(r){return r.json();}).then(function(ok){
+       if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();}
+       else{err.textContent="Incorrect password.";}
+     }).catch(function(){err.textContent="Something went wrong. Try again.";});
+  }
+
+  function load(){
+    fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,label,field_type,section,sort&order=sort.asc",{headers:h()})
+     .then(function(r){return r.json();}).then(render);
+  }
+  function render(rows){
+    rows.sort(function(a,b){return (a.section>b.section?1:a.section<b.section?-1:0)||a.sort-b.sort;});
+    var html="",cur=null;
+    rows.forEach(function(r){
+      if(r.section!==cur){ if(cur!==null)html+="</div>"; html+='<div class="group"><h2>'+esc(r.section)+'</h2>'; cur=r.section; }
+      var input = r.field_type==="textarea"
+        ? '<textarea data-key="'+r.field_key+'">'+esc(r.value||"")+'</textarea>'
+        : '<input type="text" data-key="'+r.field_key+'" value="'+attr(r.value||"")+'">';
+      html+='<div class="field" id="f_'+r.field_key+'"><label>'+esc(r.label||r.field_key)+'</label>'+input+'<div class="saved">Saved</div></div>';
+    });
+    if(cur!==null)html+="</div>";
+    fieldsEl.innerHTML=html;
+    fieldsEl.querySelectorAll("[data-key]").forEach(function(el){
+      el.addEventListener("input",function(){document.getElementById("f_"+el.getAttribute("data-key")).classList.add("is-dirty");});
+    });
+  }
+  document.getElementById("saveAll").onclick=function(){
+    var dirty=fieldsEl.querySelectorAll(".field.is-dirty [data-key]");
+    if(!dirty.length){statusEl.textContent="No changes to save.";return;}
+    statusEl.textContent="Saving "+dirty.length+"...";
+    var done=0,total=dirty.length,fail=0;
+    dirty.forEach(function(el){
+      var key=el.getAttribute("data-key");
+      fetch(SB+"/rest/v1/rpc/bb_save_content",{method:"POST",headers:h(),
+        body:JSON.stringify({p_site:SITE,p_key:key,p_value:el.value,p_pass:PASS})})
+       .then(function(r){if(!r.ok)throw 0;return r.json();})
+       .then(function(){var f=document.getElementById("f_"+key);f.classList.remove("is-dirty");f.classList.add("is-saved");setTimeout(function(){f.classList.remove("is-saved");},2500);})
+       .catch(function(){fail++;})
+       .finally(function(){done++;if(done===total)statusEl.textContent=fail?(fail+" failed — try again"):"All changes saved.";});
+    });
+  };
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function attr(s){return esc(s).replace(/"/g,"&quot;");}
+})();
+</script>
+</body>
+</html>
