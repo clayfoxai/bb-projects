@@ -6,17 +6,22 @@
 <title>Edit — Ismat Duckson Aziz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;--amber:#b7791f;--topbar:60px;}
+  :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;--amber:#b7791f;--amber-bg:#fbf3df;--green:#2e8b57;--topbar:60px;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Montserrat',sans-serif;background:var(--mist);color:var(--ink);line-height:1.5;}
-  .top{position:sticky;top:0;z-index:20;height:var(--topbar);background:var(--navy-d);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:12px;}
+  .top{position:sticky;top:0;z-index:20;height:var(--topbar);background:var(--navy-d);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:10px;}
   .top .wm{font-family:'Cinzel',serif;letter-spacing:.18em;font-size:14px;white-space:nowrap;}
   .top .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--steel);margin-top:2px;}
-  .top .actions{display:flex;gap:10px;align-items:center;}
-  .btn{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 18px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
+  .top .actions{display:flex;gap:8px;align-items:center;}
+  .btn{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:10px 16px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;transition:.18s;}
   .btn-go{background:var(--blue);color:#fff;}.btn-go:hover{background:var(--blue-d);}
+  .btn-go.ready{box-shadow:0 0 0 3px rgba(46,99,181,.35);}
+  .btn-go.idle{background:#33446a;color:#9fb0cf;cursor:default;box-shadow:none;}
   .btn-line{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.45);}.btn-line:hover{background:rgba(255,255,255,.1);}
-  .status{font-size:12px;color:var(--steel);max-width:200px;}
+  .btn-line.saved{background:rgba(46,139,87,.18);border-color:#5cbd8a;color:#bfe8d2;}
+  .btn-line.idle{color:#7f8db0;border-color:rgba(255,255,255,.18);cursor:default;}
+  #revertAll{display:none;color:#f0c9c4;border-color:rgba(240,150,140,.5);}#revertAll:hover{background:rgba(192,57,43,.16);}
+  .status{font-size:12px;color:var(--steel);max-width:170px;}
 
   .panes{display:flex;align-items:flex-start;}
   .editor-pane{flex:1 1 54%;min-width:0;padding:28px 26px 90px;max-height:calc(100vh - var(--topbar));overflow-y:auto;}
@@ -30,19 +35,25 @@
   .group{margin-top:26px;}
   .group h2{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
   .group h2 .jump{font-family:'Montserrat';font-size:10px;letter-spacing:.1em;color:#9aa3b5;}
-  .field{position:relative;margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;}
+  .group.group-pending h2{color:var(--amber);border-color:#ecd9ad;}
+  .group.group-pending h2 .jump::before{content:"● draft  ";color:var(--amber);}
+  .field{position:relative;margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;transition:box-shadow .2s,border-color .2s;}
   .field label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a8398;font-weight:600;margin-bottom:7px;}
   .field input[type=text],.field textarea{width:100%;border:1px solid var(--line);border-radius:5px;padding:10px 12px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);resize:vertical;background:#fdfdff;}
   .field input[type=text]:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(46,99,181,.12);}
   .field textarea{min-height:84px;line-height:1.5;}
   .field.is-dirty{border-color:var(--blue);}
-  .pending-badge{display:none;position:absolute;top:12px;right:14px;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--amber);background:#fdف6e3;background:#fbf3df;border:1px solid #ecd9ad;border-radius:20px;padding:3px 9px;}
+  .field.is-pending{border-color:#e0b964;box-shadow:0 0 0 2px rgba(183,121,31,.35);}
+  .pending-badge{display:none;position:absolute;top:12px;right:14px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--amber);background:var(--amber-bg);border:1px solid #ecd9ad;border-radius:20px;padding:3px 9px;}
   .field.is-pending .pending-badge{display:inline-block;}
   .rowactions{display:none;align-items:center;gap:8px;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);}
-  .field.is-dirty .rowactions{display:flex;}
-  .mini{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:7px 14px;border-radius:4px;cursor:pointer;border:1px solid var(--blue);}
+  .field.is-dirty .rowactions,.field.is-pending .rowactions{display:flex;}
+  .mini{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:7px 13px;border-radius:4px;cursor:pointer;border:1px solid var(--blue);}
   .mini.preview{background:#fff;color:var(--blue);}.mini.preview:hover{background:#eef3fb;}
   .mini.save{background:var(--blue);color:#fff;}.mini.save:hover{background:var(--blue-d);}
+  .mini.revert{margin-left:auto;background:#fff;color:#b0584e;border-color:#e3b7b0;}.mini.revert:hover{background:#fcf0ee;}
+  .field:not(.is-dirty) .mini.save{display:none;}
+  .field:not(.is-pending) .mini.revert{display:none;}
   .fstatus{font-size:11.5px;color:#7a8398;font-weight:600;}
   .field-img .imgrow{display:flex;gap:14px;align-items:flex-start;}
   .field-img .thumb{width:108px;height:80px;object-fit:cover;border-radius:5px;border:1px solid var(--line);background:#eef2f8;flex:none;}
@@ -71,7 +82,8 @@
     .panes{flex-direction:column;}
     .preview-pane{order:-1;width:100%;flex:none;height:40vh;position:sticky;top:var(--topbar);border-left:0;border-bottom:1px solid var(--line);z-index:5;}
     .editor-pane{flex:none;width:100%;max-height:none;overflow:visible;padding:22px 18px 90px;}
-    .top .wm span{display:none;}.top .actions .btn{padding:9px 13px;font-size:11px;}
+    .top .wm span{display:none;}.top .actions .btn{padding:9px 11px;font-size:10.5px;}
+    .status{display:none;}
   }
 </style>
 </head>
@@ -91,15 +103,16 @@
     <div class="actions">
       <span class="status" id="status"></span>
       <a class="btn btn-line" href="../" target="_blank">Open live ↗</a>
-      <button class="btn btn-line" id="draftAll">Save as draft</button>
-      <button class="btn btn-go" id="pubAll">Publish</button>
+      <button class="btn btn-line" id="revertAll">Revert all</button>
+      <button class="btn btn-line idle" id="draftAll">Save as draft</button>
+      <button class="btn btn-go idle" id="pubAll">Publish</button>
     </div>
   </div>
   <div class="panes">
     <div class="editor-pane">
       <div class="intro">
         <h1>Edit your site</h1>
-        <p>Edit any field, then <b>Preview</b> to try it on the right. <b>Save</b> stores a private draft you can return to anytime. Your live website only changes when you click <b>Publish</b> and confirm.</p>
+        <p>Edit a field, then <b>Preview</b> to try it on the right. <b>Save draft</b> keeps it privately (it glows amber until published). Your live website only changes when you click <b>Publish</b> and confirm.</p>
       </div>
       <div id="fields"></div>
     </div>
@@ -112,8 +125,8 @@
 
 <div class="modal-bg" id="modalbg">
   <div class="modal">
-    <h3>Publish to your live site?</h3>
-    <p id="modaltext">This will update your public website. Visitors will see the change immediately.</p>
+    <h3 id="modaltitle">Publish to your live site?</h3>
+    <p id="modaltext">This will update your public website.</p>
     <div class="mbtns">
       <button class="btn cancel" id="mCancel">Cancel</button>
       <button class="btn btn-go" id="mYes">Yes, publish</button>
@@ -129,124 +142,83 @@
   var anchors={"Hero":"top","Who Is Ismat":"about","Overview":"work","Overview — Cards":"work","Connect":"connect","Services":"speaking","The Advisor":"advisor","Quote":"quote","The Director":"director","The Educator":"educator","Closing":"closing"};
   var imageSpecs={
     hero_photo:{minW:700,minH:850,rec:"Portrait JPG/PNG/WebP, about 1200×1500px"},
-    advisor_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
-    director_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
-    educator_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
-    svc1_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
-    svc2_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
-    svc3_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
-    svc4_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"}
+    advisor_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},director_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},educator_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
+    svc1_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},svc2_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},svc3_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},svc4_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"}
   };
-  var fType={}, fSection={}, fPub={};
+  var fType={}, fSection={}, fPub={}, fDraft={}, allKeys=[];
   var $=function(id){return document.getElementById(id);};
   var gate=$("gate"),app=$("app"),err=$("err"),fieldsEl=$("fields"),statusEl=$("status"),frame=$("frame");
-  function H(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+  function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
 
   frame.addEventListener("load",function(){ setTimeout(function(){injectAll();injectEditMode();if(lastAnchor)scrollPreview(lastAnchor,false);},300); setTimeout(injectAll,950); });
 
   $("unlock").onclick=unlock;
   $("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
-  function unlock(){
-    var p=$("pass").value; err.textContent="Checking...";
-    fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:H(),body:JSON.stringify({p_site:SITE,p_pass:p})})
-     .then(function(r){return r.json();}).then(function(ok){
-       if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();}
-       else err.textContent="Incorrect password.";
-     }).catch(function(){err.textContent="Something went wrong. Try again.";});
+  function unlock(){ var p=$("pass").value; err.textContent="Checking...";
+    fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:p})})
+     .then(function(r){return r.json();}).then(function(ok){ if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();} else err.textContent="Incorrect password.";})
+     .catch(function(){err.textContent="Something went wrong. Try again.";});
   }
 
   function frameDoc(){ try{return frame.contentDocument||frame.contentWindow.document;}catch(e){return null;} }
-  function scrollPreview(anchor,flash){
-    lastAnchor=anchor; var doc=frameDoc(); if(!doc)return; var el=doc.getElementById(anchor); if(!el)return;
+  function scrollPreview(anchor,flashIt){ lastAnchor=anchor; var doc=frameDoc(); if(!doc)return; var el=doc.getElementById(anchor); if(!el)return;
     el.scrollIntoView({behavior:"smooth",block:"start"});
-    if(flash!==false){el.style.transition="outline .15s ease";el.style.outline="3px solid #2E63B5";el.style.outlineOffset="-3px";
-      clearTimeout(window._hl);window._hl=setTimeout(function(){el.style.outline="none";},1500);}
+    if(flashIt!==false){el.style.transition="outline .15s";el.style.outline="3px solid #2E63B5";el.style.outlineOffset="-3px";clearTimeout(window._hl);window._hl=setTimeout(function(){el.style.outline="none";},1500);}
   }
-  function injectOne(doc,key){
-    var v=getValue(key);
+  function injectOne(doc,key){ var v=getValue(key);
     if(fType[key]==="image"){doc.querySelectorAll('[data-edit-img="'+key+'"]').forEach(function(el){el.src=v;});}
-    else {doc.querySelectorAll('[data-edit="'+key+'"]').forEach(function(el){el.textContent=v;});}
-  }
-  function injectAll(){ var doc=frameDoc(); if(!doc)return; Object.keys(fType).forEach(function(k){injectOne(doc,k);}); }
+    else {doc.querySelectorAll('[data-edit="'+key+'"]').forEach(function(el){el.textContent=v;});} }
+  function injectAll(){ var doc=frameDoc(); if(!doc)return; allKeys.forEach(function(k){injectOne(doc,k);}); }
   function getValue(key){ var f=$("f_"+key); var el=f.querySelector("[data-key]"); return el?el.value:""; }
+  function setValue(key,val){ var f=$("f_"+key); var el=f.querySelector("[data-key]"); if(el)el.value=val; if(fType[key]==="image"){var t=f.querySelector(".thumb"); if(t)t.src=resolveImg(val);} }
 
-  // ---- click-on-preview to jump to editor (section + sub-element) ----
+  // ---- click-on-preview ----
   var idToSection={top:"Hero",about:"Who Is Ismat",work:"Overview",connect:"Connect",speaking:"Services",advisor:"The Advisor",quote:"Quote",director:"The Director",educator:"The Educator",closing:"Closing"};
   function flash(el,strong){ el.style.transition="box-shadow .2s"; el.style.boxShadow="0 0 0 3px rgba(46,99,181,"+(strong?".4":".25")+")"; setTimeout(function(){el.style.boxShadow="";},1300); }
-  function focusEditorSection(name){
-    if(!name)return; var g=fieldsEl.querySelector('.group[data-section="'+name+'"]'); if(!g)return;
-    g.scrollIntoView({behavior:"smooth",block:"start"}); flash(g,false);
-    var inp=g.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450);
-  }
-  function focusEditorField(key){
-    var f=$("f_"+key); if(!f)return;
-    f.scrollIntoView({behavior:"smooth",block:"center"}); flash(f,true);
-    var inp=f.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450);
-  }
-  function injectEditMode(){
-    var doc=frameDoc(); if(!doc||!doc.body)return;
-    if(!doc.getElementById("bb-edit-style")){
-      var st=doc.createElement("style"); st.id="bb-edit-style";
-      st.textContent='.bb-hov{position:relative;cursor:pointer;outline:2px solid #2E63B5;outline-offset:-2px;box-shadow:inset 0 0 0 9999px rgba(46,99,181,.10)!important;}'
-        +'.bb-hov::after{content:"Click to edit \\270E";position:absolute;top:6px;left:6px;background:#2E63B5;color:#fff;font:600 10px/1.2 Montserrat,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:4px;pointer-events:none;z-index:40;white-space:nowrap;}';
-      doc.head.appendChild(st);
-    }
-    if(doc.__bbwired)return; doc.__bbwired=true;
-    var hoverEl=null;
+  function focusEditorSection(name){ if(!name)return; var g=fieldsEl.querySelector('.group[data-section="'+name+'"]'); if(!g)return; g.scrollIntoView({behavior:"smooth",block:"start"}); flash(g,false); var inp=g.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450); }
+  function focusEditorField(key){ var f=$("f_"+key); if(!f)return; f.scrollIntoView({behavior:"smooth",block:"center"}); flash(f,true); var inp=f.querySelector("input[type=text],textarea"); if(inp)setTimeout(function(){try{inp.focus({preventScroll:true});}catch(e){}},450); }
+  function injectEditMode(){ var doc=frameDoc(); if(!doc||!doc.body)return;
+    if(!doc.getElementById("bb-edit-style")){ var st=doc.createElement("style"); st.id="bb-edit-style";
+      st.textContent='.bb-hov{position:relative;cursor:pointer;outline:2px solid #2E63B5;outline-offset:-2px;box-shadow:inset 0 0 0 9999px rgba(46,99,181,.10)!important;}.bb-hov::after{content:"Click to edit \\270E";position:absolute;top:6px;left:6px;background:#2E63B5;color:#fff;font:600 10px/1.2 Montserrat,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:4px;pointer-events:none;z-index:40;white-space:nowrap;}';
+      doc.head.appendChild(st); }
+    if(doc.__bbwired)return; doc.__bbwired=true; var hoverEl=null;
     function clearHov(){ if(hoverEl){hoverEl.classList.remove("bb-hov");hoverEl=null;} }
     function closestSection(t){ while(t&&t!==doc.body){ if(t.id&&idToSection[t.id])return t; t=t.parentNode; } return null; }
-    doc.addEventListener("mouseover",function(e){
-      var field=e.target.closest&&e.target.closest("[data-edit],[data-edit-img]");
-      var target=field||closestSection(e.target);
-      if(target!==hoverEl){ clearHov(); if(target){target.classList.add("bb-hov");hoverEl=target;} }
-    },true);
+    doc.addEventListener("mouseover",function(e){ var field=e.target.closest&&e.target.closest("[data-edit],[data-edit-img]"); var target=field||closestSection(e.target); if(target!==hoverEl){clearHov(); if(target){target.classList.add("bb-hov");hoverEl=target;}} },true);
     doc.addEventListener("mouseleave",clearHov,true);
-    doc.addEventListener("click",function(e){
-      e.preventDefault(); e.stopPropagation();
-      var field=e.target.closest&&e.target.closest("[data-edit],[data-edit-img]");
-      if(field){ clearHov(); focusEditorField(field.getAttribute("data-edit")||field.getAttribute("data-edit-img")); return; }
-      var sec=closestSection(e.target); if(sec){ clearHov(); focusEditorSection(idToSection[sec.id]); }
-    },true);
+    doc.addEventListener("click",function(e){ e.preventDefault(); e.stopPropagation(); var field=e.target.closest&&e.target.closest("[data-edit],[data-edit-img]"); if(field){clearHov();focusEditorField(field.getAttribute("data-edit")||field.getAttribute("data-edit-img"));return;} var sec=closestSection(e.target); if(sec){clearHov();focusEditorSection(idToSection[sec.id]);} },true);
   }
 
-  function load(){
-    fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,draft_value,label,field_type,section,sort&order=sort.asc",{headers:H()})
-     .then(function(r){return r.json();}).then(render);
-  }
+  // ---- load + render ----
+  function load(){ fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,draft_value,label,field_type,section,sort&order=sort.asc",{headers:Hh()}).then(function(r){return r.json();}).then(render); }
   function render(rows){
-    rows.sort(function(a,b){return a.sort-b.sort;});
-    var html="",cur=null;
+    rows.sort(function(a,b){return a.sort-b.sort;}); var html="",cur=null; allKeys=[];
     rows.forEach(function(r){
-      fType[r.field_key]=r.field_type; fSection[r.field_key]=r.section; fPub[r.field_key]=r.value;
-      var draft = (r.draft_value!=null? r.draft_value : r.value) || "";
-      var pending = (r.draft_value!=null && r.draft_value!==r.value);
-      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top";
-        html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; cur=r.section; }
+      fType[r.field_key]=r.field_type; fSection[r.field_key]=r.section; fPub[r.field_key]=r.value||""; var dv=(r.draft_value!=null?r.draft_value:r.value)||""; fDraft[r.field_key]=dv; allKeys.push(r.field_key);
+      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; cur=r.section; }
       var body;
-      if(r.field_type==="image"){
-        var sp=imageSpecs[r.field_key]||{rec:""};
-        body='<div class="imgrow"><img class="thumb" src="'+attr(draft)+'" alt="">'
-          +'<div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+r.field_key+'">'
-          +'<div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div>'
-          +'<input type="hidden" data-key="'+r.field_key+'" value="'+attr(draft)+'">';
-      } else {
-        body=r.field_type==="textarea"
-          ? '<textarea data-key="'+r.field_key+'">'+esc(draft)+'</textarea>'
-          : '<input type="text" data-key="'+r.field_key+'" value="'+attr(draft)+'">';
-      }
-      html+='<div class="field'+(r.field_type==="image"?" field-img":"")+(pending?" is-pending":"")+'" id="f_'+r.field_key+'" data-key-id="'+r.field_key+'">'
-        +'<span class="pending-badge">Draft · unpublished</span>'
-        +'<label>'+esc(r.label||r.field_key)+'</label>'+body
-        +'<div class="rowactions"><button class="mini preview">Preview</button><button class="mini save">Save draft</button><span class="fstatus"></span></div></div>';
+      if(r.field_type==="image"){ var sp=imageSpecs[r.field_key]||{rec:""};
+        body='<div class="imgrow"><img class="thumb" src="'+attr(resolveImg(dv))+'" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+r.field_key+'"><div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div><input type="hidden" data-key="'+r.field_key+'" value="'+attr(dv)+'">';
+      } else { body=r.field_type==="textarea"?'<textarea data-key="'+r.field_key+'">'+esc(dv)+'</textarea>':'<input type="text" data-key="'+r.field_key+'" value="'+attr(dv)+'">'; }
+      html+='<div class="field'+(r.field_type==="image"?" field-img":"")+'" id="f_'+r.field_key+'" data-key-id="'+r.field_key+'"><span class="pending-badge">Draft · unpublished</span><label>'+esc(r.label||r.field_key)+'</label>'+body
+        +'<div class="rowactions"><button class="mini preview">Preview</button><button class="mini save">Save draft</button><button class="mini revert">Revert</button><span class="fstatus"></span></div></div>';
     });
-    if(cur!==null)html+="</div>";
-    fieldsEl.innerHTML=html;
-    wire(); updateStatus();
+    if(cur!==null)html+="</div>"; fieldsEl.innerHTML=html; wire(); allKeys.forEach(refreshField); refreshGroups(); updateNav();
   }
-  function markDirty(key){ $("f_"+key).classList.add("is-dirty"); }
-  function isPending(key){ return getValue(key)!==(fPub[key]||""); }
-  function refreshPending(key){ var f=$("f_"+key); if(isPending(key))f.classList.add("is-pending");else f.classList.remove("is-pending"); }
-  function updateStatus(){ var n=fieldsEl.querySelectorAll(".field.is-pending").length; statusEl.textContent = n? (n+" unpublished change"+(n>1?"s":"")) : ""; }
+  function markDirty(key){ $("f_"+key).classList.add("is-dirty"); updateNav(); }
+  function refreshField(key){ var f=$("f_"+key); if(!f)return; if(fDraft[key]!==fPub[key])f.classList.add("is-pending");else f.classList.remove("is-pending"); }
+  function refreshGroups(){ fieldsEl.querySelectorAll(".group").forEach(function(g){ if(g.querySelector(".field.is-pending"))g.classList.add("group-pending");else g.classList.remove("group-pending"); }); }
+  function counts(){ return {dirty:fieldsEl.querySelectorAll(".field.is-dirty").length, pending:fieldsEl.querySelectorAll(".field.is-pending").length}; }
+  function updateNav(){
+    var c=counts(); var d=$("draftAll"),p=$("pubAll"),rv=$("revertAll");
+    if(c.dirty>0){ d.className="btn btn-line"; d.textContent="Save as draft"; }
+    else if(c.pending>0){ d.className="btn btn-line saved"; d.textContent="Draft saved ✓"; }
+    else { d.className="btn btn-line idle"; d.textContent="Save as draft"; }
+    if(c.pending>0||c.dirty>0){ p.className="btn btn-go ready"; p.textContent="Publish Changes"; }
+    else { p.className="btn btn-go idle"; p.textContent="Publish"; }
+    rv.style.display = (c.pending>0)?"inline-block":"none";
+    statusEl.textContent = c.pending? (c.pending+" unpublished change"+(c.pending>1?"s":"")) : (c.dirty? "Unsaved edits" : "");
+  }
 
   function wire(){
     fieldsEl.querySelectorAll('input[type=text],textarea').forEach(function(el){
@@ -255,67 +227,37 @@
     });
     fieldsEl.querySelectorAll(".group h2").forEach(function(hh){ hh.addEventListener("click",function(){scrollPreview(hh.getAttribute("data-anchor"),true);}); });
     fieldsEl.querySelectorAll("[data-imgfor]").forEach(function(inp){
-      inp.addEventListener("change",function(){
-        var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return;
-        var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Checking image...";
-        scrollPreview(anchors[fSection[key]]||"top",true);
-        uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){
-          if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;}
-          st.style.color="#2e8b57";st.textContent="Uploaded. Preview or Save draft.";
-          var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key);
-        });
-      });
+      inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Checking image..."; scrollPreview(anchors[fSection[key]]||"top",true);
+        uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){ if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;} st.style.color="#2e8b57";st.textContent="Uploaded. Preview or Save draft."; var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); }); });
     });
-    fieldsEl.querySelectorAll(".mini.preview").forEach(function(b){
-      b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id");
-        var doc=frameDoc(); if(doc)injectOne(doc,key); scrollPreview(anchors[fSection[key]]||"top",true);
-        b.closest(".rowactions").querySelector(".fstatus").textContent="Showing in preview (not published)"; });
-    });
-    fieldsEl.querySelectorAll(".mini.save").forEach(function(b){
-      b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.closest(".rowactions").querySelector(".fstatus");
-        fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key);
-          if(ok){f.classList.remove("is-dirty");refreshPending(key);var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateStatus();}
-          else fs.textContent="Save failed — try again."; }); });
-    });
+    fieldsEl.querySelectorAll(".mini.preview").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var doc=frameDoc(); if(doc)injectOne(doc,key); scrollPreview(anchors[fSection[key]]||"top",true); b.parentNode.querySelector(".fstatus").textContent="Showing in preview (not published)"; }); });
+    fieldsEl.querySelectorAll(".mini.save").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateNav();} else fs.textContent="Save failed — try again."; }); }); });
+    fieldsEl.querySelectorAll(".mini.revert").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Reverting..."; setValue(key,fPub[key]); saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=fPub[key];f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Reverted to published";updateNav();} else fs.textContent="Revert failed — try again."; }); }); });
   }
 
-  function saveDraft(key,cb){
-    fetch(SB+"/rest/v1/rpc/bb_save_draft",{method:"POST",headers:H(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:getValue(key),p_pass:PASS})})
-     .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(true);}).catch(function(){cb(false);});
-  }
-  $("draftAll").onclick=function(){
-    var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty"));
-    if(!dirty.length){statusEl.textContent="No new changes to save.";return;}
-    statusEl.textContent="Saving "+dirty.length+" draft(s)..."; var done=0,fail=0;
-    dirty.forEach(function(f){var key=f.getAttribute("data-key-id");
-      saveDraft(key,function(ok){done++;if(ok){f.classList.remove("is-dirty");refreshPending(key);}else fail++;
-        if(done===dirty.length){updateStatus();if(fail)statusEl.textContent=fail+" failed — try again.";}});});
-  };
+  function saveDraft(key,cb){ fetch(SB+"/rest/v1/rpc/bb_save_draft",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:getValue(key),p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(true);}).catch(function(){cb(false);}); }
 
-  $("pubAll").onclick=function(){
-    var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty"));
-    var pending=fieldsEl.querySelectorAll(".field.is-pending").length;
-    if(!dirty.length && !pending){statusEl.textContent="Nothing to publish.";return;}
-    confirmPublish(function(){
-      // save any unsaved drafts first, then publish all drafts
-      var pre=dirty.length?Promise.all(dirty.map(function(f){return new Promise(function(res){saveDraft(f.getAttribute("data-key-id"),function(){f.classList.remove("is-dirty");res();});});})):Promise.resolve();
+  $("draftAll").onclick=function(){ var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty")); if(!dirty.length){return;} statusEl.textContent="Saving "+dirty.length+" draft(s)..."; var done=0,fail=0;
+    dirty.forEach(function(f){var key=f.getAttribute("data-key-id"); saveDraft(key,function(ok){done++; if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);} else fail++; if(done===dirty.length){refreshGroups();injectAll();updateNav();if(fail)statusEl.textContent=fail+" failed — try again.";}});}); };
+
+  $("pubAll").onclick=function(){ var c=counts(); if(!c.pending&&!c.dirty)return;
+    openModal("Publish to your live site?","This will publish your changes to your public website. Visitors will see them immediately.","Yes, publish",function(){
+      var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty"));
+      var pre=dirty.length?Promise.all(dirty.map(function(f){return new Promise(function(res){saveDraft(f.getAttribute("data-key-id"),function(){fDraft[f.getAttribute("data-key-id")]=getValue(f.getAttribute("data-key-id"));f.classList.remove("is-dirty");res();});});})):Promise.resolve();
       statusEl.textContent="Publishing...";
-      pre.then(function(){
-        return fetch(SB+"/rest/v1/rpc/bb_publish_all",{method:"POST",headers:H(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();});
-      }).then(function(n){
-        Object.keys(fType).forEach(function(k){fPub[k]=getValue(k);refreshPending(k);});
-        updateStatus(); statusEl.textContent="Published to live site ✓";
-        frame.contentWindow.location.reload();
-      }).catch(function(){statusEl.textContent="Publish failed — try again.";});
-    });
-  };
+      pre.then(function(){return fetch(SB+"/rest/v1/rpc/bb_publish_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();});})
+        .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); })
+        .catch(function(){statusEl.textContent="Publish failed — try again.";}); }); };
 
+  $("revertAll").onclick=function(){ if(!counts().pending)return;
+    openModal("Discard all unpublished changes?","This resets the whole page back to the last published version. Your unpublished drafts will be lost.","Yes, revert",function(){ statusEl.textContent="Reverting...";
+      fetch(SB+"/rest/v1/rpc/bb_revert_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();})
+        .then(function(){ allKeys.forEach(function(k){fDraft[k]=fPub[k];setValue(k,fPub[k]);$("f_"+k).classList.remove("is-dirty");refreshField(k);}); refreshGroups(); injectAll(); updateNav(); statusEl.textContent="Reverted to last published."; })
+        .catch(function(){statusEl.textContent="Revert failed — try again.";}); }); };
+
+  // ---- modal ----
   var pendingYes=null;
-  function confirmPublish(onYes){
-    var n=fieldsEl.querySelectorAll(".field.is-pending").length + fieldsEl.querySelectorAll(".field.is-dirty:not(.is-pending)").length;
-    $("modaltext").textContent = (n>1? ("This will publish your changes ("+n+" fields) to your public website. Visitors will see them immediately.") : "This will update your public website. Visitors will see the change immediately.");
-    pendingYes=onYes; $("modalbg").classList.add("show");
-  }
+  function openModal(title,msg,yesLabel,onYes){ $("modaltitle").textContent=title; $("modaltext").textContent=msg; $("mYes").textContent=yesLabel; pendingYes=onYes; $("modalbg").classList.add("show"); }
   $("mCancel").onclick=function(){$("modalbg").classList.remove("show");pendingYes=null;};
   $("mYes").onclick=function(){$("modalbg").classList.remove("show");if(pendingYes){var fn=pendingYes;pendingYes=null;fn();}};
 
@@ -323,18 +265,13 @@
     if(!/^image\/(jpeg|png|webp)$/.test(file.type))return cb("Please use a JPG, PNG, or WebP image.");
     if(file.size>8*1024*1024)return cb("Image must be under 8 MB.");
     var im=new Image(),u=URL.createObjectURL(file);
-    im.onload=function(){
-      if(im.naturalWidth<specs.minW||im.naturalHeight<specs.minH)
-        return cb("Image is too small ("+im.naturalWidth+"×"+im.naturalHeight+"). Needs at least "+specs.minW+"×"+specs.minH+"px.");
+    im.onload=function(){ if(im.naturalWidth<specs.minW||im.naturalHeight<specs.minH)return cb("Image is too small ("+im.naturalWidth+"×"+im.naturalHeight+"). Needs at least "+specs.minW+"×"+specs.minH+"px.");
       var ext=file.type.split("/")[1].replace("jpeg","jpg"),path=SITE+"/"+key+"-"+Date.now()+"."+ext;
-      fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file})
-        .then(function(r){if(!r.ok)throw 0;return r.json();})
-        .then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);})
-        .catch(function(){cb("Upload failed. Please try again.");});
+      fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("Upload failed. Please try again.");});
     };
-    im.onerror=function(){cb("Could not read that image file.");};
-    im.src=u;
+    im.onerror=function(){cb("Could not read that image file.");}; im.src=u;
   }
+  function resolveImg(v){ return /^https?:\/\//.test(v||"")? v : "../"+(v||""); }
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function attr(s){return esc(s).replace(/"/g,"&quot;");}
 })();
