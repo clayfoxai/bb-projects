@@ -6,41 +6,59 @@
 <title>Edit — Ismat Duckson Aziz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;}
+  :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;--topbar:60px;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Montserrat',sans-serif;background:var(--mist);color:var(--ink);line-height:1.5;}
-  .top{position:sticky;top:0;z-index:10;background:var(--navy-d);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;flex-wrap:wrap;gap:12px;}
-  .top .wm{font-family:'Cinzel',serif;letter-spacing:.18em;font-size:14px;}
-  .top .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--steel);margin-top:3px;}
-  .top .actions{display:flex;gap:12px;align-items:center;}
-  .btn{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 20px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;display:inline-block;}
-  .btn-go{background:var(--blue);color:#fff;}
-  .btn-go:hover{background:var(--blue-d);}
+  .top{position:sticky;top:0;z-index:20;height:var(--topbar);background:var(--navy-d);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:12px;}
+  .top .wm{font-family:'Cinzel',serif;letter-spacing:.18em;font-size:14px;white-space:nowrap;}
+  .top .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--steel);margin-top:2px;}
+  .top .actions{display:flex;gap:10px;align-items:center;}
+  .btn{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 18px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;display:inline-block;white-space:nowrap;}
+  .btn-go{background:var(--blue);color:#fff;}.btn-go:hover{background:var(--blue-d);}
   .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);}
-  .wrap{max-width:780px;margin:0 auto;padding:34px 22px 90px;}
-  .intro{margin-bottom:26px;}
-  .intro h1{font-family:'Cinzel',serif;font-size:22px;letter-spacing:.04em;color:var(--navy);margin-bottom:6px;font-weight:600;}
-  .intro p{font-size:14px;color:#5a6480;}
-  .group{margin-top:30px;}
-  .group h2{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line);}
-  .field{margin-bottom:20px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;}
-  .field label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7a8398;font-weight:600;margin-bottom:8px;}
-  .field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:5px;padding:11px 13px;font-family:'Montserrat';font-size:15px;color:var(--ink);resize:vertical;background:#fdfdff;}
-  .field input:focus,.field textarea:focus{outline:none;border-color:var(--blue);}
-  .field textarea{min-height:90px;line-height:1.5;}
-  .field .saved{font-size:11px;color:#2e8b57;margin-top:7px;opacity:0;transition:.2s;font-weight:600;letter-spacing:.04em;}
+  .status{font-size:12px;color:var(--steel);}
+
+  .panes{display:flex;align-items:flex-start;}
+  .editor-pane{flex:1 1 54%;min-width:0;padding:30px 26px 90px;max-height:calc(100vh - var(--topbar));overflow-y:auto;}
+  .preview-pane{flex:1 1 46%;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));border-left:1px solid var(--line);background:#fff;}
+  .preview-pane .pv-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7a8398;padding:10px 16px;border-bottom:1px solid var(--line);font-weight:600;}
+  .preview-pane iframe{width:100%;height:calc(100% - 38px);border:0;}
+
+  .intro{margin-bottom:8px;}
+  .intro h1{font-family:'Cinzel',serif;font-size:20px;letter-spacing:.04em;color:var(--navy);margin-bottom:6px;font-weight:600;}
+  .intro p{font-size:13.5px;color:#5a6480;max-width:560px;}
+  .group{margin-top:26px;}
+  .group h2{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+  .group h2 .jump{font-family:'Montserrat';font-size:10px;letter-spacing:.1em;color:#9aa3b5;}
+  .field{margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;}
+  .field label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a8398;font-weight:600;margin-bottom:7px;}
+  .field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:5px;padding:10px 12px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);resize:vertical;background:#fdfdff;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(46,99,181,.12);}
+  .field textarea{min-height:84px;line-height:1.5;}
+  .field .saved{font-size:11px;color:#2e8b57;margin-top:6px;opacity:0;transition:.2s;font-weight:600;}
   .field.is-saved .saved{opacity:1;}
   .field.is-dirty{border-color:var(--blue);}
-  /* login */
+  .field-img .imgrow{display:flex;gap:14px;align-items:flex-start;}
+  .field-img .thumb{width:108px;height:80px;object-fit:cover;border-radius:5px;border:1px solid var(--line);background:#eef2f8;flex:none;}
+  .field-img .imgctl{flex:1;min-width:0;}
+  .field-img input[type=file]{font-size:12.5px;color:#5a6480;width:100%;}
+  .field-img .hint{font-size:11px;color:#9aa3b5;margin-top:7px;}
+  .field-img .imgstatus{font-size:12px;margin-top:7px;font-weight:600;min-height:16px;}
+
   .gate{max-width:380px;margin:14vh auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:38px 34px;text-align:center;}
   .gate .lock{font-family:'Cinzel',serif;letter-spacing:.2em;color:var(--navy);font-size:18px;margin-bottom:6px;}
   .gate p{font-size:13px;color:#5a6480;margin-bottom:22px;}
   .gate input{width:100%;border:1px solid var(--line);border-radius:6px;padding:13px;font-size:15px;margin-bottom:14px;text-align:center;}
   .gate input:focus{outline:none;border-color:var(--blue);}
-  .gate button{width:100%;}
-  .gate .err{color:#c0392b;font-size:13px;margin-top:12px;min-height:18px;}
-  .status{font-size:12px;color:var(--steel);}
+  .gate button{width:100%;}.gate .err{color:#c0392b;font-size:13px;margin-top:12px;min-height:18px;}
   .hide{display:none!important;}
+
+  @media(max-width:900px){
+    .panes{flex-direction:column;}
+    .preview-pane{order:-1;width:100%;flex:none;height:40vh;position:sticky;top:var(--topbar);border-left:0;border-bottom:1px solid var(--line);z-index:5;}
+    .editor-pane{flex:none;width:100%;max-height:none;overflow:visible;padding:22px 18px 90px;}
+    .top .wm span{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -58,16 +76,22 @@
     <div class="wm">EVERGREEN<span>Site Editor · Ismat Duckson Aziz</span></div>
     <div class="actions">
       <span class="status" id="status"></span>
-      <a class="btn btn-ghost" href="../" target="_blank">View live site</a>
+      <a class="btn btn-ghost" href="../" target="_blank">Open live ↗</a>
       <button class="btn btn-go" id="saveAll">Save changes</button>
     </div>
   </div>
-  <div class="wrap">
-    <div class="intro">
-      <h1>Edit your site copy</h1>
-      <p>Change any text below and click Save changes. Your live site updates right away. Refresh the live site to see it.</p>
+  <div class="panes">
+    <div class="editor-pane">
+      <div class="intro">
+        <h1>Edit your site copy</h1>
+        <p>Click into any field and the preview jumps to that section. Edit the text, then Save changes — the preview refreshes with your update.</p>
+      </div>
+      <div id="fields"></div>
     </div>
-    <div id="fields"></div>
+    <div class="preview-pane">
+      <div class="pv-label">Live preview</div>
+      <iframe id="frame" src="../"></iframe>
+    </div>
   </div>
 </div>
 
@@ -75,22 +99,64 @@
 (function(){
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
       KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
-      SITE="ismat", PASS="";
-  function h(t){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+      SITE="ismat", PASS="", lastAnchor="top";
+  var anchors={"Hero":"top","Who Is Ismat":"about","Overview":"work","Overview Cards":"work","Connect":"connect","Services":"speaking","Quote":"quote","Closing":"closing","Photos — People":"top","Photos — Services":"speaking"};
+  var imageSpecs={
+    hero_photo:{minW:700,minH:850,rec:"Portrait JPG/PNG/WebP, about 1200×1500px"},
+    advisor_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
+    director_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
+    educator_photo:{minW:700,minH:850,rec:"Portrait, about 1200×1500px"},
+    svc1_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
+    svc2_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
+    svc3_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"},
+    svc4_img:{minW:1000,minH:560,rec:"Landscape, about 1600×900px"}
+  };
+  function uploadImage(key,file,specs,cb){
+    if(!/^image\/(jpeg|png|webp)$/.test(file.type))return cb("Please use a JPG, PNG, or WebP image.");
+    if(file.size>8*1024*1024)return cb("Image must be under 8 MB.");
+    var im=new Image(),u=URL.createObjectURL(file);
+    im.onload=function(){
+      if(im.naturalWidth<specs.minW||im.naturalHeight<specs.minH)
+        return cb("Image is too small ("+im.naturalWidth+"×"+im.naturalHeight+"). Needs at least "+specs.minW+"×"+specs.minH+"px.");
+      var ext=file.type.split("/")[1].replace("jpeg","jpg");
+      var path=SITE+"/"+key+"-"+Date.now()+"."+ext;
+      fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file})
+        .then(function(r){if(!r.ok)throw 0;return r.json();})
+        .then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);})
+        .catch(function(){cb("Upload failed. Please try again.");});
+    };
+    im.onerror=function(){cb("Could not read that image file.");};
+    im.src=u;
+  }
+  function h(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
   var gate=document.getElementById("gate"),app=document.getElementById("app"),
       err=document.getElementById("err"),fieldsEl=document.getElementById("fields"),
-      statusEl=document.getElementById("status");
+      statusEl=document.getElementById("status"),frame=document.getElementById("frame");
+
+  frame.addEventListener("load",function(){ if(lastAnchor) setTimeout(function(){scrollPreview(lastAnchor,false);},250); });
 
   document.getElementById("unlock").onclick=unlock;
   document.getElementById("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
   function unlock(){
-    var p=document.getElementById("pass").value;
-    err.textContent="Checking...";
+    var p=document.getElementById("pass").value; err.textContent="Checking...";
     fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:h(),body:JSON.stringify({p_site:SITE,p_pass:p})})
      .then(function(r){return r.json();}).then(function(ok){
        if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();}
-       else{err.textContent="Incorrect password.";}
+       else err.textContent="Incorrect password.";
      }).catch(function(){err.textContent="Something went wrong. Try again.";});
+  }
+
+  function scrollPreview(anchor,flash){
+    lastAnchor=anchor;
+    try{
+      var doc=frame.contentDocument||frame.contentWindow.document; if(!doc)return;
+      var el=doc.getElementById(anchor); if(!el)return;
+      el.scrollIntoView({behavior:"smooth",block:"start"});
+      if(flash!==false){
+        el.style.transition="outline .15s ease"; el.style.outline="3px solid #2E63B5"; el.style.outlineOffset="-3px";
+        clearTimeout(window._hl); window._hl=setTimeout(function(){el.style.outline="none";},1500);
+      }
+    }catch(e){}
   }
 
   function load(){
@@ -101,18 +167,49 @@
     rows.sort(function(a,b){return (a.section>b.section?1:a.section<b.section?-1:0)||a.sort-b.sort;});
     var html="",cur=null;
     rows.forEach(function(r){
-      if(r.section!==cur){ if(cur!==null)html+="</div>"; html+='<div class="group"><h2>'+esc(r.section)+'</h2>'; cur=r.section; }
-      var input = r.field_type==="textarea"
-        ? '<textarea data-key="'+r.field_key+'">'+esc(r.value||"")+'</textarea>'
-        : '<input type="text" data-key="'+r.field_key+'" value="'+attr(r.value||"")+'">';
-      html+='<div class="field" id="f_'+r.field_key+'"><label>'+esc(r.label||r.field_key)+'</label>'+input+'<div class="saved">Saved</div></div>';
+      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top";
+        html+='<div class="group" data-anchor="'+an+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; cur=r.section; }
+      if(r.field_type==="image"){
+        var sp=imageSpecs[r.field_key]||{rec:""};
+        html+='<div class="field field-img" id="f_'+r.field_key+'"><label>'+esc(r.label||r.field_key)+'</label>'
+          +'<div class="imgrow"><img class="thumb" src="'+attr(r.value||"")+'" alt="">'
+          +'<div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+r.field_key+'" data-section="'+esc(r.section)+'">'
+          +'<div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div>'
+          +'<input type="hidden" data-key="'+r.field_key+'" data-section="'+esc(r.section)+'" value="'+attr(r.value||"")+'">'
+          +'<div class="saved">Saved</div></div>';
+      } else {
+        var input=r.field_type==="textarea"
+          ? '<textarea data-key="'+r.field_key+'" data-section="'+esc(r.section)+'">'+esc(r.value||"")+'</textarea>'
+          : '<input type="text" data-key="'+r.field_key+'" data-section="'+esc(r.section)+'" value="'+attr(r.value||"")+'">';
+        html+='<div class="field" id="f_'+r.field_key+'"><label>'+esc(r.label||r.field_key)+'</label>'+input+'<div class="saved">Saved</div></div>';
+      }
     });
     if(cur!==null)html+="</div>";
     fieldsEl.innerHTML=html;
     fieldsEl.querySelectorAll("[data-key]").forEach(function(el){
       el.addEventListener("input",function(){document.getElementById("f_"+el.getAttribute("data-key")).classList.add("is-dirty");});
+      el.addEventListener("focus",function(){scrollPreview(anchors[el.getAttribute("data-section")]||"top",true);});
+    });
+    fieldsEl.querySelectorAll(".group h2").forEach(function(hh){
+      hh.addEventListener("click",function(){scrollPreview(hh.getAttribute("data-anchor"),true);});
+    });
+    fieldsEl.querySelectorAll("[data-imgfor]").forEach(function(inp){
+      inp.addEventListener("change",function(){
+        var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return;
+        var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Checking image...";
+        scrollPreview(anchors[inp.getAttribute("data-section")]||"top",true);
+        uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){
+          if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;}
+          st.style.color="#2e8b57";st.textContent="Uploaded — click Save changes to apply.";
+          var fld=document.getElementById("f_"+key);
+          fld.querySelector(".thumb").src=url;
+          fld.querySelector('input[type="hidden"]').value=url;
+          fld.classList.add("is-dirty");
+        });
+      });
     });
   }
+
   document.getElementById("saveAll").onclick=function(){
     var dirty=fieldsEl.querySelectorAll(".field.is-dirty [data-key]");
     if(!dirty.length){statusEl.textContent="No changes to save.";return;}
@@ -120,12 +217,11 @@
     var done=0,total=dirty.length,fail=0;
     dirty.forEach(function(el){
       var key=el.getAttribute("data-key");
-      fetch(SB+"/rest/v1/rpc/bb_save_content",{method:"POST",headers:h(),
-        body:JSON.stringify({p_site:SITE,p_key:key,p_value:el.value,p_pass:PASS})})
+      fetch(SB+"/rest/v1/rpc/bb_save_content",{method:"POST",headers:h(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:el.value,p_pass:PASS})})
        .then(function(r){if(!r.ok)throw 0;return r.json();})
        .then(function(){var f=document.getElementById("f_"+key);f.classList.remove("is-dirty");f.classList.add("is-saved");setTimeout(function(){f.classList.remove("is-saved");},2500);})
        .catch(function(){fail++;})
-       .finally(function(){done++;if(done===total)statusEl.textContent=fail?(fail+" failed — try again"):"All changes saved.";});
+       .finally(function(){done++;if(done===total){statusEl.textContent=fail?(fail+" failed — try again"):"Saved. Refreshing preview...";if(!fail)setTimeout(function(){frame.contentWindow.location.reload();statusEl.textContent="All changes saved.";},400);}});
     });
   };
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
