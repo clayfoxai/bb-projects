@@ -203,6 +203,12 @@
   .feature-card .fc-body{padding:24px 24px 28px;}
   .feature-card .fc-src{font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:12px;display:block;}
   .feature-card h3{font-size:22px;color:var(--white);line-height:1.25;}
+  .phil-wide{max-width:840px;margin:0 auto;text-align:center;}
+  .phil-wide .role-kicker{justify-content:center;}
+  .phil-wide .role-related{justify-content:center;}
+  .phil-wide h2{margin-bottom:18px;}
+  .phil-wide p{margin-bottom:18px;}
+  .phil-wide .btn{margin-top:6px;}
   .read-all{text-align:center;margin-top:48px;}
   .ph-mono{font-family:'Cinzel',serif;letter-spacing:.24em;text-transform:uppercase;color:var(--sage);opacity:.8;text-align:center;line-height:1.8;}
 
@@ -603,9 +609,8 @@
 
 <!-- PHILANTHROPIST expanded -->
 <section class="dark" id="philanthropist">
-  <div class="wrap split">
-    <div class="media"><img data-edit-img="philanthropist_photo" src="assets/ismat-bio-05.webp" alt="Ismat Duckson Aziz"></div>
-    <div class="body">
+  <div class="wrap">
+    <div class="phil-wide">
       <div class="role-kicker"><span class="rk-num">04</span><span class="rk-name">The Philanthropist</span></div>
       <h2 data-edit="phil_title">Giving back, quietly and on purpose.</h2>
       <p data-edit="phil_body1">Throughout her career, Ismat carried responsibility for philanthropy, ESG, and corporate social responsibility inside the companies she led. That was never just a line in a budget to her. It reflected a belief about what a company, and a leader, owes the people and communities they depend on.</p>
@@ -846,6 +851,109 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
         else { st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
       })
       .catch(function(){ btn.disabled=false; btn.textContent=orig; st.textContent="Network error. Please check your connection and try again."; });
+  });
+})();
+</script>
+<style>
+  .cm-bg{position:fixed;inset:0;background:rgba(11,28,58,.62);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1100;padding:24px;opacity:0;transition:opacity .25s ease;overflow-y:auto;}
+  .cm-bg.show{display:flex;opacity:1;}
+  .cm-box{position:relative;background:#fff;border-radius:16px;max-width:900px;width:100%;box-shadow:0 40px 100px rgba(11,28,58,.45);transform:translateY(14px) scale(.985);transition:transform .3s cubic-bezier(.2,.8,.2,1);margin:auto;}
+  .cm-bg.show .cm-box{transform:none;}
+  .cm-x{position:absolute;top:14px;right:16px;z-index:5;background:rgba(11,28,58,.06);border:none;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:1;color:#45506a;cursor:pointer;transition:.2s;}
+  .cm-x:hover{background:rgba(11,28,58,.12);}
+  .cm-head{text-align:center;padding:34px 30px 4px;}
+  .cm-head .eyebrow{color:var(--fern);}
+  .cm-head h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:var(--evergreen);margin-top:8px;font-weight:500;text-transform:none;}
+  .cm-grid{display:grid;grid-template-columns:1fr 56px 1fr;padding:18px 36px 40px;}
+  .cm-panel{padding:6px 22px;}
+  .cm-pl{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--evergreen);font-weight:600;margin-bottom:16px;text-align:center;}
+  .cm-or{position:relative;display:flex;align-items:center;justify-content:center;}
+  .cm-or:before{content:"";position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:var(--silver-l);}
+  .cm-or span{position:relative;background:#fff;width:36px;height:36px;border-radius:50%;border:1px solid var(--silver-l);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-d);}
+  .cm-fields{display:flex;flex-direction:column;gap:11px;}
+  #cmForm input[type=text],#cmForm input[type=email],#cmForm textarea{width:100%;border:1px solid var(--silver);border-radius:6px;padding:12px 14px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);background:#fdfdff;}
+  #cmForm textarea{min-height:92px;resize:vertical;}
+  #cmForm input:focus,#cmForm textarea:focus{outline:none;border-color:var(--fern);}
+  #cmForm .btn{width:100%;text-align:center;margin-top:2px;cursor:pointer;}
+  .cm-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;}
+  .cm-status{font-size:12.5px;font-weight:600;color:#c0392b;min-height:15px;}
+  .cm-success{text-align:center;padding:18px 0;}
+  .cm-success .cm-check{width:54px;height:54px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,var(--fern),var(--evergreen));display:flex;align-items:center;justify-content:center;}
+  .cm-success .cm-check svg{width:26px;height:26px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .cm-success p{font-size:14.5px;color:var(--muted-d);line-height:1.55;}
+  .cm-tidycal{min-height:300px;}
+  .cm-cal-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted-d);font-size:14px;line-height:1.6;padding:30px 16px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);min-height:280px;}
+  .cm-cal-soon svg{width:38px;height:38px;color:var(--fern);margin-bottom:14px;}
+  @media(max-width:760px){
+    .cm-grid{grid-template-columns:1fr;padding:14px 22px 30px;}
+    .cm-panel{padding:6px 0;}
+    .cm-or{margin:10px 0;height:1px;}
+    .cm-or:before{top:50%;bottom:auto;left:0;right:0;width:100%;height:1px;}
+    .cm-panel.cm-cal{margin-top:6px;}
+  }
+</style>
+
+<div class="cm-bg" id="connectModal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+  <div class="cm-box">
+    <button class="cm-x" id="cmClose" aria-label="Close">&times;</button>
+    <div class="cm-head"><span class="eyebrow">Start a conversation</span><h3 id="cmTitle">Connect with Ismat</h3></div>
+    <div class="cm-grid">
+      <div class="cm-panel" id="cmFormPanel">
+        <div class="cm-pl">Send a message</div>
+        <form id="cmForm" novalidate>
+          <div class="cm-fields">
+            <input id="cm_name" type="text" placeholder="Your name" required autocomplete="name">
+            <input id="cm_email" type="email" placeholder="you@company.com" required autocomplete="email">
+            <textarea id="cm_msg" placeholder="A little about what you're looking for"></textarea>
+            <input type="text" id="cm_hp" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div id="cm_status" class="cm-status"></div>
+            <button type="submit" class="btn btn-solid" id="cm_submit">Send message</button>
+          </div>
+        </form>
+      </div>
+      <div class="cm-or"><span>or</span></div>
+      <div class="cm-panel cm-cal">
+        <div class="cm-pl">Book a 20-minute call</div>
+        <div id="cm_tidycal" class="cm-tidycal"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<span data-edit="tidycal_path" id="tidycalPath" style="display:none"></span>
+
+<script>
+(function(){
+  var EP="https://ydgqalhjuutlxqvixkoa.supabase.co/functions/v1/submit-lead";
+  var KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
+  var modal=document.getElementById("connectModal"); if(!modal)return;
+  var lastFocus=null, calBuilt=false;
+  function buildCal(){
+    if(calBuilt)return; var host=document.getElementById("cm_tidycal"); if(!host)return;
+    var el=document.getElementById("tidycalPath"); var path=el?(el.textContent||"").trim():"";
+    if(path){ host.innerHTML='<div class="tidycal-embed" data-path="'+path+'"></div>'; var s=document.createElement("script"); s.src="https://tidycal.com/js/embed.js"; s.async=true; document.body.appendChild(s); calBuilt=true; }
+    else { host.innerHTML='<div class="cm-cal-soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg><p>Online booking is being set up. For now, send a message and Ismat&#39;s team will share available times.</p></div>'; }
+  }
+  function openModal(){ lastFocus=document.activeElement; buildCal(); modal.classList.add("show"); document.body.style.overflow="hidden"; var fn=document.getElementById("cm_name"); setTimeout(function(){ if(fn&&window.matchMedia("(min-width:761px)").matches)fn.focus(); },60); }
+  function closeModal(){ modal.classList.remove("show"); document.body.style.overflow=""; if(lastFocus&&lastFocus.focus)lastFocus.focus(); }
+  document.getElementById("cmClose").onclick=closeModal;
+  modal.addEventListener("click",function(e){ if(e.target===modal)closeModal(); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&modal.classList.contains("show"))closeModal(); });
+  document.addEventListener("click",function(e){ var t=e.target.closest?e.target.closest('a[href="#connect"]'):null; if(t){ e.preventDefault(); openModal(); } });
+  var f=document.getElementById("cmForm"), st=document.getElementById("cm_status"), btn=document.getElementById("cm_submit");
+  function emailOk(x){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x);}
+  f.addEventListener("submit",function(e){
+    e.preventDefault(); st.textContent="";
+    var name=document.getElementById("cm_name").value.trim(), email=document.getElementById("cm_email").value.trim(), msg=document.getElementById("cm_msg").value.trim();
+    if(!name){st.textContent="Please add your name.";return;}
+    if(!emailOk(email)){st.textContent="Please add a valid email address.";return;}
+    btn.disabled=true; var o=btn.textContent; btn.textContent="Sending…";
+    fetch(EP,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY},body:JSON.stringify({name:name,email:email,message:msg,interest:"Website inquiry (modal)",company_website:document.getElementById("cm_hp").value})})
+      .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
+      .then(function(d){ btn.disabled=false; btn.textContent=o;
+        if(d&&d.ok){ document.getElementById("cmFormPanel").innerHTML='<div class="cm-pl">Send a message</div><div class="cm-success"><div class="cm-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><p>Thank you, '+name.split(" ")[0].replace(/[<>&]/g,"")+'. Ismat will review your note personally and get back to you soon.</p></div>'; }
+        else{ st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
+      })
+      .catch(function(){ btn.disabled=false; btn.textContent=o; st.textContent="Network error. Please try again."; });
   });
 })();
 </script>
