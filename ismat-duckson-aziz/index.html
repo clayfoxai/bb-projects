@@ -410,14 +410,14 @@
         Prefer to talk live? <a href="#" style="color:var(--fern-btn);font-weight:600;border-bottom:1px solid var(--fern-btn);">Book a 20-minute call &rarr;</a>
       </div>
     </div>
-    <form onsubmit="return false;">
+    <form id="leadform" novalidate>
       <div class="f-row">
-        <div><label>Name</label><input type="text" placeholder="Your name"></div>
-        <div><label>Email</label><input type="email" placeholder="you@company.com"></div>
+        <div><label>Name</label><input id="lf_name" type="text" placeholder="Your name" required></div>
+        <div><label>Email</label><input id="lf_email" type="email" placeholder="you@company.com" required></div>
       </div>
-      <div><label>Organization</label><input type="text" placeholder="Company or board"></div>
+      <div><label>Organization</label><input id="lf_org" type="text" placeholder="Company or board"></div>
       <div><label>What are you exploring?</label>
-        <select>
+        <select id="lf_interest">
           <option>Advisory engagement</option>
           <option>Board or governance role</option>
           <option>Speaking or keynote</option>
@@ -425,8 +425,10 @@
           <option>Something else</option>
         </select>
       </div>
-      <div><label>A little context</label><textarea placeholder="What you are working on, and what good help would look like."></textarea></div>
-      <button class="btn btn-solid" type="submit" style="justify-self:start;">Request a conversation</button>
+      <div><label>A little context</label><textarea id="lf_msg" placeholder="What you are working on, and what good help would look like."></textarea></div>
+      <input type="text" name="company_website" id="lf_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div id="lf_status" class="lf-status" role="alert"></div>
+      <button class="btn btn-solid" type="submit" id="lf_submit" style="justify-self:start;">Request a conversation</button>
     </form>
   </div>
 </section>
@@ -743,6 +745,61 @@ window.bbOpenVideoModal=function(V){
 function bbYt(u){if(!u)return "";var m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/);return m?m[1]:(/^[\w-]{11}$/.test(u)?u:"");}
 var bbLoaded={};
 function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var iv=setInterval(function(){if(window[glob]){clearInterval(iv);cb();}},80);return;}bbLoaded[src]=1;var sc=document.createElement("script");sc.src=src;if(glob==="YT"){window.onYouTubeIframeAPIReady=function(){cb();};}else{sc.onload=function(){cb();};}document.head.appendChild(sc);}
+</script>
+
+<style>
+  .lf-status{font-size:13px;font-weight:600;min-height:18px;color:#c0392b;margin-top:-4px;}
+  .lf-modal-bg{position:fixed;inset:0;background:rgba(11,28,58,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;opacity:0;transition:opacity .25s ease;}
+  .lf-modal-bg.show{display:flex;opacity:1;}
+  .lf-modal{background:#fff;border-radius:14px;max-width:460px;width:100%;padding:42px 38px 34px;text-align:center;box-shadow:0 30px 80px rgba(11,28,58,.42);transform:translateY(12px) scale(.97);transition:transform .3s cubic-bezier(.2,.8,.2,1);}
+  .lf-modal-bg.show .lf-modal{transform:none;}
+  .lf-check{width:64px;height:64px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(135deg,var(--fern),var(--evergreen));display:flex;align-items:center;justify-content:center;}
+  .lf-check svg{width:30px;height:30px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .lf-modal h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:var(--evergreen);margin-bottom:12px;font-weight:500;text-transform:none;}
+  .lf-modal p{font-size:15px;color:var(--muted-d);line-height:1.6;margin-bottom:26px;}
+  .lf-modal .btn{cursor:pointer;}
+</style>
+
+<div class="lf-modal-bg" id="lfModal" role="dialog" aria-modal="true" aria-labelledby="lfModalTitle">
+  <div class="lf-modal">
+    <div class="lf-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    <h3 id="lfModalTitle">Your message is on its way.</h3>
+    <p id="lfModalBody">Thank you for reaching out. Ismat will review your note personally and get back to you soon.</p>
+    <button class="btn btn-solid" id="lfModalClose" type="button">Close</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var EP="https://ydgqalhjuutlxqvixkoa.supabase.co/functions/v1/submit-lead";
+  var KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
+  var f=document.getElementById("leadform"); if(!f)return;
+  var btn=document.getElementById("lf_submit"), st=document.getElementById("lf_status");
+  var modal=document.getElementById("lfModal"), mBody=document.getElementById("lfModalBody"), mClose=document.getElementById("lfModalClose");
+  function val(id){var e=document.getElementById(id);return e?e.value.trim():"";}
+  function emailOk(e){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);}
+  function closeModal(){modal.classList.remove("show");}
+  mClose.onclick=closeModal;
+  modal.addEventListener("click",function(e){if(e.target===modal)closeModal();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeModal();});
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    st.style.color="#c0392b"; st.textContent="";
+    var name=val("lf_name"), email=val("lf_email");
+    if(!name){st.textContent="Please add your name.";return;}
+    if(!emailOk(email)){st.textContent="Please add a valid email address.";return;}
+    var payload={name:name,email:email,organization:val("lf_org"),interest:val("lf_interest"),message:val("lf_msg"),company_website:val("lf_hp")};
+    btn.disabled=true; var orig=btn.textContent; btn.textContent="Sending…";
+    fetch(EP,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
+      .then(function(d){
+        btn.disabled=false; btn.textContent=orig;
+        if(d&&d.ok){ mBody.textContent="Thank you, "+name.split(" ")[0]+". Ismat will review your note personally and get back to you soon."; f.reset(); modal.classList.add("show"); }
+        else { st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
+      })
+      .catch(function(){ btn.disabled=false; btn.textContent=orig; st.textContent="Network error. Please check your connection and try again."; });
+  });
+})();
 </script>
 </body>
 </html>
