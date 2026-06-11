@@ -214,7 +214,8 @@
 
   /* CUSTOMERS */
   .cust{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
-  .cust div{padding:32px 18px;border:1px solid #cdd6e2;border-radius:6px;text-align:center;background:var(--white);display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .cust div{padding:32px 18px;border:1px solid #cdd6e2;border-radius:6px;text-align:center;background:var(--white);display:flex;flex-direction:column;align-items:center;gap:18px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+  .cust div:hover{transform:translateY(-4px);border-color:var(--sage);box-shadow:0 14px 34px rgba(0,0,0,.22);}
   .cust .ic{width:40px;height:40px;color:var(--fern);flex:none;}
   .cust h3{font-size:16.5px;color:var(--evergreen);}
 
