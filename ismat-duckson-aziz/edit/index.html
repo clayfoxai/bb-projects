@@ -120,6 +120,19 @@
   .tut-note{font-size:12.5px;color:#5a6480;background:#f3f5f9;border-radius:8px;padding:12px 14px;margin:4px 0 8px;line-height:1.5;}
   .tut-foot{padding:16px 30px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid var(--line);}
   .tut-foot .hint{font-size:12px;color:#9aa3b5;}
+  .btn-lib{display:inline-block;margin-top:7px;background:none;border:none;padding:0;color:var(--blue);font-family:'Montserrat';font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+  .btn-lib:hover{color:var(--navy);}
+  .modal.lib{max-width:720px;text-align:left;padding:0;overflow:hidden;}
+  .lib-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:22px 26px 16px;border-bottom:1px solid var(--line);}
+  .lib-head h3{margin:0 0 4px;font-size:17px;}
+  .lib-head p{margin:0;font-size:12.5px;color:#7a8398;}
+  .lib-x{background:none;border:none;font-size:17px;color:#9aa3b5;cursor:pointer;line-height:1;padding:2px 4px;}
+  .lib-x:hover{color:var(--navy);}
+  .lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;padding:20px 26px 26px;max-height:60vh;overflow-y:auto;}
+  .lib-item{padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;background:#f3f5f9;aspect-ratio:4/3;transition:.15s;}
+  .lib-item:hover{border-color:var(--navy);box-shadow:0 4px 14px rgba(17,42,82,.16);}
+  .lib-item img{width:100%;height:100%;object-fit:cover;display:block;}
+  .lib-empty{grid-column:1/-1;text-align:center;color:#7a8398;font-size:13px;padding:34px 12px;line-height:1.5;}
 
   @media(max-width:900px){
     .panes{flex-direction:column;}
@@ -187,9 +200,16 @@
       <div class="tut-step"><div class="tut-num">3</div><div class="tut-txt"><b>Save it as a draft.</b> Click <b>Save draft</b> to keep a change privately. Drafts glow amber and wait there. Your public site does not change yet.</div></div>
       <div class="tut-step"><div class="tut-num">4</div><div class="tut-txt"><b>Publish when you are ready.</b> Click <b>Publish</b> in the top bar and confirm. This is the only step that updates your live website.</div></div>
       <div class="tut-step"><div class="tut-num">5</div><div class="tut-txt"><b>Undo anytime.</b> Use <b>Revert</b> on a single field, or <b>Revert all</b> to clear every unpublished draft.</div></div>
-      <div class="tut-note">Photos are resized and optimized for you on upload, so you can use images straight from your phone. For video, add a YouTube or Vimeo link or upload a file, then choose which one plays.</div>
+      <div class="tut-note">Photos are resized and optimized for you on upload, so you can use images straight from your phone. Every image you upload is saved to your library, so you can reuse it on any field with “Choose from library.” For video, add a YouTube or Vimeo link or upload a file, then choose which one plays.</div>
     </div>
     <div class="tut-foot"><span class="hint">Reopen this anytime from “How to use” in the top bar.</span><button class="btn btn-go" id="tutDone">Got it</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="libbg">
+  <div class="modal lib">
+    <div class="lib-head"><div><h3>Your image library</h3><p>Pick an image you have uploaded before. To add a new one, close this and use Upload.</p></div><button class="lib-x" id="libClose" title="Close">✕</button></div>
+    <div class="lib-grid" id="libgrid"></div>
   </div>
 </div>
 
@@ -273,10 +293,10 @@
           +'<div class="vsrc" data-vsrcfor="'+K+'"><span class="vsrc-lbl">Use on site:</span><label class="vsrc-opt" data-vselopt="link"><input type="radio" name="vsrc_'+K+'" data-vsel="link"> Link</label><label class="vsrc-opt" data-vselopt="file"><input type="radio" name="vsrc_'+K+'" data-vsel="file"> Uploaded file</label></div>'
           +'<div class="vfield"><label>YouTube or Vimeo URL</label><input type="text" data-vurl="'+K+'" placeholder="https://youtube.com/watch?v=...  or  https://vimeo.com/..."></div>'
           +'<div class="vfield"><label>Upload a video file (MP4 or WebM, under 50 MB)</label><input type="file" accept="video/mp4,video/webm" data-vfile="'+K+'"><div class="vid-status" data-vstatus="'+K+'"></div></div>'
-          +'<div class="vfield"><label>Thumbnail image (shown before play, about 1600×900)</label><div class="imgrow"><img class="thumb" data-vthumbimg="'+K+'" src="" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-vthumb="'+K+'"><div class="vid-status" data-vthstatus="'+K+'"></div></div></div></div>'
+          +'<div class="vfield"><label>Thumbnail image (shown before play, about 1600×900)</label><div class="imgrow"><img class="thumb" data-vthumbimg="'+K+'" src="" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-vthumb="'+K+'"><button type="button" class="btn-lib" data-vlibfor="'+K+'">Choose from library</button><div class="vid-status" data-vthstatus="'+K+'"></div></div></div></div>'
           +'<input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
       } else if(r.field_type==="image"){ var sp=imageSpecs[K]||{rec:""};
-        body='<div class="imgrow"><img class="thumb" src="'+attr(resolveImg(dv))+'" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+K+'"><div class="hint">'+esc(sp.rec)+'</div><div class="imgstatus"></div></div></div><input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
+        body='<div class="imgrow"><img class="thumb" src="'+attr(resolveImg(dv))+'" alt=""><div class="imgctl"><input type="file" accept="image/png,image/jpeg,image/webp" data-imgfor="'+K+'"><div class="hint">'+esc(sp.rec)+'</div><button type="button" class="btn-lib" data-libfor="'+K+'">Choose from library</button><div class="imgstatus"></div></div></div><input type="hidden" data-key="'+K+'" value="'+attr(dv)+'">';
       } else { body=r.field_type==="textarea"?'<textarea data-key="'+K+'">'+esc(dv)+'</textarea>':'<input type="text" data-key="'+K+'" value="'+attr(dv)+'">'; }
       html+='<div class="field'+(r.field_type==="image"?" field-img":"")+'" id="f_'+r.field_key+'" data-key-id="'+r.field_key+'"><span class="pending-badge">Draft · unpublished</span><label>'+esc(r.label||r.field_key)+'</label>'+body
         +'<div class="rowactions"><button class="mini preview">Preview</button><button class="mini save">Save draft</button><button class="mini revert">Revert</button><span class="fstatus"></span></div></div>';
@@ -315,6 +335,8 @@
       inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Optimizing image…"; scrollPreview(anchors[fSection[key]]||"top",true);
         uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){ if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;} st.style.color="#2e8b57";st.textContent="Optimized to WebP, uploaded. Preview or Save draft."; var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); }); });
     });
+    fieldsEl.querySelectorAll("[data-libfor]").forEach(function(b){ b.addEventListener("click",function(){ var key=b.getAttribute("data-libfor"); openLibrary(function(url){ var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); var st=fld.querySelector(".imgstatus"); if(st){st.style.color="#2e8b57";st.textContent="Chosen from library. Preview or Save draft.";} scrollPreview(anchors[fSection[key]]||"top",true); }); }); });
+    fieldsEl.querySelectorAll("[data-vlibfor]").forEach(function(b){ b.addEventListener("click",function(){ var key=b.getAttribute("data-vlibfor"); openLibrary(function(url){ var o=videoData(key); o.thumb=url; setVideoData(key,o,true); var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); if(st){st.style.color="#2e8b57";st.textContent="Thumbnail chosen from library. Save draft to apply.";} }); }); });
     fieldsEl.querySelectorAll(".mini.preview").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var doc=frameDoc(); if(doc)injectOne(doc,key); scrollPreview(anchors[fSection[key]]||"top",true); b.parentNode.querySelector(".fstatus").textContent="Showing in preview (not published)"; }); });
     fieldsEl.querySelectorAll(".mini.save").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateNav();} else fs.textContent="Save failed — try again."; }); }); });
     fieldsEl.querySelectorAll(".mini.revert").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Reverting..."; setValue(key,fPub[key]); saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=fPub[key];f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Reverted to published";updateNav();} else fs.textContent="Revert failed — try again."; }); }); });
@@ -354,6 +376,25 @@
   $("howto").onclick=openTutorial;
   $("tutDone").onclick=closeTutorial;
   $("tutbg").addEventListener("click",function(e){ if(e.target===$("tutbg"))closeTutorial(); });
+
+  // ---- image library ----
+  var libApply=null;
+  function listLibrary(cb){
+    fetch(SB+"/storage/v1/object/list/site-images",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({prefix:SITE+"/",limit:200,sortBy:{column:"created_at",order:"desc"}})})
+     .then(function(r){return r.json();})
+     .then(function(list){ var imgs=(Array.isArray(list)?list:[]).filter(function(o){return o.id&&o.metadata&&/^image\//.test(o.metadata.mimetype||"");}).map(function(o){return SB+"/storage/v1/object/public/site-images/"+SITE+"/"+encodeURIComponent(o.name);}); cb(null,imgs); })
+     .catch(function(){cb("Could not load your library. Please try again.");});
+  }
+  function openLibrary(applyFn){ libApply=applyFn; var g=$("libgrid"); g.innerHTML='<div class="lib-empty">Loading your images…</div>'; $("libbg").classList.add("show");
+    listLibrary(function(err,imgs){ if(err){g.innerHTML='<div class="lib-empty">'+err+'</div>';return;}
+      if(!imgs.length){g.innerHTML='<div class="lib-empty">No saved images yet. Upload an image on any photo field and it is saved here automatically, so you can reuse it later.</div>';return;}
+      g.innerHTML=imgs.map(function(u){return '<button type="button" class="lib-item" data-liburl="'+attr(u)+'"><img src="'+attr(u)+'" alt="" loading="lazy"></button>';}).join("");
+      g.querySelectorAll("[data-liburl]").forEach(function(b){ b.onclick=function(){ var u=b.getAttribute("data-liburl"); $("libbg").classList.remove("show"); var fn=libApply; libApply=null; if(fn)fn(u); }; });
+    });
+  }
+  function closeLibrary(){ $("libbg").classList.remove("show"); libApply=null; }
+  $("libClose").onclick=closeLibrary;
+  $("libbg").addEventListener("click",function(e){ if(e.target===$("libbg"))closeLibrary(); });
 
   function uploadImage(key,file,specs,cb){
     if(!/^image\/(jpeg|png|webp)$/.test(file.type))return cb("Please use a JPG, PNG, or WebP image.");
