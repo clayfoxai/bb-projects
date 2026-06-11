@@ -857,26 +857,28 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 <style>
   .cm-bg{position:fixed;inset:0;background:rgba(11,28,58,.62);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1100;padding:24px;opacity:0;transition:opacity .25s ease;overflow-y:auto;}
   .cm-bg.show{display:flex;opacity:1;}
-  .cm-box{position:relative;background:#fff;border-radius:16px;max-width:900px;width:100%;box-shadow:0 40px 100px rgba(11,28,58,.45);transform:translateY(14px) scale(.985);transition:transform .3s cubic-bezier(.2,.8,.2,1);margin:auto;}
+  .cm-box{position:relative;background:#fff;border-radius:16px;max-width:1260px;width:94vw;box-shadow:0 40px 100px rgba(11,28,58,.45);transform:translateY(14px) scale(.985);transition:transform .3s cubic-bezier(.2,.8,.2,1);margin:auto;}
   .cm-bg.show .cm-box{transform:none;}
   .cm-x{position:absolute;top:14px;right:16px;z-index:5;background:rgba(11,28,58,.06);border:none;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:1;color:#45506a;cursor:pointer;transition:.2s;}
   .cm-x:hover{background:rgba(11,28,58,.12);}
-  .cm-head{text-align:center;padding:34px 30px 4px;}
+  .cm-head{display:flex;align-items:center;justify-content:center;gap:16px;padding:30px 30px 8px;}
+  .cm-head-txt{text-align:left;}
   .cm-head .eyebrow{color:var(--fern);}
   .cm-head h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:var(--evergreen);margin-top:8px;font-weight:500;text-transform:none;}
-  .cm-grid{display:grid;grid-template-columns:1fr 56px 1fr;padding:18px 36px 40px;}
-  .cm-panel{padding:6px 22px;}
+  .cm-grid{display:grid;grid-template-columns:340px 48px minmax(0,1fr);padding:20px 46px 42px;align-items:start;}
+  .cm-panel{padding:6px 22px;min-width:0;}
+  .cm-panel.cm-cal{padding-right:0;}
   .cm-pl{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--evergreen);font-weight:600;margin-bottom:16px;text-align:center;}
   .cm-or{position:relative;display:flex;align-items:center;justify-content:center;}
-  .cm-or:before{content:"";position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:var(--silver-l);}
-  .cm-or span{position:relative;background:#fff;width:36px;height:36px;border-radius:50%;border:1px solid var(--silver-l);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-d);}
+  .cm-or:before{content:"";position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:var(--silver);}
+  .cm-or span{position:relative;background:var(--evergreen);width:44px;height:44px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;box-shadow:0 4px 12px rgba(11,28,58,.28);}
   .cm-fields{display:flex;flex-direction:column;gap:11px;}
   #cmForm input[type=text],#cmForm input[type=email],#cmForm textarea{width:100%;border:1px solid var(--silver);border-radius:6px;padding:12px 14px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);background:#fdfdff;}
   #cmForm textarea{min-height:92px;resize:vertical;}
   #cmForm input:focus,#cmForm textarea:focus,#cmForm select:focus{outline:none;border-color:var(--fern);}
   #cmForm select{width:100%;border:1px solid var(--silver);border-radius:6px;padding:12px 38px 12px 14px;font-family:'Montserrat';font-size:14.5px;color:var(--ink);background-color:#fdfdff;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2345506a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
   #cmForm select:invalid{color:var(--silver-d);}
-  .cm-avatar{display:block;width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:50% 22%;margin:0 auto 16px;border:3px solid var(--silver-l);box-shadow:0 6px 18px rgba(11,28,58,.16);}
+  .cm-avatar{display:block;width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:2px solid var(--silver-l);box-shadow:0 4px 14px rgba(11,28,58,.16);flex:none;}
   #cmForm .btn{width:100%;text-align:center;margin-top:2px;cursor:pointer;}
   .cm-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;}
   .cm-status{font-size:12.5px;font-weight:600;color:#c0392b;min-height:15px;}
@@ -898,7 +900,8 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
     .cm-or:before{top:50%;bottom:auto;left:0;right:0;width:100%;height:1px;}
     .cm-or span{background:#fff;}
     .cm-panel.cm-cal{margin-top:8px;}
-    .cm-avatar{width:64px;height:64px;margin-bottom:12px;}
+    .cm-head{gap:12px;padding:24px 20px 4px;}
+    .cm-avatar{width:50px;height:50px;}
     .cm-cal-soon{min-height:200px;}
   }
 </style>
@@ -906,10 +909,9 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 <div class="cm-bg" id="connectModal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
   <div class="cm-box">
     <button class="cm-x" id="cmClose" aria-label="Close">&times;</button>
-    <div class="cm-head"><span class="eyebrow">Start a conversation</span><h3 id="cmTitle">Connect with Ismat</h3></div>
+    <div class="cm-head"><img class="cm-avatar" data-edit-img="hero_photo" src="assets/ismat-bio-02.webp" alt="Ismat Duckson Aziz"><div class="cm-head-txt"><span class="eyebrow">Start a conversation</span><h3 id="cmTitle">Connect with Ismat</h3></div></div>
     <div class="cm-grid">
       <div class="cm-panel" id="cmFormPanel">
-        <img class="cm-avatar" data-edit-img="hero_photo" src="assets/ismat-bio-02.webp" alt="Ismat Duckson Aziz">
         <div class="cm-pl">Send a message</div>
         <div id="cmFormWrap">
           <form id="cmForm" novalidate>
