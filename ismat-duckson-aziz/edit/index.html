@@ -108,6 +108,18 @@
   .modal p{font-size:14px;color:#5a6480;margin-bottom:24px;}
   .modal .mbtns{display:flex;gap:12px;justify-content:center;}
   .modal .cancel{background:#fff;border:1px solid var(--line);color:#5a6480;}.modal .cancel:hover{background:#f3f5f9;}
+  .modal.tut{max-width:564px;text-align:left;padding:0;overflow:hidden;}
+  .tut-head{background:var(--navy);color:#fff;padding:24px 30px 22px;}
+  .tut-head h3{color:#fff;margin:0 0 5px;font-size:18px;}
+  .tut-head p{color:#c7ccd4;font-size:13px;margin:0;}
+  .tut-body{padding:24px 30px 8px;max-height:54vh;overflow-y:auto;}
+  .tut-step{display:flex;gap:14px;margin-bottom:18px;}
+  .tut-num{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-family:'Cinzel',serif;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .tut-txt{font-size:14px;color:#3a4458;line-height:1.55;}
+  .tut-txt b{color:var(--navy);}
+  .tut-note{font-size:12.5px;color:#5a6480;background:#f3f5f9;border-radius:8px;padding:12px 14px;margin:4px 0 8px;line-height:1.5;}
+  .tut-foot{padding:16px 30px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid var(--line);}
+  .tut-foot .hint{font-size:12px;color:#9aa3b5;}
 
   @media(max-width:900px){
     .panes{flex-direction:column;}
@@ -133,6 +145,7 @@
     <div class="wm">EVERGREEN<span>Site Editor · Ismat Duckson Aziz</span></div>
     <div class="actions">
       <span class="status" id="status"></span>
+      <button class="btn btn-line" id="howto">How to use</button>
       <a class="btn btn-line" href="../" target="_blank">Open live ↗</a>
       <button class="btn btn-line" id="revertAll">Revert all</button>
       <button class="btn btn-line idle" id="draftAll">Save as draft</button>
@@ -165,6 +178,21 @@
   </div>
 </div>
 
+<div class="modal-bg" id="tutbg">
+  <div class="modal tut">
+    <div class="tut-head"><h3>Welcome to your site editor</h3><p>A quick tour. It takes about a minute.</p></div>
+    <div class="tut-body">
+      <div class="tut-step"><div class="tut-num">1</div><div class="tut-txt"><b>Make a change.</b> Click any text box or photo on the left. You can also click a section in the live preview on the right to jump straight to it.</div></div>
+      <div class="tut-step"><div class="tut-num">2</div><div class="tut-txt"><b>Preview it.</b> Click <b>Preview</b> under a field to see your change in the preview on the right. Only you can see it.</div></div>
+      <div class="tut-step"><div class="tut-num">3</div><div class="tut-txt"><b>Save it as a draft.</b> Click <b>Save draft</b> to keep a change privately. Drafts glow amber and wait there. Your public site does not change yet.</div></div>
+      <div class="tut-step"><div class="tut-num">4</div><div class="tut-txt"><b>Publish when you are ready.</b> Click <b>Publish</b> in the top bar and confirm. This is the only step that updates your live website.</div></div>
+      <div class="tut-step"><div class="tut-num">5</div><div class="tut-txt"><b>Undo anytime.</b> Use <b>Revert</b> on a single field, or <b>Revert all</b> to clear every unpublished draft.</div></div>
+      <div class="tut-note">Photos are resized and optimized for you on upload, so you can use images straight from your phone. For video, add a YouTube or Vimeo link or upload a file, then choose which one plays.</div>
+    </div>
+    <div class="tut-foot"><span class="hint">Reopen this anytime from “How to use” in the top bar.</span><button class="btn btn-go" id="tutDone">Got it</button></div>
+  </div>
+</div>
+
 <script>
 (function(){
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
@@ -187,7 +215,7 @@
   $("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
   function unlock(){ var p=$("pass").value; err.textContent="Checking...";
     fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:p})})
-     .then(function(r){return r.json();}).then(function(ok){ if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();} else err.textContent="Incorrect password.";})
+     .then(function(r){return r.json();}).then(function(ok){ if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();maybeTutorial();} else err.textContent="Incorrect password.";})
      .catch(function(){err.textContent="Something went wrong. Try again.";});
   }
 
@@ -317,6 +345,15 @@
   function openModal(title,msg,yesLabel,onYes){ $("modaltitle").textContent=title; $("modaltext").textContent=msg; $("mYes").textContent=yesLabel; pendingYes=onYes; $("modalbg").classList.add("show"); }
   $("mCancel").onclick=function(){$("modalbg").classList.remove("show");pendingYes=null;};
   $("mYes").onclick=function(){$("modalbg").classList.remove("show");if(pendingYes){var fn=pendingYes;pendingYes=null;fn();}};
+
+  // ---- tutorial ----
+  var TUTKEY="bb_tut_seen_"+SITE;
+  function openTutorial(){ $("tutbg").classList.add("show"); }
+  function closeTutorial(){ $("tutbg").classList.remove("show"); try{localStorage.setItem(TUTKEY,"1");}catch(e){} }
+  function maybeTutorial(){ var seen=false; try{seen=localStorage.getItem(TUTKEY)==="1";}catch(e){} if(!seen)openTutorial(); }
+  $("howto").onclick=openTutorial;
+  $("tutDone").onclick=closeTutorial;
+  $("tutbg").addEventListener("click",function(e){ if(e.target===$("tutbg"))closeTutorial(); });
 
   function uploadImage(key,file,specs,cb){
     if(!/^image\/(jpeg|png|webp)$/.test(file.type))return cb("Please use a JPG, PNG, or WebP image.");
