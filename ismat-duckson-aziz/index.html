@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="cs-locked">
 <head>
 <script>if(location.hostname.indexOf(".vercel.app")!==-1){var _p=location.pathname.replace(/^\/ismat-duckson-aziz/,"")||"/";location.replace("https://ismatducksonaziz.net"+_p+location.search+location.hash);}</script>
 <meta charset="UTF-8">
@@ -320,8 +320,10 @@
 </head>
 <body>
 <style>
-  #comingSoon{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(11,28,58,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:opacity .4s ease;}
+  #comingSoon{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(11,28,58,.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:opacity .4s ease;}
   #comingSoon.cs-hide{opacity:0;pointer-events:none;}
+  html.cs-locked,html.cs-locked body{overflow:hidden!important;}
+  html.cs-locked body>*:not(#comingSoon){filter:blur(34px)!important;-webkit-filter:blur(34px)!important;}
   .cs-card{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:46px 40px 40px;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,.45);font-family:'Montserrat',sans-serif;}
   .cs-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#2E63B5;font-weight:600;margin-bottom:20px;}
   .cs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:44px;font-weight:500;color:#112A52;line-height:1.05;margin-bottom:14px;}
@@ -348,16 +350,16 @@
 <script>
 (function(){
   var gate=document.getElementById("comingSoon"); if(!gate)return;
-  if(window.top!==window.self || localStorage.getItem("cs_unlocked_ismat")==="1"){ if(gate.parentNode)gate.parentNode.removeChild(gate); return; }
+  if(window.top!==window.self || localStorage.getItem("cs_unlocked_ismat")==="1"){ document.documentElement.classList.remove("cs-locked"); if(gate.parentNode)gate.parentNode.removeChild(gate); return; }
   document.documentElement.style.overflow="hidden"; document.body.style.overflow="hidden";
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
   var f=document.getElementById("csForm"),p=document.getElementById("csPass"),err=document.getElementById("csErr");
   setTimeout(function(){if(p)p.focus();},120);
   f.addEventListener("submit",function(e){
     e.preventDefault(); err.style.color="#c0392b"; err.textContent="Checking…";
-    fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_site:"ismat",p_pass:p.value})})
+    fetch(SB+"/rest/v1/rpc/bb_check_preview_password",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_site:"ismat",p_pass:p.value})})
      .then(function(r){return r.json();})
-     .then(function(ok){ if(ok===true){ try{localStorage.setItem("cs_unlocked_ismat","1");}catch(_e){} document.documentElement.style.overflow="";document.body.style.overflow=""; gate.classList.add("cs-hide"); setTimeout(function(){if(gate.parentNode)gate.parentNode.removeChild(gate);},450);} else { err.textContent="Incorrect password."; } })
+     .then(function(ok){ if(ok===true){ try{localStorage.setItem("cs_unlocked_ismat","1");}catch(_e){} document.documentElement.classList.remove("cs-locked"); gate.classList.add("cs-hide"); setTimeout(function(){if(gate.parentNode)gate.parentNode.removeChild(gate);},450);} else { err.textContent="Incorrect password."; } })
      .catch(function(){ err.textContent="Something went wrong. Please try again."; });
   });
 })();
