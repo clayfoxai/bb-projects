@@ -35,5 +35,27 @@
       "destination": "/ismat-duckson-aziz/",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/:path*"
+    }
   ]
 }
