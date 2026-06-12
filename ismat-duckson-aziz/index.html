@@ -251,6 +251,9 @@
   .foot-in .wm{font-family:'Cinzel',serif;color:var(--white);font-size:14px;letter-spacing:.2em;}
   .foot-in .wm span{display:block;font-size:8px;letter-spacing:.3em;color:var(--sage);margin-top:4px;}
   .foot-nav{display:flex;gap:24px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;}
+  .foot-right{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+  .foot-li{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1px solid rgba(143,169,210,.3);color:var(--sage);transition:.18s;}
+  .foot-li:hover{color:var(--white);border-color:var(--steel);background:rgba(143,169,210,.12);}
 
   @media(max-width:880px){
     .hero-in,.connect-grid,.split{grid-template-columns:1fr;gap:40px;}
@@ -751,8 +754,11 @@
 <footer>
   <div class="wrap foot-in">
     <div class="wm">EVERGREEN<span>Leadership Intelligence &middot; Ismat Duckson Aziz</span></div>
-    <div class="foot-nav">
-      <a href="#about">About</a><a href="#work">Overview</a><a href="#philanthropist">Philanthropy</a><a href="#speaking">Services</a><a href="#news">News</a><a href="#stats">Recognition</a><a href="#connect">Connect</a>
+    <div class="foot-right">
+      <div class="foot-nav">
+        <a href="#about">About</a><a href="#work">Overview</a><a href="#philanthropist">Philanthropy</a><a href="#speaking">Services</a><a href="#news">News</a><a href="#stats">Recognition</a><a href="#connect">Connect</a>
+      </div>
+      <a class="foot-li" href="https://www.linkedin.com/in/ismat-duckson-aziz" target="_blank" rel="noopener noreferrer" data-edit-href="seo_linkedin" aria-label="Ismat Duckson Aziz on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
     </div>
   </div>
 </footer>
@@ -780,6 +786,7 @@
    .then(function(r){return r.json();}).then(function(rows){
      if(!Array.isArray(rows))return;
      rows.forEach(function(row){ if(row.value==null)return;
+       document.querySelectorAll('[data-edit-href="'+row.field_key+'"]').forEach(function(el){if(row.value)el.setAttribute("href",row.value);});
        if(row.field_type==="image"){ document.querySelectorAll('[data-edit-img="'+row.field_key+'"]').forEach(function(el){el.src=row.value;}); }
        else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.src=l.url;im.alt=l.alt||"";c.appendChild(im);});}); }
        else if(row.field_type==="video"){ var V; try{V=JSON.parse(row.value);}catch(e){return;} var vurl=(V.mode==="file")?(V.fileUrl||V.url||""):(V.linkUrl||V.url||""); document.querySelectorAll('[data-edit-video="'+row.field_key+'"]').forEach(function(c){ var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb; c.style.cursor=vurl?"pointer":"default"; c.onclick=function(){ if(!vurl)return; window.bbOpenVideoModal({mode:V.mode,url:vurl}); }; }); }
