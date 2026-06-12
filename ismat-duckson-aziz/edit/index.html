@@ -278,7 +278,7 @@
     rows.sort(function(a,b){return a.sort-b.sort;}); var html="",cur=null; allKeys=[];
     rows.forEach(function(r){
       fType[r.field_key]=r.field_type; fSection[r.field_key]=r.section; fPub[r.field_key]=r.value||""; var dv=(r.draft_value!=null?r.draft_value:r.value)||""; fDraft[r.field_key]=dv; allKeys.push(r.field_key);
-      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; cur=r.section; }
+      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; if(r.section==="Search, Sharing & AI")html+='<div class="guide"><b>What is this section?</b> These details control how your site appears in Google, in AI search tools (ChatGPT, Perplexity, and similar), and in the preview people see when your link is shared (LinkedIn, text, email). Search engines and AI read these fields directly, so keep them accurate and in your own words. They update across your site automatically when you press Publish.</div>'; cur=r.section; }
       var body, K=r.field_key, lbl='font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;';
       if(r.field_type==="logos"){
         body='<div class="guide"><b>Logo guidelines — please follow exactly:</b><ul>'
@@ -355,7 +355,7 @@
       var pre=dirty.length?Promise.all(dirty.map(function(f){return new Promise(function(res){saveDraft(f.getAttribute("data-key-id"),function(){fDraft[f.getAttribute("data-key-id")]=getValue(f.getAttribute("data-key-id"));f.classList.remove("is-dirty");res();});});})):Promise.resolve();
       statusEl.textContent="Publishing...";
       pre.then(function(){return fetch(SB+"/rest/v1/rpc/bb_publish_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();});})
-        .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); })
+        .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); fetch(SB+"/functions/v1/regenerate-meta",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).catch(function(){}); })
         .catch(function(){statusEl.textContent="Publish failed — try again.";}); }); };
 
   $("revertAll").onclick=function(){ if(!counts().pending)return;
