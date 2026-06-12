@@ -6,6 +6,17 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/ismat-duckson-aziz",
+      "has": [
+        {
+          "type": "host",
+          "value": "bb-projects.vercel.app"
+        }
+      ],
+      "destination": "https://ismatducksonaziz.net/",
+      "permanent": false
+    },
+    {
       "source": "/ismat-duckson-aziz/website-preview/edit/",
       "destination": "/ismat-duckson-aziz/edit/",
       "permanent": true
@@ -34,6 +45,17 @@
       "source": "/ismat-duckson-aziz/website-preview/:path+",
       "destination": "/ismat-duckson-aziz/",
       "permanent": true
+    },
+    {
+      "source": "/ismat-duckson-aziz/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bb-projects.vercel.app"
+        }
+      ],
+      "destination": "https://ismatducksonaziz.net/:path*",
+      "permanent": false
     }
   ],
   "rewrites": [
