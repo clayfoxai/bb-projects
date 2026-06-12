@@ -38,6 +38,66 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/index.html"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/index.html"
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
       "source": "/:path*",
       "has": [
         {
