@@ -148,6 +148,86 @@
   ],
   "rewrites": [
     {
+      "source": "/thank-you/",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you/index.html"
+    },
+    {
+      "source": "/thank-you/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you/index.html"
+    },
+    {
+      "source": "/thank-you/",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you/index.html"
+    },
+    {
+      "source": "/thank-you/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you/index.html"
+    },
+    {
+      "source": "/thank-you-priority/",
+      "has": [
+        {
+          "type": "host",
+          "value": "ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you-priority/index.html"
+    },
+    {
+      "source": "/thank-you-priority/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ismatducksonaziz.net"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you-priority/index.html"
+    },
+    {
+      "source": "/thank-you-priority/",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you-priority/index.html"
+    },
+    {
+      "source": "/thank-you-priority/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/thank-you-priority/index.html"
+    },
+    {
       "source": "/admin",
       "has": [
         {
