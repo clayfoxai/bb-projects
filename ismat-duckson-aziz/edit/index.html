@@ -581,7 +581,7 @@
     getAnalytics(30,function(d){ var k=$("homeKpis"); if(!k)return; if(!d||!d.ok){k.innerHTML='<div class="kpi"><div class="k-label">Analytics</div><div class="k-foot">Numbers appear here as visitors arrive.</div></div>';return;} var s=d.summary;
       k.innerHTML=kpiCard("Visitors",s.visitors,"last 30 days")+kpiCard("Page views",s.pageviews,"last 30 days")+kpiCard("Leads + bookings",s.actions,"last 30 days")+kpiCard("Conversion",s.conversion+"%","visitors who acted"); });
     loadHomeEvents();
-    loadBookingEmbed();
+    mountTidyCal("homeCal");
   }
   function loadHomeEvents(){
     fetch(SB+"/rest/v1/site_events?site_slug=eq."+SITE+"&published=eq.true&select=*&order=event_date.asc",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){
@@ -594,8 +594,8 @@
     }).catch(function(){});
   }
 
-  function loadBookingEmbed(){
-    var host=$("homeCal"); if(!host)return;
+  function mountTidyCal(hostId){
+    var host=$(hostId); if(!host)return;
     fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_path&select=value",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){
       var path=((rows&&rows[0]&&rows[0].value)||"").trim();
       if(!path){host.innerHTML='<p class="muted">Add your TidyCal link in the Site Editor (Connect section) to show your calendar here.</p>';return;}
@@ -647,9 +647,10 @@
 
   function renderEvents(){
     var v=$("view-events");
-    v.innerHTML='<div class="dash"><div class="ev-mgr-head"><div><div class="dash-h">Events</div><div class="dash-sub">Add your speaking engagements and public events. They appear on your site automatically once live.</div></div><button class="btn btn-go" id="evAdd" style="white-space:nowrap;">+ Add event</button></div><div id="evMgrList" class="muted">Loading…</div><div id="evFormWrap"></div></div>';
+    v.innerHTML='<div class="dash"><div class="ev-mgr-head"><div><div class="dash-h">Events</div><div class="dash-sub">Add your speaking engagements and public events. They appear on your site automatically once live.</div></div><button class="btn btn-go" id="evAdd" style="white-space:nowrap;">+ Add event</button></div><div id="evMgrList" class="muted">Loading…</div><div id="evFormWrap"></div><div class="card" style="margin-top:24px;"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px;">Your live TidyCal booking page. To change availability or see who has booked, manage it in TidyCal.</p><div id="evCal"><p class="muted">Loading your calendar…</p></div></div></div>';
     $("evAdd").onclick=function(){openEvForm(null);};
     loadEvents();
+    mountTidyCal("evCal");
   }
   function loadEvents(){
     postFn(SB+"/rest/v1/rpc/bb_events_all",{p_site:SITE,p_pass:PASS},function(rows){
