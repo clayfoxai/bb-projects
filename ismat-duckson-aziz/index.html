@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="cs-locked">
+<html lang="en">
 <head>
 <script>if(location.hostname.indexOf(".vercel.app")!==-1){var _p=location.pathname.replace(/^\/ismat-duckson-aziz/,"")||"/";location.replace("https://ismatducksonaziz.net"+_p+location.search+location.hash);}</script>
 <meta charset="UTF-8">
@@ -348,53 +348,6 @@
 </style>
 </head>
 <body>
-<style>
-  #comingSoon{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(11,28,58,.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:opacity .4s ease;}
-  #comingSoon.cs-hide{opacity:0;pointer-events:none;}
-  html.cs-locked,html.cs-locked body{overflow:hidden!important;}
-  html.cs-locked body>*:not(#comingSoon){filter:blur(34px)!important;-webkit-filter:blur(34px)!important;}
-  .cs-card{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:46px 40px 40px;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,.45);font-family:'Montserrat',sans-serif;}
-  .cs-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#2E63B5;font-weight:600;margin-bottom:20px;}
-  .cs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:44px;font-weight:500;color:#112A52;line-height:1.05;margin-bottom:14px;}
-  .cs-sub{font-size:14.5px;color:#45506A;line-height:1.6;margin-bottom:28px;}
-  #csForm{display:flex;flex-direction:column;gap:12px;}
-  #csPass{width:100%;border:1px solid #C7CCD4;border-radius:7px;padding:13px 15px;font-family:'Montserrat';font-size:14.5px;color:#161C28;text-align:center;}
-  #csPass:focus{outline:none;border-color:#2E63B5;}
-  #csForm button{background:#2E63B5;color:#fff;border:none;border-radius:2px;padding:15px;font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:.2s;}
-  #csForm button:hover{background:#234E92;}
-  .cs-err{font-size:12.5px;font-weight:600;color:#c0392b;min-height:16px;}
-</style>
-<div id="comingSoon">
-  <div class="cs-card">
-    <div class="cs-eyebrow">Evergreen &middot; Leadership Intelligence</div>
-    <h1 class="cs-title">Coming Soon</h1>
-    <p class="cs-sub">The new home for Ismat Duckson Aziz is launching shortly. Enter the preview password to view the site.</p>
-    <form id="csForm" autocomplete="off">
-      <input id="csPass" type="password" placeholder="Preview password" autocomplete="off" aria-label="Preview password">
-      <button type="submit">View the site</button>
-      <div id="csErr" class="cs-err"></div>
-    </form>
-  </div>
-</div>
-<script>
-(function(){
-  var gate=document.getElementById("comingSoon"); if(!gate)return;
-  if(window.top!==window.self || localStorage.getItem("cs_unlocked_ismat")==="1"){ document.documentElement.classList.remove("cs-locked"); if(gate.parentNode)gate.parentNode.removeChild(gate); return; }
-  document.documentElement.style.overflow="hidden"; document.body.style.overflow="hidden";
-  var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
-  var f=document.getElementById("csForm"),p=document.getElementById("csPass"),err=document.getElementById("csErr");
-  setTimeout(function(){if(p)p.focus();},120);
-  f.addEventListener("submit",function(e){
-    e.preventDefault(); err.style.color="#c0392b"; err.textContent="Checking…";
-    fetch(SB+"/rest/v1/rpc/bb_check_preview_password",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_site:"ismat",p_pass:p.value})})
-     .then(function(r){return r.json();})
-     .then(function(ok){ if(ok===true){ try{localStorage.setItem("cs_unlocked_ismat","1");}catch(_e){} document.documentElement.classList.remove("cs-locked"); gate.classList.add("cs-hide"); setTimeout(function(){if(gate.parentNode)gate.parentNode.removeChild(gate);},450);} else { err.textContent="Incorrect password."; } })
-     .catch(function(){ err.textContent="Something went wrong. Please try again."; });
-  });
-})();
-</script>
-
-
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-in">
