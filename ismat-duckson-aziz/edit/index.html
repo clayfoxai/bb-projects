@@ -599,8 +599,7 @@
     fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_path&select=value",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){
       var path=((rows&&rows[0]&&rows[0].value)||"").trim();
       if(!path){host.innerHTML='<p class="muted">Add your TidyCal link in the Site Editor (Connect section) to show your calendar here.</p>';return;}
-      host.innerHTML='<div class="tidycal-embed" data-path="'+path+'"></div>';
-      var sc=document.createElement("script"); sc.src="https://tidycal.com/js/embed.js"; sc.async=true; host.appendChild(sc);
+      host.innerHTML='<iframe src="https://tidycal.com/'+path+'" style="width:100%;min-height:700px;border:1px solid var(--line);border-radius:10px;background:#fff;" loading="lazy" title="Booking calendar"></iframe>';
     }).catch(function(){ host.innerHTML='<p class="muted">Could not load your calendar right now.</p>'; });
   }
   function renderAnalytics(){
