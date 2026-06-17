@@ -332,8 +332,8 @@
   $("unlock").onclick=unlock;
   $("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
   function unlock(){ var p=$("pass").value; err.textContent="Checking...";
-    fetch(SB+"/rest/v1/rpc/bb_check_password",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:p})})
-     .then(function(r){return r.json();}).then(function(ok){ if(ok===true){PASS=p;gate.classList.add("hide");app.classList.remove("hide");load();maybeTutorial();showView("home");} else err.textContent="Incorrect password.";})
+    fetch(SB+"/rest/v1/rpc/bb_login",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:p})})
+     .then(function(r){return r.json();}).then(function(canon){ if(canon){PASS=canon;gate.classList.add("hide");app.classList.remove("hide");load();maybeTutorial();showView("home");} else err.textContent="Incorrect password.";})
      .catch(function(){err.textContent="Something went wrong. Try again.";});
   }
 
