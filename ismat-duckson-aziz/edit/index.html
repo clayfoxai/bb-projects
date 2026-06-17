@@ -575,12 +575,13 @@
       +'<button data-go="analytics"><b>View analytics</b><span>Full traffic &amp; conversion detail</span></button>'
       +'</div></div>'
       +'<div class="card"><h3>Upcoming events</h3><div id="homeEvents" class="muted">Loading…</div></div>'
-      +'<div class="card"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px;">Manage your availability and see who has booked time with you.</p><a class="btn btn-go" href="https://tidycal.com/" target="_blank" style="display:inline-block;text-decoration:none;">Open TidyCal &#8599;</a></div>'
+      +'<div class="card"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px;">Your live booking page — the same calendar visitors use to book time with you. To change your availability or see who has booked, manage it in TidyCal.</p><div id="homeCal"><p class="muted">Loading your calendar…</p></div><div style="margin-top:14px;"><a href="https://tidycal.com/" target="_blank" style="color:var(--blue);font-weight:600;font-size:13px;">Manage availability in TidyCal &#8599;</a></div></div>'
       +'</div>';
     Array.prototype.forEach.call(v.querySelectorAll(".qa button"),function(b){b.addEventListener("click",function(){showView(b.getAttribute("data-go"));});});
     getAnalytics(30,function(d){ var k=$("homeKpis"); if(!k)return; if(!d||!d.ok){k.innerHTML='<div class="kpi"><div class="k-label">Analytics</div><div class="k-foot">Numbers appear here as visitors arrive.</div></div>';return;} var s=d.summary;
       k.innerHTML=kpiCard("Visitors",s.visitors,"last 30 days")+kpiCard("Page views",s.pageviews,"last 30 days")+kpiCard("Leads + bookings",s.actions,"last 30 days")+kpiCard("Conversion",s.conversion+"%","visitors who acted"); });
     loadHomeEvents();
+    loadBookingEmbed();
   }
   function loadHomeEvents(){
     fetch(SB+"/rest/v1/site_events?site_slug=eq."+SITE+"&published=eq.true&select=*&order=event_date.asc",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){
@@ -593,6 +594,15 @@
     }).catch(function(){});
   }
 
+  function loadBookingEmbed(){
+    var host=$("homeCal"); if(!host)return;
+    fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_path&select=value",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){
+      var path=((rows&&rows[0]&&rows[0].value)||"").trim();
+      if(!path){host.innerHTML='<p class="muted">Add your TidyCal link in the Site Editor (Connect section) to show your calendar here.</p>';return;}
+      host.innerHTML='<div class="tidycal-embed" data-path="'+path+'"></div>';
+      var sc=document.createElement("script"); sc.src="https://tidycal.com/js/embed.js"; sc.async=true; host.appendChild(sc);
+    }).catch(function(){ host.innerHTML='<p class="muted">Could not load your calendar right now.</p>'; });
+  }
   function renderAnalytics(){
     var v=$("view-analytics");
     if(v.getAttribute("data-init")!=="1"){
