@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Thank you — Ismat Duckson Aziz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/favicon.svg">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif;background:radial-gradient(circle at 50% -10%,#1C3A66 0%,#112A52 48%,#0B1C3A 100%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 22px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .card{max-width:580px;text-align:center;animation:rise .7s cubic-bezier(.2,.7,.2,1) both;}
+  .mark{width:60px;height:60px;margin:0 auto 28px;display:block;opacity:.96;}
+  .check{width:66px;height:66px;border-radius:50%;border:1.5px solid rgba(143,169,210,.5);display:flex;align-items:center;justify-content:center;margin:0 auto 26px;}
+  .eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8FA9D2;font-weight:500;margin-bottom:16px;}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:44px;line-height:1.12;letter-spacing:.01em;margin-bottom:18px;}
+  p{font-size:17px;color:#D6DEEC;max-width:500px;margin:0 auto;}
+  .btn{display:inline-block;margin-top:32px;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:15px 34px;border-radius:2px;border:1px solid rgba(143,169,210,.55);color:#fff;text-decoration:none;transition:.25s;}
+  .btn:hover{background:#fff;color:#112A52;border-color:#fff;}
+  @keyframes rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  @media(max-width:560px){h1{font-size:35px;}p{font-size:16px;}}
+</style>
+</head>
+<body>
+  <main class="card">
+    <img class="mark" src="../assets/logo-white.svg" alt="Evergreen Leadership Intelligence">
+    <div class="check"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#8FA9D2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+    <div class="eyebrow">Request received</div>
+    <h1 data-edit="ty_free_head">Thank you — your request is in.</h1>
+    <p data-edit="ty_free_body">Ismat personally reviews every request. She'll confirm a time with you by email shortly. If your note is time-sensitive, simply reply to that email.</p>
+    <a class="btn" href="../">Return to Ismat's site</a>
+  </main>
+  <script>
+  (function(){
+    var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
+    fetch(SB+"/rest/v1/site_content?site_slug=eq.ismat&field_key=in.(ty_free_head,ty_free_body)&select=field_key,value",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
+      .then(function(r){return r.json();}).then(function(rows){ if(!Array.isArray(rows))return; rows.forEach(function(row){ if(row.value==null)return; document.querySelectorAll('[data-edit="'+row.field_key+'"]').forEach(function(el){el.textContent=row.value;}); }); }).catch(function(){});
+  })();
+  (function(){var s=document.createElement("script");s.src="https://us-assets.i.posthog.com/static/array.js";s.async=true;s.onload=function(){try{posthog.init("phc_BenfSnzXKyzhk6wWHhwuLbeP3mz2GwwcYKngksk7H3yg",{api_host:"https://us.i.posthog.com",person_profiles:"identified_only",defaults:"2026-05-30"});posthog.capture("booking_confirmed",{type:"free"});}catch(e){}};document.head.appendChild(s);})();
+  </script>
+</body>
+</html>
