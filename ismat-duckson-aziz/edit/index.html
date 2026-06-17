@@ -377,7 +377,9 @@
       if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; if(r.section==="Search, Sharing & AI")html+='<div class="guide"><b>What is this section?</b> These details control how your site appears in Google, in AI search tools (ChatGPT, Perplexity, and similar), and in the preview people see when your link is shared (LinkedIn, text, email). Search engines and AI read these fields directly, so keep them accurate and in your own words. They update across your site automatically when you press Publish.</div>'; cur=r.section; }
       var body, K=r.field_key, lbl='font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;';
       if(r.field_type==="logos"){
-        body='<div class="guide"><b>Logo guidelines — please follow exactly:</b><ul>'
+        body='<div class="guide"><b>Logo guidelines — please follow exactly:</b>'
+          +'<div style="background:#fff4e0;border:1px solid #ecd9ad;border-radius:6px;padding:9px 11px;margin:9px 0;color:#8a5a12;line-height:1.5;"><b>About Alt text:</b> Alt text is only a written description of a logo (for screen readers and Google) &mdash; it does <b>not</b> change the logo picture. To show a different company, you must also <b>upload the logo image for that company</b>. Changing the alt text by itself will not swap the logo.</div>'
+          +'<ul>'
           +'<li>Use only the official logo of a company or publication that has genuinely featured or recognized Ismat.</li>'
           +'<li>Upload a <b>transparent-background PNG or WebP</b> (no white box). Horizontal / wordmark version preferred.</li>'
           +'<li>Logos display in one uniform dark tone for consistency, so color logos are auto-darkened.</li>'
