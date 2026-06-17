@@ -121,8 +121,11 @@
   .logos span{font-family:'Cinzel',serif;font-size:clamp(15px,1.7vw,21px);letter-spacing:.1em;color:var(--evergreen);text-transform:uppercase;}
   .logos .sep{color:var(--fern);font-size:13px;}
   .logo-group{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:26px 48px;margin-bottom:30px;}
-  .logo-group img{height:24px;width:auto;object-fit:contain;opacity:.7;filter:grayscale(1) brightness(0);}
-  .logo-group img.logo-duke{height:46px;}
+  .logo-group img{height:auto;width:auto;max-width:172px;max-height:38px;object-fit:contain;opacity:.72;filter:grayscale(1) brightness(0);}
+  .logo-group img.lg-long{max-height:30px;}
+  .logo-group img.lg-word{max-height:40px;}
+  .logo-group img.lg-chunk{max-height:50px;}
+  .logo-group img.lg-square{max-height:60px;}
   @media(min-width:881px) and (max-width:1080px){.logo-group{grid-template-columns:repeat(3,1fr);}}
 
   /* THREE WHO CARDS */
@@ -274,8 +277,11 @@
     .feature-grid{grid-template-columns:1fr;}
     .svc-grid .svc-card{flex-basis:100%;}
     .logo-group{display:grid;grid-template-columns:repeat(2,1fr);align-items:center;justify-items:center;gap:30px 20px;}
-    .logo-group img{height:auto;max-height:26px;max-width:78%;}
-    .logo-group img.logo-duke{max-height:50px;}
+    .logo-group img{height:auto;max-height:30px;max-width:80%;}
+    .logo-group img.lg-long{max-height:24px;}
+    .logo-group img.lg-word{max-height:34px;}
+    .logo-group img.lg-chunk{max-height:44px;}
+    .logo-group img.lg-square{max-height:54px;}
     .svc-cta{display:inline-block;}
     .svc-getstarted{display:none;}
     .f-row{grid-template-columns:1fr;}
@@ -825,7 +831,7 @@
      rows.forEach(function(row){ if(row.value==null)return;
        document.querySelectorAll('[data-edit-href="'+row.field_key+'"]').forEach(function(el){if(row.value)el.setAttribute("href",row.value);});
        if(row.field_type==="image"){ document.querySelectorAll('[data-edit-img="'+row.field_key+'"]').forEach(function(el){el.src=row.value;}); }
-       else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.src=l.url;im.alt=l.alt||"";c.appendChild(im);});}); }
+       else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.alt=l.alt||"";function sz(){var ar=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:4;im.classList.remove("lg-long","lg-word","lg-chunk","lg-square");im.classList.add(ar>=5?"lg-long":ar>=2.8?"lg-word":ar>=1.5?"lg-chunk":"lg-square");}im.onload=sz;im.src=l.url;if(im.complete&&im.naturalWidth)sz();c.appendChild(im);});}); }
        else if(row.field_type==="video"){ var V; try{V=JSON.parse(row.value);}catch(e){return;} var vurl=(V.mode==="file")?(V.fileUrl||V.url||""):(V.linkUrl||V.url||""); document.querySelectorAll('[data-edit-video="'+row.field_key+'"]').forEach(function(c){ var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb; c.style.cursor=vurl?"pointer":"default"; c.onclick=function(){ if(!vurl)return; window.bbOpenVideoModal({mode:V.mode,url:vurl}); }; }); }
        else { document.querySelectorAll('[data-edit="'+row.field_key+'"]').forEach(function(el){el.textContent=row.value;}); } });
        function ytid(u){ if(!u)return ""; var m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/); return m?m[1]:(/^[\w-]{11}$/.test(u)?u:""); }
