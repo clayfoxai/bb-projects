@@ -346,6 +346,31 @@
   .bbvm-close{position:absolute;top:-46px;right:0;width:38px;height:38px;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:50%;cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;transition:.15s;}
   .bbvm-close:hover{background:rgba(255,255,255,.28);}
   @media(max-width:640px){.bbvm-close{top:-42px;}.bbvm{padding:16px;}}
+  /* Events (front-facing; hidden until real events exist) */
+  #events{display:none;}
+  .js-ev-link{display:none;}
+  .ev-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+  .ev-item{display:flex;align-items:center;gap:20px;width:100%;text-align:left;background:var(--white);border:1px solid #d8e0ec;border-radius:10px;padding:18px 22px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;font-family:inherit;}
+  .ev-item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(17,42,82,.12);border-color:var(--steel);}
+  .ev-date{flex:none;width:58px;text-align:center;border-right:1px solid #e2e8f2;padding-right:16px;}
+  .ev-date .m{font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fern);font-weight:600;}
+  .ev-date .d{font-family:'Cormorant Garamond',serif;font-size:30px;line-height:1;color:var(--evergreen);font-weight:500;}
+  .ev-date .y{font-size:10px;letter-spacing:.08em;color:var(--silver-d);margin-top:2px;}
+  .ev-main{flex:1;min-width:0;}
+  .ev-main h3{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--evergreen);font-weight:500;line-height:1.2;margin-bottom:5px;text-transform:none;}
+  .ev-meta{font-size:12.5px;letter-spacing:.03em;color:var(--muted-d);}
+  .ev-meta .ev-type{color:var(--fern);font-weight:600;}
+  .ev-arrow{flex:none;color:var(--steel);font-size:24px;line-height:1;}
+  .ev-modal-bg{position:fixed;inset:0;background:rgba(11,28,58,.62);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px;opacity:0;transition:opacity .25s ease;}
+  .ev-modal-bg.show{display:flex;opacity:1;}
+  .ev-modal{position:relative;background:#fff;border-radius:14px;max-width:540px;width:100%;padding:40px 38px 34px;box-shadow:0 36px 90px rgba(11,28,58,.45);transform:translateY(12px) scale(.97);transition:transform .3s cubic-bezier(.2,.8,.2,1);max-height:88vh;overflow-y:auto;}
+  .ev-modal-bg.show .ev-modal{transform:none;}
+  .evm-close{position:absolute;top:14px;right:16px;background:none;border:0;font-size:26px;line-height:1;color:#9aa3b5;cursor:pointer;}
+  .evm-type{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fern);font-weight:600;margin-bottom:12px;}
+  .ev-modal h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:var(--evergreen);line-height:1.15;margin-bottom:14px;font-weight:500;text-transform:none;}
+  .evm-when{font-size:14.5px;color:var(--evergreen);font-weight:600;margin-bottom:3px;}
+  .evm-where{font-size:13.5px;color:var(--muted-d);letter-spacing:.02em;margin-bottom:20px;}
+  .evm-desc{font-size:14.5px;line-height:1.65;color:var(--muted-d);margin-bottom:24px;white-space:pre-wrap;}
 </style>
 <!-- PostHog analytics (project 474905 — swap phc_ key per client) -->
 <script>
@@ -365,6 +390,7 @@
       <a href="#philanthropist">Philanthropy</a>
       <a href="#speaking">Services</a>
       <a href="#news">News</a>
+      <a href="#events" class="js-ev-link">Events</a>
       <a href="#stats">Recognition</a>
       <a href="#connect" class="btn btn-solid">Connect</a>
     </div>
@@ -726,6 +752,17 @@
   </div>
 </section>
 
+<!-- EVENTS (front-facing; hidden until real events exist) -->
+<section class="light" id="events">
+  <div class="wrap">
+    <div class="sec-head" style="text-align:center;margin:0 auto 40px;">
+      <span class="eyebrow" data-edit="events_eyebrow" style="display:block;margin-bottom:14px;color:#275299;">Upcoming</span>
+      <h2 data-edit="events_title">Events &amp; Speaking</h2>
+    </div>
+    <div class="ev-list" id="evList"></div>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="final" id="closing">
   <div class="wrap">
@@ -741,7 +778,7 @@
     <div class="wm">EVERGREEN<span>Leadership Intelligence &middot; Ismat Duckson Aziz</span></div>
     <div class="foot-right">
       <div class="foot-nav">
-        <a href="#about">About</a><a href="#work">Overview</a><a href="#philanthropist">Philanthropy</a><a href="#speaking">Services</a><a href="#news">News</a><a href="#stats">Recognition</a><a href="#connect">Connect</a>
+        <a href="#about">About</a><a href="#work">Overview</a><a href="#philanthropist">Philanthropy</a><a href="#speaking">Services</a><a href="#news">News</a><a href="#events" class="js-ev-link">Events</a><a href="#stats">Recognition</a><a href="#connect">Connect</a>
       </div>
       <a class="foot-li" href="https://www.linkedin.com/in/ismat-duckson-aziz" target="_blank" rel="noopener noreferrer" data-edit-href="seo_linkedin" aria-label="Ismat Duckson Aziz on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
     </div>
@@ -939,5 +976,62 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 })();
 </script>
 <!-- intake form live -->
+<!-- EVENTS modal + loader -->
+<div class="ev-modal-bg" id="evModal" role="dialog" aria-modal="true" aria-label="Event details">
+  <div class="ev-modal">
+    <button type="button" class="evm-close" id="evClose" aria-label="Close">&times;</button>
+    <div class="evm-type" id="evmType"></div>
+    <h3 id="evmTitle"></h3>
+    <div class="evm-when" id="evmWhen"></div>
+    <div class="evm-where" id="evmWhere"></div>
+    <div class="evm-desc" id="evmDesc"></div>
+    <div class="evm-actions" id="evmActions"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J";
+  var sec=document.getElementById("events"), list=document.getElementById("evList");
+  if(!sec||!list)return;
+  var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function esc(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+  function pd(d){ if(!d)return null; var p=String(d).split("-"); return new Date(+p[0],(+p[1])-1,+p[2]); }
+  fetch(SB+"/rest/v1/site_events?site_slug=eq.ismat&published=eq.true&select=*&order=event_date.asc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
+   .then(function(r){return r.json();}).then(function(rows){
+     if(!Array.isArray(rows))return;
+     var t=new Date(); t.setHours(0,0,0,0);
+     var ev=rows.filter(function(e){ var dt=pd(e.event_date); return !dt || dt>=t; });
+     if(!ev.length)return;
+     list.innerHTML="";
+     ev.forEach(function(e){
+       var dt=pd(e.event_date);
+       var dh = dt ? '<div class="ev-date"><div class="m">'+MON[dt.getMonth()]+'</div><div class="d">'+dt.getDate()+'</div><div class="y">'+dt.getFullYear()+'</div></div>' : '';
+       var meta=[]; if(e.event_type)meta.push('<span class="ev-type">'+esc(e.event_type)+'</span>'); if(e.location)meta.push(esc(e.location)); if(e.host)meta.push(esc(e.host));
+       var b=document.createElement("button"); b.type="button"; b.className="ev-item";
+       b.innerHTML=dh+'<div class="ev-main"><h3>'+esc(e.title)+'</h3><div class="ev-meta">'+meta.join(' &middot; ')+'</div></div><div class="ev-arrow">&rsaquo;</div>';
+       b.addEventListener("click",function(){openEv(e,dt);});
+       list.appendChild(b);
+     });
+     sec.style.display="";
+     document.querySelectorAll(".js-ev-link").forEach(function(a){a.style.display="";});
+   }).catch(function(){});
+  var modal=document.getElementById("evModal");
+  function openEv(e,dt){
+    document.getElementById("evmType").textContent=e.event_type||"Event";
+    document.getElementById("evmTitle").textContent=e.title||"";
+    var when=""; if(dt){ when=dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"}); if(e.event_time)when+=" \u00b7 "+e.event_time; }
+    var w1=document.getElementById("evmWhen"); w1.textContent=when; w1.style.display=when?"":"none";
+    var where=[]; if(e.location)where.push(e.location); if(e.host)where.push(e.host);
+    var w2=document.getElementById("evmWhere"); w2.textContent=where.join(" \u00b7 "); w2.style.display=where.length?"":"none";
+    document.getElementById("evmDesc").textContent=e.description||"";
+    document.getElementById("evmActions").innerHTML = e.url ? '<a href="'+esc(e.url)+'" target="_blank" rel="noopener noreferrer" class="btn btn-solid">Event details &rarr;</a>' : '';
+    modal.classList.add("show");
+  }
+  function cls(){modal.classList.remove("show");}
+  document.getElementById("evClose").onclick=cls;
+  modal.addEventListener("click",function(e){if(e.target===modal)cls();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")cls();});
+})();
+</script>
 </body>
 </html>
