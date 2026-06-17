@@ -496,7 +496,20 @@
       <h2 data-edit="connect_title">Bring Ismat into the room.</h2>
       <p data-edit="connect_body">Tell her what you are working on. If it is an advisory engagement, a board search, a stage, or a leader you are developing, she will tell you whether and how she can help.</p>
       <div class="connect-alt">
-        Prefer to talk live? <a href="#" id="bookToggle" style="color:var(--fern-btn);font-weight:600;border-bottom:1px solid var(--fern-btn);">Request a 15-minute Meeting &rarr;</a>
+        <div class="book-or" data-edit="book_or_label">Or schedule a time directly</div>
+        <div class="book-opts">
+          <a href="#" id="bookToggle" class="book-opt">
+            <div class="bo-title" data-edit="book_free_title">Request a 15-minute meeting</div>
+            <div class="bo-desc" data-edit="book_free_desc">Send a request and Ismat will personally review it, then confirm a time with you.</div>
+            <div class="bo-cta">Request a time &rarr;</div>
+          </a>
+          <a href="#" id="bookTogglePaid" class="book-opt book-opt-pri">
+            <div class="bo-badge" data-edit="book_paid_badge">$500 &middot; Priority</div>
+            <div class="bo-title" data-edit="book_paid_title">15-minute priority consultation</div>
+            <div class="bo-desc" data-edit="book_paid_desc">Reserve a guaranteed time on Ismat's calendar now. Proceeds go to her non-profit.</div>
+            <div class="bo-cta">Book &amp; pay &rarr;</div>
+          </a>
+        </div>
       </div>
     </div>
     <form id="leadform" novalidate>
@@ -948,6 +961,15 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 })();
 </script>
 <style>
+  .connect-alt .book-or{font-size:13px;color:var(--muted-d);margin-bottom:12px;}
+  .book-opts{display:flex;flex-direction:column;gap:12px;}
+  .book-opt{display:block;text-align:left;background:var(--white);border:1px solid #cdd6e2;border-radius:10px;padding:16px 18px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+  .book-opt:hover{border-color:var(--fern);box-shadow:0 10px 26px rgba(17,42,82,.10);transform:translateY(-2px);}
+  .book-opt-pri{border-color:var(--fern);background:linear-gradient(180deg,#ffffff,#eef4fc);}
+  .bo-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--fern);border-radius:20px;padding:3px 10px;margin-bottom:8px;}
+  .bo-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;color:var(--evergreen);font-weight:500;margin-bottom:5px;line-height:1.2;}
+  .bo-desc{font-size:13px;color:var(--muted-d);line-height:1.5;margin-bottom:10px;}
+  .bo-cta{font-size:12.5px;font-weight:600;letter-spacing:.03em;color:var(--fern-btn);}
   .connect-booking{display:none;opacity:0;}
   #connectGrid,.connect-booking{transition:opacity .32s ease;}
   .cb-back{background:none;border:none;color:var(--fern-btn);font-family:'Montserrat';font-size:13px;font-weight:600;cursor:pointer;padding:0 0 4px;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px;}
@@ -958,23 +980,26 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 </style>
 
 <span data-edit="tidycal_path" id="tidycalPath" style="display:none"></span>
+<span data-edit="tidycal_path_priority" id="tidycalPathPriority" style="display:none"></span>
 
 <script>
 (function(){
   var grid=document.getElementById("connectGrid"), booking=document.getElementById("connectBooking");
-  var toggle=document.getElementById("bookToggle"), back=document.getElementById("cbBack");
-  if(!grid||!booking||!toggle)return;
-  var built=false;
-  function buildCal(){
-    if(built)return; var host=document.getElementById("connectTidycal"); if(!host)return;
-    var el=document.getElementById("tidycalPath"); var path=el?(el.textContent||"").trim():"";
-    if(path){ host.innerHTML='<div class="tidycal-embed" data-path="'+path+'"></div>'; var sc=document.createElement("script"); sc.src="https://tidycal.com/js/embed.js"; sc.async=true; document.body.appendChild(sc); built=true; }
-    else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">Online booking is being set up. Please send a message and Ismat’s team will share available times.</div>'; }
-  }
+  var back=document.getElementById("cbBack");
+  var toggle=document.getElementById("bookToggle"), togglePaid=document.getElementById("bookTogglePaid");
+  if(!grid||!booking)return;
+  function pget(id){ var el=document.getElementById(id); return el?(el.textContent||"").trim():""; }
   function fadeOut(el,cb){ el.style.opacity="0"; setTimeout(function(){ el.style.display="none"; if(cb)cb(); },320); }
   function fadeIn(el){ el.style.display=(el.id==="connectBooking")?"block":""; void el.offsetHeight; el.style.opacity="1"; }
-  toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started"); fadeOut(grid,function(){ buildCal(); fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); }); });
-  back.addEventListener("click",function(e){ e.preventDefault(); fadeOut(booking,function(){ fadeIn(grid); }); });
+  function openCal(path){
+    var host=document.getElementById("connectTidycal"); if(!host)return;
+    if(path){ host.innerHTML='<iframe src="https://tidycal.com/'+path+'" style="width:100%;min-height:660px;border:0;border-radius:10px;background:#fff;" title="Booking calendar"></iframe>'; }
+    else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">Online booking is being set up. Please send a message and Ismat will share available times.</div>'; }
+    fadeOut(grid,function(){ fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); });
+  }
+  if(toggle)toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"free"}); openCal(pget("tidycalPath")); });
+  if(togglePaid)togglePaid.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"priority_paid"}); openCal(pget("tidycalPathPriority")); });
+  if(back)back.addEventListener("click",function(e){ e.preventDefault(); fadeOut(booking,function(){ fadeIn(grid); }); });
 })();
 </script>
 <!-- intake form live -->
