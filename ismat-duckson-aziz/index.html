@@ -901,7 +901,7 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
       .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
       .then(function(d){
         btn.disabled=false; btn.textContent=orig;
-        if(d&&d.ok){ mBody.textContent="Thank you, "+name.split(" ")[0]+". Ismat will review your note personally and get back to you soon."; f.reset(); modal.classList.add("show"); }
+        if(d&&d.ok){ mBody.textContent="Thank you, "+name.split(" ")[0]+". Ismat will review your note personally and get back to you soon."; f.reset(); modal.classList.add("show"); if(window.posthog)posthog.capture("lead_submitted",{interest:payload.interest||null}); }
         else { st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
       })
       .catch(function(){ btn.disabled=false; btn.textContent=orig; st.textContent="Network error. Please check your connection and try again."; });
@@ -934,7 +934,7 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   }
   function fadeOut(el,cb){ el.style.opacity="0"; setTimeout(function(){ el.style.display="none"; if(cb)cb(); },320); }
   function fadeIn(el){ el.style.display=(el.id==="connectBooking")?"block":""; void el.offsetHeight; el.style.opacity="1"; }
-  toggle.addEventListener("click",function(e){ e.preventDefault(); fadeOut(grid,function(){ buildCal(); fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); }); });
+  toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started"); fadeOut(grid,function(){ buildCal(); fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); }); });
   back.addEventListener("click",function(e){ e.preventDefault(); fadeOut(booking,function(){ fadeIn(grid); }); });
 })();
 </script>
