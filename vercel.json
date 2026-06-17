@@ -138,6 +138,86 @@
         }
       ],
       "destination": "/ismat-duckson-aziz/:path*"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/index.html"
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/:path*"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/index.html"
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/edit/index.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.evergreenleadershipintelligence.com"
+        }
+      ],
+      "destination": "/ismat-duckson-aziz/:path*"
     }
   ]
 }
