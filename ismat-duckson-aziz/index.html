@@ -529,42 +529,42 @@
           <a href="#" id="bookToggle" class="book-opt">
             <div class="bo-title" data-edit="book_free_title">Request a 15-minute meeting</div>
             <div class="bo-desc" data-edit="book_free_desc">Send a request and Ismat will personally review it, then confirm a time with you.</div>
-            <div class="bo-cta">Request a time &rarr;</div>
+            <div class="bo-cta"><span data-edit="book_free_cta">Request a time</span> &rarr;</div>
           </a>
           <a href="#" id="bookTogglePaid" class="book-opt book-opt-pri">
             <div class="bo-badge" data-edit="book_paid_badge">$500 &middot; Consultation</div>
             <div class="bo-title" data-edit="book_paid_title">15-minute priority consultation</div>
             <div class="bo-desc" data-edit="book_paid_desc">Reserve a guaranteed time on Ismat's calendar now. Proceeds go to her non-profit.</div>
-            <div class="bo-cta">Book &amp; pay &rarr;</div>
+            <div class="bo-cta"><span data-edit="book_paid_cta">Book &amp; pay</span> &rarr;</div>
           </a>
         </div>
-        <a href="#leadform" class="book-msg-link">&mdash; or send a direct message &mdash;</a>
+        <a href="#leadform" class="book-msg-link" data-edit="book_msg_link">&mdash; or send a direct message &mdash;</a>
       </div>
     </div>
     <form id="leadform" novalidate>
       <div class="f-row">
-        <div><label>Name</label><input id="lf_name" type="text" placeholder="Your name" required></div>
-        <div><label>Email</label><input id="lf_email" type="email" placeholder="you@company.com" required></div>
+        <div><label data-edit="form_label_name">Name</label><input id="lf_name" type="text" data-edit-ph="form_ph_name" placeholder="Your name" required></div>
+        <div><label data-edit="form_label_email">Email</label><input id="lf_email" type="email" data-edit-ph="form_ph_email" placeholder="you@company.com" required></div>
       </div>
-      <div><label>Organization</label><input id="lf_org" type="text" placeholder="Company or board"></div>
-      <div><label>What are you exploring?</label>
+      <div><label data-edit="form_label_org">Organization</label><input id="lf_org" type="text" data-edit-ph="form_ph_org" placeholder="Company or board"></div>
+      <div><label data-edit="form_label_interest">What are you exploring?</label>
         <select id="lf_interest">
-          <option>Advisory engagement</option>
-          <option>Board or governance role</option>
-          <option>Speaking or keynote</option>
-          <option>Executive mentorship</option>
-          <option>Philanthropic projects</option>
-          <option>Something else</option>
+          <option data-edit="form_opt_1">Advisory engagement</option>
+          <option data-edit="form_opt_2">Board or governance role</option>
+          <option data-edit="form_opt_3">Speaking or keynote</option>
+          <option data-edit="form_opt_4">Executive mentorship</option>
+          <option data-edit="form_opt_5">Philanthropic projects</option>
+          <option data-edit="form_opt_6">Something else</option>
         </select>
       </div>
-      <div><label>A little context</label><textarea id="lf_msg" placeholder="What you are working on, and what good help would look like."></textarea></div>
+      <div><label data-edit="form_label_context">A little context</label><textarea id="lf_msg" data-edit-ph="form_ph_context" placeholder="What you are working on, and what good help would look like."></textarea></div>
       <input type="text" name="company_website" id="lf_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div id="lf_status" class="lf-status" role="alert"></div>
-      <button class="btn btn-solid" type="submit" id="lf_submit" style="justify-self:start;">Request a conversation</button>
+      <button class="btn btn-solid" type="submit" id="lf_submit" data-edit="form_submit" style="justify-self:start;">Request a conversation</button>
     </form>
   </div>
   <div class="wrap connect-booking" id="connectBooking">
-    <button type="button" class="cb-back" id="cbBack">Go Back</button>
+    <button type="button" class="cb-back" id="cbBack" data-edit="cb_back">Go Back</button>
     <div class="cb-head"><span class="eyebrow" id="cbEyebrow">Book a time</span><h2 id="cbTitle">Pick a time that works for you.</h2></div>
     <div id="connectTidycal" class="cb-embed"></div>
   </div>
@@ -856,6 +856,7 @@
      if(!Array.isArray(rows))return;
      rows.forEach(function(row){ if(row.value==null)return;
        document.querySelectorAll('[data-edit-href="'+row.field_key+'"]').forEach(function(el){if(row.value)el.setAttribute("href",row.value);});
+       document.querySelectorAll('[data-edit-ph="'+row.field_key+'"]').forEach(function(el){if(row.value)el.placeholder=row.value;});
        if(row.field_type==="image"){ document.querySelectorAll('[data-edit-img="'+row.field_key+'"]').forEach(function(el){el.src=row.value;}); }
        else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.alt=l.alt||"";function sz(){var ar=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:4;im.classList.remove("lg-long","lg-word","lg-chunk","lg-square");im.classList.add(ar>=5?"lg-long":ar>=2.8?"lg-word":ar>=1.5?"lg-chunk":"lg-square");}im.onload=sz;im.src=l.url;if(im.complete&&im.naturalWidth)sz();c.appendChild(im);});if(window.bbLayoutLogos)window.bbLayoutLogos(c);}); }
        else if(row.field_type==="video"){ var V; try{V=JSON.parse(row.value);}catch(e){return;} var vurl=(V.mode==="file")?(V.fileUrl||V.url||""):(V.linkUrl||V.url||""); document.querySelectorAll('[data-edit-video="'+row.field_key+'"]').forEach(function(c){ var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb; c.style.cursor=vurl?"pointer":"default"; c.onclick=function(){ if(!vurl)return; window.bbOpenVideoModal({mode:V.mode,url:vurl}); }; }); }
@@ -985,7 +986,7 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
       .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
       .then(function(d){
         btn.disabled=false; btn.textContent=orig;
-        if(d&&d.ok){ mBody.textContent="Thank you, "+name.split(" ")[0]+". Ismat will review your note personally and get back to you soon."; f.reset(); modal.classList.add("show"); if(window.posthog)posthog.capture("lead_submitted",{interest:payload.interest||null}); }
+        if(d&&d.ok){ var _st=(document.getElementById("lfSuccessTpl")||{}).textContent||"Thank you, {first}. Ismat will review your note personally and get back to you soon."; mBody.textContent=_st.replace("{first}",name.split(" ")[0]); f.reset(); modal.classList.add("show"); if(window.posthog)posthog.capture("lead_submitted",{interest:payload.interest||null}); }
         else { st.textContent=(d&&d.error)||"Something went wrong. Please try again."; }
       })
       .catch(function(){ btn.disabled=false; btn.textContent=orig; st.textContent="Network error. Please check your connection and try again."; });
@@ -1014,6 +1015,11 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
 
 <span data-edit="tidycal_path" id="tidycalPath" style="display:none"></span>
 <span data-edit="tidycal_path_priority" id="tidycalPathPriority" style="display:none"></span>
+<span data-edit="cb_free_title" id="cbFreeTitle" style="display:none"></span>
+<span data-edit="cb_paid_eyebrow" id="cbPaidEyebrow" style="display:none"></span>
+<span data-edit="cb_paid_title" id="cbPaidTitle" style="display:none"></span>
+<span data-edit="cb_unavailable" id="cbUnavail" style="display:none"></span>
+<span data-edit="form_success" id="lfSuccessTpl" style="display:none"></span>
 
 <script>
 (function(){
@@ -1027,9 +1033,9 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   function openCal(path,mode){
     var host=document.getElementById("connectTidycal"); if(!host)return;
     var eb=document.getElementById("cbEyebrow"),ti=document.getElementById("cbTitle");
-    if(mode==="paid"){ if(eb){eb.style.display="";eb.textContent="$500 Consultation";} if(ti)ti.textContent="Pick a time that works for you."; } else { if(eb)eb.style.display="none"; if(ti)ti.textContent="Request a time that works for you."; }
+    if(mode==="paid"){ if(eb){eb.style.display="";eb.textContent=pget("cbPaidEyebrow")||"$500 Consultation";} if(ti)ti.textContent=pget("cbPaidTitle")||"Pick a time that works for you."; } else { if(eb)eb.style.display="none"; if(ti)ti.textContent=pget("cbFreeTitle")||"Request a time that works for you."; }
     if(path){ host.innerHTML='<iframe src="https://tidycal.com/'+path+'" style="width:100%;min-height:660px;border:0;border-radius:10px;background:#fff;" title="Booking calendar"></iframe>'; }
-    else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">Online booking is being set up. Please send a message and Ismat will share available times.</div>'; }
+    else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">'+(pget("cbUnavail")||"Online booking is being set up. Please send a message and Ismat will share available times.")+'</div>'; }
     fadeOut(grid,function(){ fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); });
   }
   if(toggle)toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"free"}); openCal(pget("tidycalPath"),"free"); });
