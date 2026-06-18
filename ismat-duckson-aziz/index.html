@@ -169,6 +169,8 @@
   .acc-panel{overflow:hidden;max-height:0;transition:max-height .35s ease;}
   .acc-panel p{font-size:15px;color:var(--muted-d);line-height:1.6;margin:0;padding:0 0 16px;}
   .connect-alt{margin-top:22px;font-size:14px;}
+  .book-msg-link{display:none;}
+  #leadform{scroll-margin-top:90px;}
   .connect-avatar{width:88px;height:88px;border-radius:50%;overflow:hidden;border:2px solid var(--fern);margin:0 0 24px;}
   .connect-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 22%;}
   .role-related{margin-top:24px;font-size:13.5px;}
@@ -330,6 +332,7 @@
     .connect-copy{text-align:center;}
     .connect-avatar{margin-left:auto;margin-right:auto;}
     .connect-alt{text-align:center;}
+    .book-msg-link{display:block;text-align:center;margin-top:18px;font-size:13px;letter-spacing:.02em;color:var(--fern-btn);font-weight:600;}
     .who-card{text-align:center;align-items:center;}
     .who-card .more{align-self:center;}
   }
@@ -529,12 +532,13 @@
             <div class="bo-cta">Request a time &rarr;</div>
           </a>
           <a href="#" id="bookTogglePaid" class="book-opt book-opt-pri">
-            <div class="bo-badge" data-edit="book_paid_badge">$500 &middot; Priority</div>
+            <div class="bo-badge" data-edit="book_paid_badge">$500 &middot; Consultation</div>
             <div class="bo-title" data-edit="book_paid_title">15-minute priority consultation</div>
             <div class="bo-desc" data-edit="book_paid_desc">Reserve a guaranteed time on Ismat's calendar now. Proceeds go to her non-profit.</div>
             <div class="bo-cta">Book &amp; pay &rarr;</div>
           </a>
         </div>
+        <a href="#leadform" class="book-msg-link">&mdash; or send a direct message &mdash;</a>
       </div>
     </div>
     <form id="leadform" novalidate>
@@ -1023,7 +1027,7 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   function openCal(path,mode){
     var host=document.getElementById("connectTidycal"); if(!host)return;
     var eb=document.getElementById("cbEyebrow"),ti=document.getElementById("cbTitle");
-    if(mode==="paid"){ if(eb)eb.textContent="Book a time"; if(ti)ti.textContent="Pick a time that works for you."; } else { if(eb)eb.textContent="Request a time"; if(ti)ti.textContent="Request a time that works for you."; }
+    if(mode==="paid"){ if(eb){eb.style.display="";eb.textContent="$500 Consultation";} if(ti)ti.textContent="Pick a time that works for you."; } else { if(eb)eb.style.display="none"; if(ti)ti.textContent="Request a time that works for you."; }
     if(path){ host.innerHTML='<iframe src="https://tidycal.com/'+path+'" style="width:100%;min-height:660px;border:0;border-radius:10px;background:#fff;" title="Booking calendar"></iframe>'; }
     else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">Online booking is being set up. Please send a message and Ismat will share available times.</div>'; }
     fadeOut(grid,function(){ fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); });
