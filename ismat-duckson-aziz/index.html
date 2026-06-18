@@ -120,7 +120,7 @@
   .logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px 50px;}
   .logos span{font-family:'Cinzel',serif;font-size:clamp(15px,1.7vw,21px);letter-spacing:.1em;color:var(--evergreen);text-transform:uppercase;}
   .logos .sep{color:var(--fern);font-size:13px;}
-  .logo-group{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:26px 48px;margin-bottom:30px;}
+  .logo-group{display:grid;grid-template-columns:repeat(6,1fr);align-items:center;justify-items:center;gap:30px 40px;margin-bottom:30px;}
   .logo-group img{height:auto;width:auto;max-width:172px;max-height:38px;object-fit:contain;opacity:.72;filter:grayscale(1) brightness(0);}
   .logo-group img.lg-long{max-height:30px;}
   .logo-group img.lg-word{max-height:40px;}
@@ -825,13 +825,16 @@
 <script>
 (function(){
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",SITE="ismat";
+  window.bbPickCols=function(n,m){if(n<=1)return 1;var b=Math.min(n,m);for(var c=Math.min(n,m);c>=2;c--){var r=n%c;if(r===0||r>=2){b=c;break;}}return b;};
+  window.bbLayoutLogos=function(c){var n=c.children.length;if(!n)return;var w=window.innerWidth,cols;if(w<=880){cols=(n%2!==1)?2:(n%3!==1?3:2);}else if(w<=1080){cols=window.bbPickCols(n,Math.min(n,3));}else{cols=window.bbPickCols(n,Math.min(n,6));}c.style.gridTemplateColumns="repeat("+cols+",1fr)";};
+  if(!window.bbLogoResize){window.bbLogoResize=1;window.addEventListener("resize",function(){document.querySelectorAll('[data-edit-logos]').forEach(function(c){window.bbLayoutLogos(c);});});}
   fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,field_type",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
    .then(function(r){return r.json();}).then(function(rows){
      if(!Array.isArray(rows))return;
      rows.forEach(function(row){ if(row.value==null)return;
        document.querySelectorAll('[data-edit-href="'+row.field_key+'"]').forEach(function(el){if(row.value)el.setAttribute("href",row.value);});
        if(row.field_type==="image"){ document.querySelectorAll('[data-edit-img="'+row.field_key+'"]').forEach(function(el){el.src=row.value;}); }
-       else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.alt=l.alt||"";function sz(){var ar=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:4;im.classList.remove("lg-long","lg-word","lg-chunk","lg-square");im.classList.add(ar>=5?"lg-long":ar>=2.8?"lg-word":ar>=1.5?"lg-chunk":"lg-square");}im.onload=sz;im.src=l.url;if(im.complete&&im.naturalWidth)sz();c.appendChild(im);});}); }
+       else if(row.field_type==="logos"){ var L; try{L=JSON.parse(row.value);}catch(e){return;} document.querySelectorAll('[data-edit-logos="'+row.field_key+'"]').forEach(function(c){c.innerHTML="";L.forEach(function(l){var im=document.createElement("img");im.alt=l.alt||"";function sz(){var ar=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:4;im.classList.remove("lg-long","lg-word","lg-chunk","lg-square");im.classList.add(ar>=5?"lg-long":ar>=2.8?"lg-word":ar>=1.5?"lg-chunk":"lg-square");}im.onload=sz;im.src=l.url;if(im.complete&&im.naturalWidth)sz();c.appendChild(im);});if(window.bbLayoutLogos)window.bbLayoutLogos(c);}); }
        else if(row.field_type==="video"){ var V; try{V=JSON.parse(row.value);}catch(e){return;} var vurl=(V.mode==="file")?(V.fileUrl||V.url||""):(V.linkUrl||V.url||""); document.querySelectorAll('[data-edit-video="'+row.field_key+'"]').forEach(function(c){ var img=c.querySelector("img"); if(img&&V.thumb)img.src=V.thumb; c.style.cursor=vurl?"pointer":"default"; c.onclick=function(){ if(!vurl)return; window.bbOpenVideoModal({mode:V.mode,url:vurl}); }; }); }
        else { document.querySelectorAll('[data-edit="'+row.field_key+'"]').forEach(function(el){el.textContent=row.value;}); } });
        function ytid(u){ if(!u)return ""; var m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/); return m?m[1]:(/^[\w-]{11}$/.test(u)?u:""); }
