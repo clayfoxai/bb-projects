@@ -556,8 +556,8 @@
     </form>
   </div>
   <div class="wrap connect-booking" id="connectBooking">
-    <button type="button" class="cb-back" id="cbBack">&larr; Back to message</button>
-    <div class="cb-head"><span class="eyebrow">Book a time</span><h2>Pick a time that works for you.</h2></div>
+    <button type="button" class="cb-back" id="cbBack">Go Back</button>
+    <div class="cb-head"><span class="eyebrow" id="cbEyebrow">Book a time</span><h2 id="cbTitle">Pick a time that works for you.</h2></div>
     <div id="connectTidycal" class="cb-embed"></div>
   </div>
 </section>
@@ -996,8 +996,9 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   .bo-cta{font-size:13.5px;font-weight:600;letter-spacing:.03em;color:var(--fern-btn);}
   .connect-booking{display:none;opacity:0;}
   #connectGrid,.connect-booking{transition:opacity .32s ease;}
-  .cb-back{background:none;border:none;color:var(--fern-btn);font-family:'Montserrat';font-size:13px;font-weight:600;cursor:pointer;padding:0 0 4px;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px;}
-  .cb-back:hover{color:var(--evergreen);}
+  #connect{scroll-margin-top:90px;}
+  .cb-back{display:block;margin:0 auto 24px;background:none;border:1px solid var(--silver);color:var(--fern-btn);font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;padding:10px 24px;border-radius:30px;transition:.2s;}
+  .cb-back:hover{background:var(--evergreen);color:#fff;border-color:var(--evergreen);}
   .cb-head{text-align:center;margin-bottom:24px;}
   .cb-head .eyebrow{display:block;color:var(--fern);margin-bottom:10px;}
   .cb-embed{max-width:1040px;margin:0 auto;min-height:300px;}
@@ -1015,14 +1016,16 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   function pget(id){ var el=document.getElementById(id); return el?(el.textContent||"").trim():""; }
   function fadeOut(el,cb){ el.style.opacity="0"; setTimeout(function(){ el.style.display="none"; if(cb)cb(); },320); }
   function fadeIn(el){ el.style.display=(el.id==="connectBooking")?"block":""; void el.offsetHeight; el.style.opacity="1"; }
-  function openCal(path){
+  function openCal(path,mode){
     var host=document.getElementById("connectTidycal"); if(!host)return;
+    var eb=document.getElementById("cbEyebrow"),ti=document.getElementById("cbTitle");
+    if(mode==="paid"){ if(eb)eb.textContent="Book a time"; if(ti)ti.textContent="Pick a time that works for you."; } else { if(eb)eb.textContent="Request a time"; if(ti)ti.textContent="Request a time that works for you."; }
     if(path){ host.innerHTML='<iframe src="https://tidycal.com/'+path+'" style="width:100%;min-height:660px;border:0;border-radius:10px;background:#fff;" title="Booking calendar"></iframe>'; }
     else { host.innerHTML='<div style="text-align:center;color:var(--muted-d);padding:34px;border:1px dashed var(--silver);border-radius:10px;background:var(--mist);">Online booking is being set up. Please send a message and Ismat will share available times.</div>'; }
     fadeOut(grid,function(){ fadeIn(booking); var c=document.getElementById("connect"); if(c)c.scrollIntoView({behavior:"smooth",block:"start"}); });
   }
-  if(toggle)toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"free"}); openCal(pget("tidycalPath")); });
-  if(togglePaid)togglePaid.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"priority_paid"}); openCal(pget("tidycalPathPriority")); });
+  if(toggle)toggle.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"free"}); openCal(pget("tidycalPath"),"free"); });
+  if(togglePaid)togglePaid.addEventListener("click",function(e){ e.preventDefault(); if(window.posthog)posthog.capture("booking_started",{type:"priority_paid"}); openCal(pget("tidycalPathPriority"),"paid"); });
   if(back)back.addEventListener("click",function(e){ e.preventDefault(); fadeOut(booking,function(){ fadeIn(grid); }); });
 })();
 </script>
