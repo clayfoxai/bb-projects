@@ -159,6 +159,12 @@
   textarea{resize:vertical;min-height:96px;}
   .connect-copy h2{margin-bottom:18px;}
   .connect-copy p{font-size:17.5px;line-height:1.6;margin-bottom:22px;}
+  .acc{margin-top:22px;border-top:1px solid #d8dfea;}
+  .acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;background:none;border:0;cursor:pointer;padding:16px 0;text-align:left;font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.2;color:var(--evergreen);font-weight:500;}
+  .acc-ico{width:20px;height:20px;flex:none;color:var(--fern-btn);transition:transform .3s ease;}
+  .acc.open .acc-ico{transform:rotate(180deg);}
+  .acc-panel{overflow:hidden;max-height:0;transition:max-height .35s ease;}
+  .acc-panel p{font-size:15px;color:var(--muted-d);line-height:1.6;margin:0;padding:0 0 18px;}
   .connect-alt{margin-top:26px;padding-top:24px;border-top:1px solid #d8dfea;font-size:14px;}
   .connect-avatar{width:88px;height:88px;border-radius:50%;overflow:hidden;border:2px solid var(--fern);margin:0 0 24px;}
   .connect-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 22%;}
@@ -505,6 +511,11 @@
       <span class="eyebrow" data-edit="connect_eyebrow">Start a conversation</span>
       <h2 data-edit="connect_title">Bring Ismat into the room.</h2>
       <p data-edit="connect_body">Tell her what you are working on. If it is an advisory engagement, a board search, a stage, or a leader you are developing, she will tell you whether and how she can help.</p>
+      <div class="acc" id="connectAcc">
+        <button type="button" class="acc-head" aria-expanded="false"><span data-edit="accordion_title">Individual Conversations</span><svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+        <div class="acc-panel"><p data-edit="accordion_body">Ismat offers individual sessions for those navigating leadership challenges, career transitions and pivots and general advisory engagements.</p></div>
+      </div>
+      <script>(function(){var a=document.getElementById('connectAcc');if(!a)return;var h=a.querySelector('.acc-head'),p=a.querySelector('.acc-panel');h.addEventListener('click',function(){var open=a.classList.toggle('open');h.setAttribute('aria-expanded',open?'true':'false');p.style.maxHeight=open?(p.scrollHeight+'px'):'0';});})();</script>
       <div class="connect-alt">
         <div class="book-or" data-edit="book_or_label">Or schedule a time directly</div>
         <div class="book-opts">
