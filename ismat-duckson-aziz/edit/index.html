@@ -315,7 +315,7 @@
 (function(){
   var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
       KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
-      SITE="ismat", PASS="", lastAnchor="top";
+      SITE="ismat", PASS="", lastAnchor="top", MYREV=null, pollTimer=null;
   var anchors={"Hero":"top","Who Is Ismat":"about","Business Logos":"recognized","Overview":"work","Overview — Cards":"work","Connect":"connect","Services":"speaking","The Advisor":"advisor","Quote":"quote","The Director":"director","The Educator":"educator","Closing":"closing"};
   var imageSpecs={
     hero_photo:{minW:700,minH:850,rec:"Portrait JPG/PNG/WebP, about 1200×1500px"},
@@ -326,6 +326,11 @@
   var $=function(id){return document.getElementById(id);};
   var gate=$("gate"),app=$("app"),err=$("err"),fieldsEl=$("fields"),statusEl=$("status"),frame=$("frame");
   function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+  function getRev(cb){ fetch(SB+"/rest/v1/editor_state?site_slug=eq."+SITE+"&select=rev,last_action",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){ if(rows&&rows[0])cb(Number(rows[0].rev),rows[0].last_action); }).catch(function(){}); }
+  function syncRev(cb){ getRev(function(rev){ MYREV=rev; if(cb)cb(); }); }
+  function startPoll(){ if(pollTimer)clearInterval(pollTimer); pollTimer=setInterval(function(){ if(window._conflict)return; getRev(function(rev){ if(MYREV===null){MYREV=rev;return;} if(rev!==MYREV){ setTimeout(function(){ getRev(function(rev2,act2){ if(MYREV!==null&&rev2!==MYREV)showConflict(act2); }); },2000); } }); },10000); }
+  function showConflict(action){ if(window._conflict)return; window._conflict=true; if(pollTimer){clearInterval(pollTimer);pollTimer=null;} var a=(action==="published")?"published new changes to the live site":((action==="events")?"updated the events list":"saved new changes"); var o=document.createElement("div"); o.id="bb-conflict"; o.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(11,28,58,.93);display:flex;align-items:center;justify-content:center;padding:24px;"; o.innerHTML='<div style="max-width:460px;background:#fff;border-radius:14px;padding:34px 30px;text-align:center;font-family:Montserrat,Arial,sans-serif;box-shadow:0 30px 80px rgba(0,0,0,.45);"><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:26px;color:#112A52;margin-bottom:12px;">Someone else updated this page</div><p style="font-size:14.5px;color:#45506A;line-height:1.6;margin:0 0 22px;">Another editor just '+a+'. To avoid overwriting their work, refresh to load the latest version before you continue.</p><button id="bbcr" style="background:#234E92;color:#fff;border:0;border-radius:4px;padding:13px 28px;font:600 12px/1 Montserrat,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;">Refresh now</button></div>'; document.body.appendChild(o); document.getElementById("bbcr").onclick=function(){location.reload();}; }
+
 
   frame.addEventListener("load",function(){ setTimeout(function(){injectAll();injectEditMode();if(lastAnchor)scrollPreview(lastAnchor,false);},300); setTimeout(injectAll,950); });
 
@@ -333,7 +338,7 @@
   $("pass").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
   function unlock(){ var p=$("pass").value; err.textContent="Checking...";
     fetch(SB+"/rest/v1/rpc/bb_login",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:p})})
-     .then(function(r){return r.json();}).then(function(canon){ if(canon){PASS=canon;gate.classList.add("hide");app.classList.remove("hide");load();maybeTutorial();showView("home");} else err.textContent="Incorrect password.";})
+     .then(function(r){return r.json();}).then(function(canon){ if(canon){PASS=canon;gate.classList.add("hide");app.classList.remove("hide");load();maybeTutorial();showView("home");syncRev(function(){startPoll();});} else err.textContent="Incorrect password.";})
      .catch(function(){err.textContent="Something went wrong. Try again.";});
   }
 
@@ -442,24 +447,26 @@
     fieldsEl.querySelectorAll(".mini.revert").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Reverting..."; setValue(key,fPub[key]); saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=fPub[key];f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Reverted to published";updateNav();} else fs.textContent="Revert failed — try again."; }); }); });
   }
 
-  function saveDraft(key,cb){ fetch(SB+"/rest/v1/rpc/bb_save_draft",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:getValue(key),p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(true);}).catch(function(){cb(false);}); }
+  function saveDraft(key,cb){ fetch(SB+"/rest/v1/rpc/bb_save_draft",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:getValue(key),p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){syncRev();cb(true);}).catch(function(){cb(false);}); }
 
   $("draftAll").onclick=function(){ var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty")); if(!dirty.length){return;} statusEl.textContent="Saving "+dirty.length+" draft(s)..."; var done=0,fail=0;
     dirty.forEach(function(f){var key=f.getAttribute("data-key-id"); saveDraft(key,function(ok){done++; if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);} else fail++; if(done===dirty.length){refreshGroups();injectAll();updateNav();if(fail)statusEl.textContent=fail+" failed — try again.";}});}); };
 
   $("pubAll").onclick=function(){ var c=counts(); if(!c.pending&&!c.dirty)return;
     openModal("Publish to your live site?","This will publish your changes to your public website. Visitors will see them immediately.","Yes, publish",function(){
+      if(window._conflict)return;
+      getRev(function(srev,sact){ if(MYREV!==null&&srev!==MYREV){ showConflict(sact); return; }
       var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty"));
       var pre=dirty.length?Promise.all(dirty.map(function(f){return new Promise(function(res){saveDraft(f.getAttribute("data-key-id"),function(){fDraft[f.getAttribute("data-key-id")]=getValue(f.getAttribute("data-key-id"));f.classList.remove("is-dirty");res();});});})):Promise.resolve();
       statusEl.textContent="Publishing...";
       pre.then(function(){return fetch(SB+"/rest/v1/rpc/bb_publish_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();});})
-        .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); fetch(SB+"/functions/v1/regenerate-meta",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).catch(function(){}); })
-        .catch(function(){statusEl.textContent="Publish failed — try again.";}); }); };
+        .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); fetch(SB+"/functions/v1/regenerate-meta",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).catch(function(){}); syncRev(); })
+        .catch(function(){statusEl.textContent="Publish failed — try again.";}); }); }); };
 
   $("revertAll").onclick=function(){ if(!counts().pending)return;
     openModal("Discard all unpublished changes?","This resets the whole page back to the last published version. Your unpublished drafts will be lost.","Yes, revert",function(){ statusEl.textContent="Reverting...";
       fetch(SB+"/rest/v1/rpc/bb_revert_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();})
-        .then(function(){ allKeys.forEach(function(k){fDraft[k]=fPub[k];setValue(k,fPub[k]);$("f_"+k).classList.remove("is-dirty");refreshField(k);}); refreshGroups(); injectAll(); updateNav(); statusEl.textContent="Reverted to last published."; })
+        .then(function(){ allKeys.forEach(function(k){fDraft[k]=fPub[k];setValue(k,fPub[k]);$("f_"+k).classList.remove("is-dirty");refreshField(k);}); refreshGroups(); injectAll(); updateNav(); statusEl.textContent="Reverted to last published."; syncRev(); })
         .catch(function(){statusEl.textContent="Revert failed — try again.";}); }); };
 
   // ---- modal ----
@@ -686,7 +693,7 @@
       if(e.id)payload.id=e.id;
       if(!payload.title){$("ef_status").textContent="Please add a title.";return;}
       $("ef_status").textContent="Saving…";
-      postFn(SB+"/rest/v1/rpc/bb_events_upsert",{p_site:SITE,p_pass:PASS,p_event:payload},function(res){ if(res&&res.id){w.innerHTML="";loadEvents();} else {$("ef_status").textContent="Save failed — try again.";} });
+      postFn(SB+"/rest/v1/rpc/bb_events_upsert",{p_site:SITE,p_pass:PASS,p_event:payload},function(res){ if(res&&res.id){w.innerHTML="";loadEvents();syncRev();} else {$("ef_status").textContent="Save failed — try again.";} });
     };
   }
 })();
