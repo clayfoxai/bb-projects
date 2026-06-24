@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Erika Wescott | Content Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#0E110F;--forest:#173A2B;--forest-2:#0F261C;--charcoal:#171B18;
+  --moss:#5C8A6E;--moss-bright:#84B499;--bone:#EDEDE6;--bone-dim:#A7AEA6;--bone-faint:#6E756E;
+  --tan:#C7A57B;--line:rgba(237,237,230,0.12);--line-soft:rgba(237,237,230,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--bone);font-family:'Inter',system-ui,sans-serif;font-size:15px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.disp{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.02em;font-weight:600}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit}
+.eyebrow{font-family:'Oswald';text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:var(--tan)}
+
+/* gate */
+.gate{position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:100}
+.gate-box{width:360px;max-width:90vw;border:1px solid var(--line);border-radius:6px;padding:40px 34px;background:var(--charcoal);text-align:center}
+.gate-box .brandmark{font-family:'Oswald';letter-spacing:.18em;font-size:18px;text-transform:uppercase}
+.gate-box .brandmark span{color:var(--tan)}
+.gate-box p{color:var(--bone-dim);font-size:13.5px;margin-top:8px}
+.gate-box input{width:100%;margin-top:24px;background:var(--ink);border:1px solid var(--line);color:var(--bone);padding:13px 14px;border-radius:3px;text-align:center;letter-spacing:.1em}
+.gate-box button{width:100%;margin-top:14px;background:var(--moss);color:#0b1410;border:0;padding:13px;border-radius:3px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.gate-box .hint{margin-top:16px;font-size:12px;color:var(--bone-faint)}
+.gate-err{color:#d98c8c;font-size:12.5px;margin-top:10px;min-height:16px}
+
+/* layout */
+.app{display:none;min-height:100vh}
+.app.on{display:grid;grid-template-columns:248px 1fr}
+.side{background:var(--forest-2);border-right:1px solid var(--line);padding:26px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.side .brandmark{font-family:'Oswald';letter-spacing:.16em;font-size:16px;text-transform:uppercase;padding:0 8px 4px}
+.side .brandmark span{color:var(--tan)}
+.side .sub{font-size:11px;color:var(--bone-faint);padding:0 8px 22px;letter-spacing:.04em}
+.navbtn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;color:var(--bone-dim);padding:12px 12px;border-radius:4px;font-size:14px;margin-bottom:2px;transition:all .15s}
+.navbtn:hover{color:var(--bone);background:rgba(237,237,230,.04)}
+.navbtn.active{background:var(--moss);color:#0b1410;font-weight:600}
+.navbtn svg{flex:0 0 auto}
+.side .foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line-soft)}
+.viewlink{display:flex;align-items:center;gap:10px;color:var(--moss-bright);font-size:13px;padding:8px}
+
+.main{padding:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(14,17,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:16px clamp(18px,3vw,36px);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar h2{font-size:20px}
+.topbar .actions{display:flex;gap:10px;align-items:center}
+.status{font-size:12.5px;color:var(--bone-faint);margin-right:6px}
+.btn{border:1px solid var(--line);background:none;color:var(--bone);padding:10px 18px;border-radius:3px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:12.5px;font-weight:600}
+.btn:hover{border-color:var(--moss)}
+.btn-primary{background:var(--moss);color:#0b1410;border-color:var(--moss)}
+.btn-primary:hover{background:var(--moss-bright)}
+.btn-sm{padding:7px 12px;font-size:11.5px}
+.btn-danger{border-color:rgba(217,140,140,.4);color:#d98c8c}
+.btn-danger:hover{border-color:#d98c8c}
+
+.content{padding:34px clamp(18px,3vw,36px) 80px;max-width:920px}
+.panel{display:none}.panel.on{display:block}
+.lock-note{display:flex;gap:12px;align-items:flex-start;background:rgba(199,165,123,.08);border:1px solid rgba(199,165,123,.3);border-radius:4px;padding:14px 16px;margin-bottom:28px;color:var(--bone-dim);font-size:13px}
+.lock-note svg{color:var(--tan);flex:0 0 auto;margin-top:1px}
+.lock-note b{color:var(--tan)}
+
+.field{margin-bottom:24px}
+.field label{display:block;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--bone-dim);margin-bottom:8px}
+.field label .sec{color:var(--tan)}
+.content input,.content textarea,.field input,.field textarea{width:100%;background:var(--charcoal);border:1px solid var(--line);color:var(--bone);padding:12px 14px;border-radius:3px;font-size:14.5px;line-height:1.55;font-family:'Inter',sans-serif}
+.content input:focus,.content textarea:focus,.field input:focus,.field textarea:focus{outline:none;border-color:var(--moss)}
+.content textarea,.field textarea{resize:vertical;min-height:90px}
+.content input::placeholder,.content textarea::placeholder{color:var(--bone-faint)}
+.field .hint{font-size:12px;color:var(--bone-faint);margin-top:6px}
+.group{border:1px solid var(--line-soft);border-radius:5px;padding:22px 22px 4px;margin-bottom:24px;background:rgba(237,237,230,.015)}
+.group > .gh{font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:13px;color:var(--bone);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.group > .gh svg{color:var(--moss-bright)}
+
+/* collection cards */
+.card{border:1px solid var(--line);border-radius:5px;padding:18px;margin-bottom:14px;background:var(--charcoal)}
+.card .ch{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.card .ch .t{font-family:'Oswald';text-transform:uppercase;letter-spacing:.05em;font-size:13px;color:var(--bone-dim)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.imgslot{border:1px dashed rgba(199,165,123,.4);border-radius:4px;padding:18px;text-align:center;color:var(--tan);font-size:12.5px;font-family:'Oswald';letter-spacing:.08em;text-transform:uppercase;background:rgba(199,165,123,.04)}
+.imgslot small{display:block;font-family:'Inter';text-transform:none;letter-spacing:0;color:var(--bone-faint);margin-top:6px;font-size:12px}
+.pubrow{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--bone-dim)}
+.toggle{position:relative;width:42px;height:23px;border-radius:20px;background:var(--line);border:0;transition:background .2s;flex:0 0 auto}
+.toggle.on{background:var(--moss)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:var(--bone);transition:transform .2s}
+.toggle.on::after{transform:translateX(19px)}
+.addrow{margin-top:6px}
+.images-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.imgcard{border:1px solid var(--line);border-radius:5px;padding:16px;background:var(--charcoal)}
+.imgcard .lbl{font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--bone-dim);margin-bottom:10px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--moss);color:#0b1410;padding:13px 20px;border-radius:4px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;z-index:60}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:820px){.app.on{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px;align-items:center}.side .brandmark,.side .sub{width:100%}.side .foot{display:none}.row2,.images-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===== GATE ===== -->
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="brandmark">ERIKA<span>.</span>WESCOTT</div>
+    <p>Content Studio</p>
+    <input type="password" id="pw" placeholder="Enter password" />
+    <button id="enterBtn">Enter</button>
+    <div class="gate-err" id="gateErr"></div>
+    <div class="hint">Demo password: <b>erika</b></div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div class="app" id="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brandmark">ERIKA<span>.</span>WESCOTT</div>
+    <div class="sub">Content Studio</div>
+    <button class="navbtn active" data-panel="content"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4v16h16v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>Page Content</button>
+    <button class="navbtn" data-panel="testimonials"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Testimonials</button>
+    <button class="navbtn" data-panel="blog"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Blog Posts</button>
+    <button class="navbtn" data-panel="images"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Images</button>
+    <button class="navbtn" data-panel="booking"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Booking</button>
+    <div class="foot">
+      <a class="viewlink" href="../" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View live site</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <h2 id="panelTitle">Page Content</h2>
+      <div class="actions">
+        <span class="status" id="saveStatus">All changes saved</span>
+        <button class="btn" id="saveDraft">Save Draft</button>
+        <button class="btn btn-primary" id="publishBtn">Publish</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="lock-note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div>You control all <b>content</b> here, text, testimonials, blog posts, images, and your booking link. The <b>structure, layout, and design are locked</b> so the site always stays on-brand. Edit freely, nothing you do here can break the page.</div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="panel on" id="panel-content">
+        <div class="group">
+          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Hero</div>
+          <div class="field"><label>Headline <span class="sec">(3 lines)</span></label><textarea data-k="heroHead">Lift heavy.
+Eat real food.
+Feel GOOD AF.</textarea></div>
+          <div class="field"><label>Subheadline</label><textarea data-k="heroSub">Performance and lifestyle coaching for ambitious people who want more energy, better habits, and a stronger body, without the bullshit.</textarea></div>
+          <div class="field"><label>Primary Button Label</label><input data-k="heroBtn" value="Work With Me" /></div>
+        </div>
+        <div class="group">
+          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>Intro</div>
+          <div class="field"><label>Lead line</label><input data-k="introLead" value="Most people do not need more information. They need structure." /></div>
+          <div class="field"><label>Body</label><textarea data-k="introBody">They need accountability. They need someone honest enough to tell them what's actually getting in their way.
+
+I work with ambitious people who are tired of starting over every Monday, skipping workouts when work gets busy, under-eating all day and overeating at night.
+
+This is not about perfection. It's about building a stronger body, better routines, and a lifestyle that actually works in real life.</textarea></div>
+        </div>
+        <div class="group">
+          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>About Erika</div>
+          <div class="field"><label>About body</label><textarea data-k="aboutBody">I've spent 14 years working in demanding corporate and entrepreneurial environments while balancing fitness, travel, performance pressure, business, stress, and real life.
+
+My coaching combines fitness, nutrition, accountability, and practical lifestyle strategy for people who want to feel better physically and mentally without turning their lives upside down.</textarea></div>
+        </div>
+        <div class="group">
+          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQs</div>
+          <div id="faqWrap"></div>
+          <button class="btn btn-sm addrow" id="addFaq">+ Add FAQ</button>
+        </div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="panel" id="panel-testimonials">
+        <h3 style="font-size:15px;color:var(--tan);margin-bottom:14px">Video Testimonials</h3>
+        <div id="vidWrap"></div>
+        <button class="btn btn-sm addrow" id="addVid" style="margin-bottom:34px">+ Add video testimonial</button>
+        <h3 style="font-size:15px;color:var(--tan);margin-bottom:14px">Written Testimonials</h3>
+        <div id="quoteWrap"></div>
+        <button class="btn btn-sm addrow" id="addQuote">+ Add written testimonial</button>
+      </div>
+
+      <!-- BLOG -->
+      <div class="panel" id="panel-blog">
+        <div id="postWrap"></div>
+        <button class="btn btn-sm addrow" id="addPost">+ New blog post</button>
+      </div>
+
+      <!-- IMAGES -->
+      <div class="panel" id="panel-images">
+        <p class="hint" style="margin-bottom:18px;color:var(--bone-dim)">Drop in your photos for each slot. The layout adjusts automatically, you just choose the image.</p>
+        <div class="images-grid" id="imgGrid"></div>
+      </div>
+
+      <!-- BOOKING -->
+      <div class="panel" id="panel-booking">
+        <div class="group">
+          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>Discovery Call Booking</div>
+          <div class="field"><label>TidyCal booking link</label><input data-k="tidycal" placeholder="https://tidycal.com/erikawescott/discovery-call" /><div class="hint">Demo: paste your TidyCal link here to make the on-page booking widget live.</div></div>
+          <div class="field"><label>Session name</label><input data-k="sessionName" value="Coaching Discovery Call" /></div>
+          <div class="field"><label>Session length</label><input data-k="sessionLen" value="30 minutes" /></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+/* ---------- gate ---------- */
+const enter=()=>{const v=document.getElementById('pw').value.trim().toLowerCase();
+  if(v==='erika'){document.getElementById('gate').style.display='none';document.getElementById('app').classList.add('on');}
+  else{document.getElementById('gateErr').textContent='Incorrect password. Try again.';}};
+document.getElementById('enterBtn').onclick=enter;
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- state (demo persistence) ---------- */
+const KEY='erika_studio_demo_v1';
+const DEFAULT={
+  faqs:[
+    {q:'What app do I need?',a:'I work with Cronometer and a personalized client portal with all of my clients.'},
+    {q:'Is macro tracking required?',a:'Usually, yes, at least initially. The goal is to build awareness and confidence around food so you can make better choices long term, even without tracking.'},
+    {q:'Why work with you?',a:"Most fitness coaches have never lived in the real world. I have. This is real-life coaching for real people."},
+    {q:'Do you also write workouts?',a:'Yes. Customized strength and workout programming is included in my premium coaching options.'},
+  ],
+  vids:[{name:'Client Name',role:'Founder'},{name:'Client Name',role:'Finance'},{name:'Client Name',role:'Consulting'}],
+  quotes:[
+    {text:'I stopped starting over every Monday. The structure actually held through travel, work, all of it.',by:'Erika coaching client'},
+    {text:"She is not the cheerleader type and that's exactly what I needed.",by:'Erika coaching client'},
+  ],
+  posts:[
+    {title:'You don’t need another reset',tag:'Nutrition',published:true,body:'The Monday reset feels productive. It isn’t. What actually moves you forward is structure you can repeat.'},
+    {title:'Lift heavy, recover harder',tag:'Training',published:false,body:'Strength is built in the recovery, not just the reps.'},
+  ],
+  images:[
+    {slot:'Hero Portrait',note:'Full-height athletic portrait'},
+    {slot:'About Photo',note:'Lifestyle / training shot'},
+    {slot:'Testimonial Clips',note:'Client video thumbnails'},
+    {slot:'Blog Post Images',note:'One per post'},
+  ],
+  fields:{}
+};
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(DEFAULT);
+const save=(silent)=>{localStorage.setItem(KEY,JSON.stringify(S));if(!silent)toast('Saved');document.getElementById('saveStatus').textContent='All changes saved';};
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
+function dirty(){document.getElementById('saveStatus').textContent='Unsaved changes';}
+
+/* restore simple fields */
+document.querySelectorAll('[data-k]').forEach(el=>{
+  if(S.fields[el.dataset.k]!=null)el.value=S.fields[el.dataset.k];
+  el.addEventListener('input',()=>{S.fields[el.dataset.k]=el.value;dirty();});
+});
+
+/* ---------- panels ---------- */
+const titles={content:'Page Content',testimonials:'Testimonials',blog:'Blog Posts',images:'Images',booking:'Booking'};
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('panel-'+b.dataset.panel).classList.add('on');
+  document.getElementById('panelTitle').textContent=titles[b.dataset.panel];
+});
+
+/* ---------- FAQ editor ---------- */
+function renderFaqs(){
+  document.getElementById('faqWrap').innerHTML=S.faqs.map((f,i)=>`
+    <div class="card"><div class="ch"><span class="t">FAQ ${i+1}</span><button class="btn btn-sm btn-danger" data-del-faq="${i}">Delete</button></div>
+    <div class="field" style="margin-bottom:12px"><input data-faq-q="${i}" value="${esc(f.q)}" placeholder="Question"/></div>
+    <textarea data-faq-a="${i}" placeholder="Answer">${esc(f.a)}</textarea></div>`).join('');
+  bind('[data-faq-q]','input',(e,i)=>{S.faqs[i].q=e.target.value;dirty();});
+  bind('[data-faq-a]','input',(e,i)=>{S.faqs[i].a=e.target.value;dirty();},'faqA');
+  bindClick('[data-del-faq]',i=>{S.faqs.splice(i,1);renderFaqs();dirty();});
+}
+document.getElementById('addFaq').onclick=()=>{S.faqs.push({q:'',a:''});renderFaqs();dirty();};
+
+/* ---------- video testimonials ---------- */
+function renderVids(){
+  document.getElementById('vidWrap').innerHTML=S.vids.map((v,i)=>`
+    <div class="card"><div class="ch"><span class="t">Video ${i+1}</span><button class="btn btn-sm btn-danger" data-del-vid="${i}">Remove</button></div>
+    <div class="row2"><input data-vid-n="${i}" value="${esc(v.name)}" placeholder="Client name"/><input data-vid-r="${i}" value="${esc(v.role)}" placeholder="Role / industry"/></div>
+    <div class="imgslot" style="margin-top:12px">Upload video clip<small>From Erika's iCloud album · MP4 or share link</small></div></div>`).join('');
+  bind('[data-vid-n]','input',(e,i)=>{S.vids[i].name=e.target.value;dirty();});
+  bind('[data-vid-r]','input',(e,i)=>{S.vids[i].role=e.target.value;dirty();},'vidR');
+  bindClick('[data-del-vid]',i=>{S.vids.splice(i,1);renderVids();dirty();});
+}
+document.getElementById('addVid').onclick=()=>{S.vids.push({name:'',role:''});renderVids();dirty();};
+
+/* ---------- written testimonials ---------- */
+function renderQuotes(){
+  document.getElementById('quoteWrap').innerHTML=S.quotes.map((q,i)=>`
+    <div class="card"><div class="ch"><span class="t">Quote ${i+1}</span><button class="btn btn-sm btn-danger" data-del-q="${i}">Remove</button></div>
+    <textarea data-q-t="${i}" placeholder="Testimonial text">${esc(q.text)}</textarea>
+    <div class="field" style="margin-top:12px;margin-bottom:0"><input data-q-b="${i}" value="${esc(q.by)}" placeholder="Attribution"/></div></div>`).join('');
+  bind('[data-q-t]','input',(e,i)=>{S.quotes[i].text=e.target.value;dirty();});
+  bind('[data-q-b]','input',(e,i)=>{S.quotes[i].by=e.target.value;dirty();},'qB');
+  bindClick('[data-del-q]',i=>{S.quotes.splice(i,1);renderQuotes();dirty();});
+}
+document.getElementById('addQuote').onclick=()=>{S.quotes.push({text:'',by:'Erika coaching client'});renderQuotes();dirty();};
+
+/* ---------- blog posts ---------- */
+function renderPosts(){
+  document.getElementById('postWrap').innerHTML=S.posts.map((p,i)=>`
+    <div class="card"><div class="ch"><span class="t">Post ${i+1}</span>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="pubrow"><button class="toggle ${p.published?'on':''}" data-pub="${i}"></button>${p.published?'Published':'Draft'}</span>
+        <button class="btn btn-sm btn-danger" data-del-post="${i}">Delete</button></div></div>
+    <div class="row2"><input data-p-t="${i}" value="${esc(p.title)}" placeholder="Post title"/><input data-p-tag="${i}" value="${esc(p.tag)}" placeholder="Category"/></div>
+    <textarea data-p-b="${i}" style="margin-top:12px" placeholder="Write your post...">${esc(p.body)}</textarea>
+    <div class="imgslot" style="margin-top:12px">Upload featured image<small>Optional · Alex/Erika to place</small></div></div>`).join('');
+  bind('[data-p-t]','input',(e,i)=>{S.posts[i].title=e.target.value;dirty();});
+  bind('[data-p-tag]','input',(e,i)=>{S.posts[i].tag=e.target.value;dirty();},'pTag');
+  bind('[data-p-b]','input',(e,i)=>{S.posts[i].body=e.target.value;dirty();},'pB');
+  bindClick('[data-pub]',i=>{S.posts[i].published=!S.posts[i].published;renderPosts();dirty();});
+  bindClick('[data-del-post]',i=>{S.posts.splice(i,1);renderPosts();dirty();});
+}
+document.getElementById('addPost').onclick=()=>{S.posts.unshift({title:'',tag:'',published:false,body:''});renderPosts();dirty();};
+
+/* ---------- images ---------- */
+function renderImages(){
+  document.getElementById('imgGrid').innerHTML=S.images.map(im=>`
+    <div class="imgcard"><div class="lbl">${esc(im.slot)}</div>
+    <div class="imgslot">Upload image<small>${esc(im.note)}</small></div></div>`).join('');
+}
+
+/* ---------- helpers ---------- */
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function idxOf(el,sel){ // sel is like '[data-faq-q]' -> read that attribute's value as the index
+  const attr=sel.replace(/[\[\]]/g,'');
+  return parseInt(el.getAttribute(attr),10)||0;
+}
+function bind(sel,ev,fn){document.querySelectorAll(sel).forEach(el=>{const i=idxOf(el,sel);el.addEventListener(ev,e=>fn(e,i));});}
+function bindClick(sel,fn){document.querySelectorAll(sel).forEach(el=>{const i=idxOf(el,sel);el.addEventListener('click',()=>fn(i));});}
+
+renderFaqs();renderVids();renderQuotes();renderPosts();renderImages();
+
+/* ---------- save / publish ---------- */
+document.getElementById('saveDraft').onclick=()=>save();
+document.getElementById('publishBtn').onclick=()=>{save(true);toast('Published to live site');};
+</script>
+</body>
+</html>

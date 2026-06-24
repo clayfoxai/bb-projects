@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Erika Wescott | Performance &amp; Nutrition Coaching</title>
+<meta name="description" content="No-bullshit performance and lifestyle coaching for ambitious professionals who want more energy, better habits, and a stronger body." />
+<meta property="og:title" content="Erika Wescott | Performance &amp; Nutrition Coaching" />
+<meta property="og:description" content="Lift heavy. Eat real food. Feel GOOD AF." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#0E110F;
+  --ink-2:#12161300;
+  --forest:#173A2B;
+  --forest-2:#0F261C;
+  --charcoal:#171B18;
+  --moss:#5C8A6E;
+  --moss-bright:#84B499;
+  --bone:#EDEDE6;
+  --bone-dim:#A7AEA6;
+  --bone-faint:#6E756E;
+  --tan:#C7A57B;
+  --line:rgba(237,237,230,0.12);
+  --line-soft:rgba(237,237,230,0.07);
+  --maxw:1140px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.01em;line-height:1.05;text-transform:uppercase}
+.serif{font-family:'Fraunces',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,40px);width:100%}
+.eyebrow{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.28em;font-size:12.5px;font-weight:500;color:var(--tan)}
+.sec-title{margin-top:14px;font-size:clamp(28px,3.6vw,44px);line-height:1.06}
+.section{padding:clamp(64px,9vw,108px) 0;border-top:1px solid var(--line-soft);scroll-margin-top:80px}
+.section.tight{padding:clamp(52px,6vw,80px) 0}
+.brandmark{cursor:pointer}
+.section.tight{padding:80px 0}
+.bg-forest{background:var(--forest-2)}
+.bg-charcoal{background:var(--charcoal)}
+.center{text-align:center}
+.muted{color:var(--bone-dim)}
+
+/* ---------- nav ---------- */
+header.nav{position:sticky;top:0;z-index:60;background:rgba(14,17,15,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brandmark{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:17px}
+.brandmark span{color:var(--tan)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13.5px;font-weight:500;color:var(--bone-dim);transition:color .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{color:var(--bone)}
+.nav-links a.btn-primary{color:#fff}
+.nav-links a.btn-primary:hover{color:#fff}
+.btn{display:inline-block;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-weight:600;font-size:13.5px;padding:13px 26px;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.btn-primary{background:var(--moss);color:#0b1410}
+.btn-primary:hover{background:var(--moss-bright)}
+.btn-ghost{border-color:var(--line);color:var(--bone)}
+.btn-ghost:hover{border-color:var(--moss);color:var(--moss-bright)}
+.btn-lg{padding:17px 38px;font-size:15px}
+.menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:6px}
+.menu-toggle svg{stroke:var(--bone)}
+
+/* ---------- hero (full-bleed background) ---------- */
+.hero{position:relative;display:flex;align-items:center;min-height:clamp(500px,74vh,700px);overflow:hidden;border-top:0}
+.hero-bg-slot,.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.hero-bg-slot{background:
+   repeating-linear-gradient(135deg,rgba(199,165,123,.045) 0,rgba(199,165,123,.045) 16px,transparent 16px,transparent 32px),
+   linear-gradient(155deg,var(--forest) 0%,var(--forest-2) 60%,var(--ink) 100%)}
+.hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+   background:linear-gradient(90deg,rgba(14,17,15,.97) 0%,rgba(14,17,15,.86) 42%,rgba(14,17,15,.45) 100%)}
+.hero-copy{position:relative;z-index:2;max-width:36rem;padding:64px 0}
+.hero h1{font-size:clamp(40px,4.8vw,72px);font-weight:700}
+.hero h1 .ln{display:block}
+.hero h1 .accent{color:var(--moss-bright)}
+.hero p.sub{margin-top:24px;font-size:clamp(16px,1.4vw,19px);max-width:30em;color:var(--bone-dim)}
+.hero .cta-row{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+.hero-cred{margin-top:22px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:12.5px;color:var(--bone-dim)}
+.hero-cred::before{content:"";display:inline-block;width:22px;height:1px;background:var(--tan);vertical-align:middle;margin-right:10px}
+.hero-tag{position:absolute;right:18px;bottom:16px;z-index:2;display:inline-flex;align-items:center;gap:7px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:10.5px;color:var(--tan);border:1px solid rgba(199,165,123,.32);background:rgba(14,17,15,.55);padding:5px 11px;border-radius:2px}
+.hero-ph{position:absolute;z-index:2;right:clamp(20px,6vw,90px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;color:var(--tan);border:1px dashed rgba(199,165,123,.42);border-radius:8px;padding:30px 32px;background:rgba(14,17,15,.32);max-width:290px}
+.hero-ph svg{opacity:.8}
+.hero-ph .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--tan)}
+.hero-ph .sub{font-size:12.5px;color:var(--bone-dim);font-family:'Inter',sans-serif;letter-spacing:0;text-transform:none;line-height:1.5}
+
+/* ---------- image placeholders ---------- */
+.imgph{position:relative;width:100%;height:100%;min-height:280px;background:
+   repeating-linear-gradient(135deg,rgba(199,165,123,.05) 0,rgba(199,165,123,.05) 14px,transparent 14px,transparent 28px),
+   linear-gradient(160deg,var(--forest) 0%,var(--forest-2) 100%);
+  border:1px dashed rgba(199,165,123,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;color:var(--tan)}
+.imgph svg{opacity:.7}
+.imgph .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--tan)}
+.imgph .sub{font-size:12.5px;color:var(--bone-faint);font-family:'Inter',sans-serif;letter-spacing:0;text-transform:none;max-width:24em}
+.imgph.ratio-portrait{aspect-ratio:4/5}
+.imgph.ratio-wide{aspect-ratio:16/10}
+.imgph.ratio-video{aspect-ratio:16/9}
+.sec-img{display:block;width:100%;object-fit:cover;border:1px solid var(--line);border-radius:3px}
+.sec-img.ratio-portrait{aspect-ratio:4/5}
+.sec-img.ratio-wide{aspect-ratio:16/10}
+.page-banner{display:block;width:100%;height:clamp(220px,34vw,420px);object-fit:cover;border:1px solid var(--line);border-radius:3px;margin-top:36px}
+.hero{background:var(--forest-2)}
+.imgbg{position:relative;overflow:hidden}
+.imgbg > .sec-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;border:0;border-radius:0}
+.imgbg::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none}
+.imgbg > .wrap{position:relative;z-index:2}
+.approach-bg::after{background:linear-gradient(90deg,rgba(14,17,15,.94) 0%,rgba(14,17,15,.85) 55%,rgba(14,17,15,.72) 100%)}
+.approach-bg > .sec-bg{object-position:50% 32%}
+.final .sec-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%;z-index:0}
+.vgallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:40px}
+.vcar{position:relative;margin-top:44px}
+.vtrack{display:flex;gap:16px;overflow-x:auto;padding:4px 2px;scrollbar-width:none}
+.vtrack::-webkit-scrollbar{display:none}
+.vcard{flex:0 0 auto;background:#000;border:1px solid var(--line);border-radius:5px;overflow:hidden;position:relative;scroll-snap-align:start}
+.vtrack .vcard{width:clamp(230px,30vw,290px);aspect-ratio:4/5}
+.vtrack .vcard{transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .4s ease, border-color .2s}
+.vtrack .vcard:not(.is-featured){opacity:.5;transform:scale(.86)}
+.vtrack .vcard.is-featured{opacity:1;transform:scale(1);border-color:var(--moss)}
+.vgallery .vcard{aspect-ratio:4/5}
+.vplay{position:relative;display:block;width:100%;height:100%;border:0;background:#000;cursor:pointer;padding:0}
+.vposter{width:100%;height:100%;display:block;object-fit:cover}
+.vbtn{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center}
+.vbtn svg{width:56px;height:56px;color:#fff;filter:drop-shadow(0 2px 10px rgba(0,0,0,.55));transition:transform .2s,color .2s}
+.vplay:hover .vbtn svg{transform:scale(1.08);color:var(--moss-bright)}
+.vname{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:#fff;text-align:left}
+.vcard video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+.vnav{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(14,17,15,.82);color:var(--bone);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.vnav:hover{border-color:var(--moss);color:var(--moss-bright)}
+.vnav.prev{left:-6px}.vnav.next{right:-6px}
+.vfeat{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.vcard.is-featured{border-color:var(--moss)}
+.vmodal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,40px)}
+.vmodal.open{display:flex}
+.vmodal-backdrop{position:absolute;inset:0;background:rgba(8,10,9,.55);backdrop-filter:blur(24px) saturate(115%);-webkit-backdrop-filter:blur(24px) saturate(115%);animation:vfade .25s ease}
+.vmodal-close{position:absolute;top:clamp(14px,3vw,26px);right:clamp(14px,3vw,26px);z-index:3;width:48px;height:48px;border-radius:50%;border:1px solid rgba(237,237,230,.28);background:rgba(14,17,15,.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s,border-color .2s}
+.vmodal-close:hover{background:rgba(14,17,15,.8);border-color:var(--moss);color:var(--moss-bright)}
+.vmodal-stage{position:relative;z-index:1;animation:vpop .3s cubic-bezier(.2,.8,.2,1)}
+.vmodal-media video{display:block;max-width:92vw;max-height:84vh;width:auto;height:auto;border-radius:8px;box-shadow:0 30px 90px rgba(0,0,0,.6);background:#000}
+@keyframes vfade{from{opacity:0}to{opacity:1}}
+@keyframes vpop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+/* ---------- intro ---------- */
+.lead{font-size:clamp(26px,3.2vw,38px);font-family:'Oswald',sans-serif;font-weight:500;text-transform:none;line-height:1.22;max-width:16em}
+.lead .em{color:var(--tan)}
+.prose p{margin-top:20px;color:var(--bone-dim);max-width:34em}
+.prose p.strong{color:var(--bone);font-size:18.5px}
+
+/* ---------- what you get ---------- */
+.two-col{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.two-col>*,.intro-grid>*,.about-grid>*{min-width:0}
+.benefits{list-style:none;display:grid;gap:2px}
+.benefits li{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start}
+.benefits li .ck{flex:0 0 auto;margin-top:3px;color:var(--moss-bright)}
+.benefits li b{font-weight:600;color:var(--bone)}
+
+/* ---------- approach ---------- */
+.approach-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px;margin-top:8px}
+.approach-list li{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft);color:var(--bone)}
+.approach-list li .dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--tan)}
+.mantra{margin-top:54px;display:grid;gap:6px}
+.mantra p{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:clamp(24px,3.4vw,40px);font-weight:600;line-height:1.1}
+.mantra p:last-child{color:var(--moss-bright)}
+
+/* ---------- tenets ---------- */
+.tenets{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.tenet{padding:34px 22px;border-right:1px solid var(--line)}
+.tenet:last-child{border-right:0}
+.tenet .n{font-family:'Oswald',sans-serif;color:var(--tan);font-size:13px;letter-spacing:.1em}
+.tenet p{margin-top:14px;font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:18px;line-height:1.18;font-weight:500}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.about-grid .imgph,.about-grid .sec-img{max-width:420px}
+.nobs{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
+.nobs span{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;border:1px solid var(--line);padding:9px 16px;border-radius:2px;color:var(--bone-dim)}
+
+/* ---------- credentials ---------- */
+.creds{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:34px}
+.cred{display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:14px 20px;border-radius:2px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:14px}
+.cred svg{color:var(--moss-bright)}
+.cred.flag{border-color:rgba(199,165,123,.5)}
+.cred.flag b{color:var(--tan)}
+.cred-note{margin-top:22px;color:var(--bone-dim);font-style:normal}
+.cred-note .serif{color:var(--tan);font-size:18px}
+
+/* ---------- faqs ---------- */
+.faq{border-bottom:1px solid var(--line);}
+.faq button{width:100%;text-align:left;background:none;border:0;color:var(--bone);cursor:pointer;padding:26px 0;display:flex;justify-content:space-between;gap:24px;align-items:center;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(18px,2vw,21px);font-weight:500}
+.faq button .pm{flex:0 0 auto;color:var(--moss-bright);transition:transform .25s}
+.faq.open button .pm{transform:rotate(45deg)}
+.faq .ans{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq .ans p{padding:0 0 26px;color:var(--bone-dim);max-width:48em}
+.faq .ans p+p{padding-top:14px}
+
+/* ---------- booking ---------- */
+.booking-card{display:grid;grid-template-columns:.85fr 1.15fr;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--charcoal)}
+.booking-info{padding:40px;background:var(--forest-2);border-right:1px solid var(--line)}
+.booking-info h3{font-size:26px}
+.booking-info .who{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.booking-info .who .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--moss),var(--forest));display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:18px;color:#0b1410}
+.meta-row{display:flex;align-items:center;gap:12px;color:var(--bone-dim);font-size:15px;margin-top:14px}
+.meta-row svg{color:var(--moss-bright);flex:0 0 auto}
+.booking-pick{padding:34px 40px}
+.demo-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(199,165,123,.12);color:var(--tan);border:1px solid rgba(199,165,123,.4);font-family:'Oswald';text-transform:uppercase;letter-spacing:.14em;font-size:11px;padding:6px 12px;border-radius:2px;margin-bottom:22px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-head .mo{font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:16px}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{background:none;border:1px solid var(--line);color:var(--bone);width:32px;height:32px;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cal-nav button:hover{border-color:var(--moss)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid .dow{font-family:'Oswald';font-size:11px;letter-spacing:.06em;color:var(--bone-faint);text-align:center;padding-bottom:6px}
+.cal-day{aspect-ratio:1;border:1px solid var(--line-soft);border-radius:2px;background:none;color:var(--bone-dim);cursor:pointer;font-family:'Inter';font-size:14px;transition:all .15s}
+.cal-day:hover:not(:disabled){border-color:var(--moss);color:var(--bone)}
+.cal-day:disabled{opacity:.25;cursor:default}
+.cal-day.sel{background:var(--moss);color:#0b1410;border-color:var(--moss);font-weight:600}
+.slots{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.slot{border:1px solid var(--line);background:none;color:var(--bone);padding:11px 0;border-radius:2px;cursor:pointer;font-family:'Oswald';font-size:13.5px;letter-spacing:.04em;transition:all .15s}
+.slot:hover{border-color:var(--moss)}
+.slot.sel{background:var(--moss);color:#0b1410;border-color:var(--moss)}
+.booking-confirm{margin-top:24px}
+.booking-msg{margin-top:16px;color:var(--moss-bright);font-size:14.5px;min-height:20px}
+
+/* ---------- final cta ---------- */
+.intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(36px,5vw,72px);align-items:center}
+.intro-grid .lead{max-width:none}
+.wyg-img{margin-top:36px}
+.approach-band{margin-top:52px}
+.approach-band .imgph{max-height:360px}
+.final{position:relative;overflow:hidden;text-align:center;background:linear-gradient(180deg,var(--forest-2),var(--ink))}
+.final-bg{position:absolute;inset:0;z-index:0;background:repeating-linear-gradient(135deg,rgba(199,165,123,.045) 0,rgba(199,165,123,.045) 16px,transparent 16px,transparent 32px),linear-gradient(160deg,var(--forest),var(--forest-2) 70%,var(--ink))}
+.final::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(14,17,15,.82) 0%,rgba(14,17,15,.93) 100%)}
+.final .wrap{position:relative;z-index:2}
+.final h2{font-size:clamp(34px,5vw,62px);font-weight:700;max-width:18em;margin:0 auto}
+.final p{margin:24px auto 0;max-width:34em;color:var(--bone-dim);font-size:19px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:48px 0 56px}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot-inner .muted{font-size:13.5px}
+
+/* ---------- testimonials page ---------- */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.tvid{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--charcoal)}
+.tvid .imgph{min-height:0}
+.tvid .cap{padding:18px 20px}
+.tvid .cap .nm{font-family:'Oswald';text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+.tvid .cap .rl{color:var(--bone-faint);font-size:13px;margin-top:3px}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.proof-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px}
+.proof-grid .quote{border-left:3px solid var(--moss);padding:26px 28px}
+.proof-grid .quote p{font-size:17px}
+.quote{border:1px solid var(--line);border-left:3px solid var(--tan);border-radius:3px;padding:30px 32px;background:var(--charcoal)}
+.quote p{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:19px;line-height:1.5;color:var(--bone)}
+.quote .by{margin-top:18px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--bone-dim)}
+.demo-inline{margin-top:14px;color:var(--bone-faint);font-size:13.5px;font-style:italic}
+
+/* ---------- blog page ---------- */
+.bloglist{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.post-card{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--charcoal);cursor:pointer;transition:border-color .2s}
+.post-card:hover{border-color:var(--moss)}
+.post-card .imgph{min-height:0;aspect-ratio:16/9}
+.post-card .pc-body{padding:24px}
+.post-card .tag{font-family:'Oswald';text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--tan)}
+.post-card h3{margin-top:12px;font-size:21px;text-transform:none;font-family:'Oswald';font-weight:600;line-height:1.2}
+.post-card .ex{margin-top:12px;color:var(--bone-dim);font-size:14.5px}
+.post-card .dt{margin-top:16px;color:var(--bone-faint);font-size:12.5px;font-family:'Oswald';letter-spacing:.06em}
+.post-full{max-width:720px;margin:0 auto}
+.post-full .back{display:flex;width:fit-content;align-items:center;gap:8px;color:var(--moss-bright);font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:13px;cursor:pointer;margin-bottom:26px}
+.post-full h1{font-size:clamp(32px,4.5vw,52px);text-transform:none;font-weight:700;line-height:1.08}
+.post-full .meta{margin-top:18px;color:var(--bone-faint);font-family:'Oswald';letter-spacing:.06em;font-size:13px}
+.post-full .body{margin-top:34px}
+.post-full .body p{margin-top:20px;color:var(--bone-dim)}
+.post-full .body h2{font-size:26px;margin-top:38px;text-transform:none}
+
+/* ---------- animation (subtle, premium) ---------- */
+@media (prefers-reduced-motion: no-preference){
+  html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .75s cubic-bezier(.2,.7,.2,1)}
+  html.js .reveal.in{opacity:1;transform:none}
+  html.js .reveal-stagger > *{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .65s cubic-bezier(.2,.7,.2,1)}
+  html.js .reveal-stagger.in > *{opacity:1;transform:none}
+  html.js .reveal-stagger.in > *:nth-child(1){transition-delay:0.04s}
+  html.js .reveal-stagger.in > *:nth-child(2){transition-delay:0.1s}
+  html.js .reveal-stagger.in > *:nth-child(3){transition-delay:0.16s}
+  html.js .reveal-stagger.in > *:nth-child(4){transition-delay:0.22s}
+  html.js .reveal-stagger.in > *:nth-child(5){transition-delay:0.28s}
+  html.js .reveal-stagger.in > *:nth-child(6){transition-delay:0.34s}
+  html.js .reveal-stagger.in > *:nth-child(7){transition-delay:0.4s}
+  html.js .reveal-stagger.in > *:nth-child(8){transition-delay:0.46s}
+  html.js .reveal-stagger.in > *:nth-child(9){transition-delay:0.52s}
+  html.js .reveal-stagger.in > *:nth-child(10){transition-delay:0.58s}
+  html.js .reveal-stagger.in > *:nth-child(11){transition-delay:0.64s}
+  html.js .reveal-stagger.in > *:nth-child(12){transition-delay:0.7s}
+}
+.btn-lg{transition:all .2s, transform .2s}
+.btn-lg:hover{transform:translateY(-2px)}
+.post-card{transition:border-color .2s, transform .25s}
+.post-card:hover{transform:translateY(-4px)}
+.quote{transition:transform .25s, border-color .2s}
+.quote:hover{transform:translateY(-3px);border-color:var(--moss)}
+.cred{transition:border-color .2s, transform .2s, color .2s}
+.cred:hover{transform:translateY(-2px);border-color:var(--moss)}
+.tenet{transition:background .3s}
+.tenet:hover{background:rgba(199,165,123,.06)}
+.benefits li{transition:transform .2s}
+.benefits li:hover{transform:translateX(5px)}
+.nobs span{transition:border-color .2s, color .2s}
+.nobs span:hover{border-color:var(--moss);color:var(--bone)}
+.vcard{transition:border-color .2s, transform .25s}
+.vcard:hover{transform:translateY(-3px)}
+
+/* ---------- page routing ---------- */
+.page{display:none}
+.page.active{display:block}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .nav-links{position:fixed;inset:70px 0 auto 0;flex-direction:column;background:var(--ink);border-bottom:1px solid var(--line);padding:24px clamp(20px,5vw,40px);gap:18px;align-items:flex-start;transform:translateY(-130%);transition:transform .3s;height:auto}
+  .nav-links.open{transform:translateY(0)}
+  .menu-toggle{display:block}
+  .hero{min-height:clamp(440px,64vh,560px)}
+  .hero::after{background:linear-gradient(180deg,rgba(14,17,15,.74) 0%,rgba(14,17,15,.9) 100%)}
+  .hero-copy{max-width:100%;padding:48px 0}
+  .hero-bg{object-position:50% 28%}
+  .hero-tag{right:14px;bottom:12px}
+  .hero-ph{top:auto;bottom:14px;right:14px;left:auto;transform:none;flex-direction:row;gap:8px;padding:7px 12px;max-width:none;border-radius:3px;border-style:solid;background:rgba(14,17,15,.6)}
+  .hero-ph .sub{display:none}
+  .hero-ph svg{width:13px;height:13px}
+  .hero-ph .lbl{font-size:10.5px;letter-spacing:.12em}
+  .two-col,.about-grid,.booking-card,.intro-grid{grid-template-columns:1fr;gap:40px}
+  .booking-info{border-right:0;border-bottom:1px solid var(--line)}
+  .approach-list,.qgrid{grid-template-columns:1fr}
+  .proof-grid{grid-template-columns:1fr;gap:16px}
+  .tenets{grid-template-columns:1fr 1fr}
+  .tenet{border-bottom:1px solid var(--line)}
+  .tenet:nth-last-child(-n+1){border-bottom:0}
+  .tgrid,.bloglist{grid-template-columns:1fr 1fr}
+  .imgph,.sec-img{max-height:380px}
+  .imgph.ratio-portrait,.sec-img.ratio-portrait{aspect-ratio:auto;height:340px;min-height:0}
+  .page-banner{height:clamp(180px,52vw,300px)}
+}
+@media(max-width:600px){
+  body{font-size:16px}
+  .tenets,.tgrid,.bloglist{grid-template-columns:1fr}
+  .vnav{display:none}
+  .vtrack .vcard{width:80vw;max-width:330px}
+  .mantra p{font-size:26px}
+  .foot-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brandmark" data-home aria-label="Erika Wescott home">ERIKA<span>.</span>WESCOTT</a>
+    <nav class="nav-links" id="navlinks">
+      <a data-anchor="approach-anchor">Approach</a>
+      <a data-anchor="about-anchor">About</a>
+      <a data-anchor="faq-anchor">FAQ</a>
+      <a data-page="testimonials">Testimonials</a>
+      <a data-page="blog">Blog</a>
+      <a class="btn btn-primary" data-anchor="booking-anchor">Apply</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <picture>
+      <source media="(max-width:600px)" srcset="assets/hero-mobile.webp" />
+      <img class="hero-bg" src="assets/hero-desktop.webp" alt="Erika Wescott mid-deadlift" loading="eager" fetchpriority="high" />
+    </picture>
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">Performance &amp; Lifestyle Coaching</p>
+        <h1 class="reveal" style="margin-top:20px">
+          <span class="ln">Lift heavy.</span>
+          <span class="ln">Eat real food.</span>
+          <span class="ln accent">Feel GOOD AF.</span>
+        </h1>
+        <p class="sub reveal">Performance and lifestyle coaching for ambitious people who want more energy, better habits, and a stronger body, without the bullshit.</p>
+        <div class="cta-row reveal">
+          <a class="btn btn-primary btn-lg" data-anchor="booking-anchor">Apply to Work With Me</a>
+          <a class="btn btn-ghost btn-lg" data-anchor="approach-anchor">How It Works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section bg-forest">
+    <div class="wrap intro-grid">
+      <div>
+        <p class="eyebrow reveal">The Real Problem</p>
+        <p class="lead reveal" style="margin-top:24px">Most people do not need more information. They need <span class="em">structure</span>.</p>
+        <div class="prose reveal" style="margin-top:10px">
+          <p class="strong">They need accountability. They need someone honest enough to tell them what's actually getting in their way.</p>
+          <p>I work with ambitious people who are tired of starting over every Monday, skipping workouts when work gets busy, under-eating all day and overeating at night, relying on motivation, and constantly feeling "off" physically and mentally.</p>
+          <p>This is not about perfection. And it's definitely not about cutting gluten and pretending stress doesn't exist.</p>
+          <p>It's about building a stronger body, better routines, higher standards, and a lifestyle that actually works in real life.</p>
+        </div>
+      </div>
+      <img class="sec-img ratio-portrait" src="assets/intro.webp" alt="Erika training with a kettlebell" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach-anchor" class="section imgbg approach-bg">
+    <img class="sec-bg" src="assets/why-it-works-bg.webp" alt="" />
+    <div class="wrap">
+      <p class="eyebrow reveal">Why It Works</p>
+      <h2 class="sec-title reveal" style="text-transform:none;font-weight:600;max-width:18em">Structure, accountability, and honesty. That's the mechanism.</h2>
+      <p class="muted" style="margin-top:20px;max-width:36em">It's why this sticks when motivation and willpower didn't. I'm not interested in making fitness your entire personality. I want you to:</p>
+      <ul class="approach-list reveal-stagger">
+        <li><span class="dot"></span>feel strong and capable</li>
+        <li><span class="dot"></span>have more energy throughout the day</li>
+        <li><span class="dot"></span>stop negotiating with yourself constantly</li>
+        <li><span class="dot"></span>build habits that actually stick</li>
+        <li><span class="dot"></span>look athletic and healthy</li>
+        <li><span class="dot"></span>feel more confident in your choices</li>
+      </ul>
+      <div class="mantra reveal-stagger">
+        <p>We lift weights.</p>
+        <p>We eat real food.</p>
+        <p>We stop overcomplicating things.</p>
+        <p>And we build routines that support the life you actually want.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="section">
+    <div class="wrap two-col">
+      <div>
+        <p class="eyebrow reveal">What You Get</p>
+        <h2 class="reveal" style="margin-top:18px;font-size:clamp(30px,4vw,46px)">Coaching built for<br/>real life.</h2>
+        <p class="muted" style="margin-top:20px;max-width:24em">No extremes. No fake wellness culture. Just the structure, strength, and honesty that actually move you forward.</p>
+        <img class="sec-img ratio-wide wyg-img" src="assets/what-you-get.webp" alt="Strength training" loading="lazy" />
+      </div>
+      <ul class="benefits reveal-stagger">
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Consistency without obsession.</b></span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Energy</b> from learning how to fuel yourself properly.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Strength</b> from learning how to actually train and recover.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Structure</b> around real life and busy schedules, from a coach who has actually lived it.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Confidence</b> from learning how to actually set boundaries and advocate for yourself.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Accountability and honest feedback.</b> I am not the rah-rah cheerleader type. Only the honest truth here.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span>Real understanding of how to navigate travel, restaurants, alcohol, work events, and real life.</span></li>
+        <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span>Getting the hell out of the "all or nothing" mentality.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF STRIP -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Proof</p>
+      <h2 class="sec-title center reveal">What clients say.</h2>
+      <div class="proof-grid reveal-stagger">
+        <div class="quote"><p>"These months with you have changed me. It's no bullshit. Do the work and it works."</p><div class="by">Erin M.</div></div>
+        <div class="quote"><p>"I feel ready to take care of myself in ways I could never have imagined before we began working together."</p><div class="by">Chassee H.</div></div>
+        <div class="quote"><p>"Thank you for taking my mind off the hamster wheel and making me stronger mentally."</p><div class="by">Alexander</div></div>
+      </div>
+      <h3 class="center" style="margin-top:66px;font-size:20px;color:var(--tan);text-transform:uppercase;letter-spacing:.12em;font-family:'Oswald',sans-serif">See it in their words</h3>
+      <div class="vcar">
+        <button class="vnav prev" data-track="homeVtrack" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="vtrack reveal-stagger" id="homeVtrack"></div>
+        <button class="vnav next" data-track="homeVtrack" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div class="center" style="margin-top:40px"><a class="btn btn-ghost" data-page="testimonials">See all results</a></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section bg-forest" id="about-anchor">
+    <div class="wrap about-grid">
+      <img class="sec-img ratio-portrait" src="assets/about.webp" alt="Erika Wescott in the gym" loading="lazy" />
+      <div>
+        <p class="eyebrow reveal">About Erika</p>
+        <h2 class="sec-title reveal" style="margin-bottom:20px">I've actually lived it.</h2>
+        <div class="prose reveal" style="margin-top:18px">
+          <p class="strong">I've spent 14 years working in demanding corporate and entrepreneurial environments while balancing fitness, travel, performance pressure, business, stress, and real life.</p>
+          <p>I understand what it feels like to be ambitious, capable, and disciplined, while needing to manage consistency, energy, and everything in between.</p>
+          <p>My coaching combines fitness, nutrition, accountability, and practical lifestyle strategy for people who want to feel better physically and mentally without turning their lives upside down.</p>
+        </div>
+        <div class="nobs reveal-stagger">
+          <span>No extremes</span><span>No fake wellness culture</span><span>No bullshit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section class="section tight">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Credentials</p>
+      <h2 class="sec-title center reveal">The receipts.</h2>
+      <div class="creds reveal-stagger">
+        <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Precision Nutrition L1</div>
+        <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>ACE Fitness Nutrition Specialist</div>
+        <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>ACE Certified Personal Trainer</div>
+        <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>CrossFit Level 1</div>
+        <div class="cred flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><b>Certified Public Accountant</b></div>
+      </div>
+      <p class="cred-note">Yes, the CPA matters. <span class="serif">It means the plan is built on real numbers and the honest truth, not hype.</span></p>
+    </div>
+  </section>
+
+  <!-- TENETS -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow center reveal">What I Believe</p>
+      <h2 class="sec-title center reveal">My health &amp; performance tenets.</h2>
+      <div class="tenets reveal-stagger" style="margin-top:40px">
+        <div class="tenet"><span class="n">01</span><p>Weekends matter</p></div>
+        <div class="tenet"><span class="n">02</span><p>You can and should eat dessert</p></div>
+        <div class="tenet"><span class="n">03</span><p>Meat is good for you</p></div>
+        <div class="tenet"><span class="n">04</span><p>Sleep is the most important thing in your life</p></div>
+        <div class="tenet"><span class="n">05</span><p>Learn to say no</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section bg-charcoal" id="faq-anchor">
+    <div class="wrap" style="max-width:880px">
+      <p class="eyebrow center reveal">FAQs</p>
+      <h2 class="sec-title center reveal">Questions, answered.</h2>
+      <div style="margin-top:40px">
+        <div class="faq">
+          <button>What app do I need?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="ans"><p>I work with Cronometer and a personalized client portal with all of my clients.</p></div>
+        </div>
+        <div class="faq">
+          <button>Is macro tracking required?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="ans">
+            <p>Usually, yes, at least initially. Macro tracking helps us establish awareness, understand your current habits, and create a realistic starting point. Most people have never truly learned how much protein they're eating, how little they're fueling themselves, or where their consistency breaks down.</p>
+            <p>That said, the goal is not to obsessively track forever. The goal is to build awareness, structure, consistency, and confidence around food so you can make better choices long term, even without tracking.</p>
+          </div>
+        </div>
+        <div class="faq">
+          <button>Why work with you?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="ans">
+            <p>Most fitness coaches have never lived in the real world. I have. I've worked in corporate leadership, startups, entrepreneurship, and high-pressure environments while coaching clients along the way.</p>
+            <p>I know what it feels like to balance stress, travel, long workdays, social pressure, fitness goals, and trying to stay healthy in the middle of all of it. I've also lived with Crohn's disease since childhood, which taught me early on how important consistency, resilience, and taking care of your body really are. This is real-life coaching for real people.</p>
+          </div>
+        </div>
+        <div class="faq">
+          <button>Do you also write workouts?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
+          <div class="ans">
+            <p>Yes. Customized strength and workout programming is included in my premium coaching options based on your goals, experience level, schedule, and lifestyle. My approach focuses on building a stronger, healthier, more athletic body in a realistic and sustainable way.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING (TidyCal-style demo) -->
+  <section id="booking-anchor" class="section">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Apply for Coaching</p>
+      <h2 class="center" style="margin-top:16px;font-size:clamp(28px,3.6vw,42px)">Book your discovery call.</h2>
+      <p class="center muted" style="margin-top:14px;max-width:30em;margin-left:auto;margin-right:auto">You do not need another reset. Let's find out if we're a fit.</p>
+      <div class="booking-card" style="margin-top:42px">
+        <div class="booking-info">
+          <div class="who">
+            <div class="av">EW</div>
+            <div>
+              <div style="font-family:'Oswald';text-transform:uppercase;letter-spacing:.06em">Erika Wescott</div>
+              <div class="muted" style="font-size:13px">Performance Coach</div>
+            </div>
+          </div>
+          <h3>Coaching Discovery Call</h3>
+          <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>30 minutes</div>
+          <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 10l4.5-2.5v9L15 14M4 6h11v12H4z"/></svg>Video call (link after booking)</div>
+          <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-7.6-12A8.38 8.38 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>No pressure, no pitch. Just a real conversation.</div>
+        </div>
+        <div class="booking-pick">
+          <span class="demo-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Demo: connect TidyCal to go live</span>
+          <div class="cal-head">
+            <span class="mo" id="calMonth">Month</span>
+            <div class="cal-nav">
+              <button id="calPrev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+              <button id="calNext" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+            </div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="slots" id="slots" style="display:none"></div>
+          <div class="booking-confirm" id="confirmWrap" style="display:none">
+            <button class="btn btn-primary btn-lg" id="confirmBtn" style="width:100%">Confirm Booking</button>
+          </div>
+          <div class="booking-msg" id="bookMsg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section final">
+    <!-- Alex: to add a closing background photo, replace the slot below with <img class="hero-bg" src="cta.jpg" alt=""> -->
+    <img class="sec-bg" src="assets/final-bg.webp" alt="" />
+    <div class="wrap">
+      <h2 class="reveal">You need better systems, stronger habits, and accountability that actually works.</h2>
+      <p>Stop starting over every Monday. Let's build something that holds.</p>
+      <div style="margin-top:36px"><a class="btn btn-primary btn-lg" data-anchor="booking-anchor">Apply to Work With Me</a></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ TESTIMONIALS ============ -->
+<main id="page-testimonials" class="page">
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow reveal">Client Results</p>
+      <h1 style="margin-top:18px;font-size:clamp(38px,5.5vw,72px);font-weight:700">Real people.<br/>Real change.</h1>
+      <p class="muted" style="margin-top:22px;max-width:34em">The proof is in the work my clients put in. Here's what it looks like when structure, strength, and honesty actually stick.</p>
+
+      <h2 style="margin-top:64px;font-size:24px;color:var(--tan)">Video Testimonials</h2>
+      <div class="vgallery reveal-stagger" id="tvidGrid"></div>
+
+      <h2 style="margin-top:72px;font-size:24px;color:var(--tan)">In Their Words</h2>
+      <div class="qgrid reveal-stagger" id="quoteGrid"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ BLOG ============ -->
+<main id="page-blog" class="page">
+  <section class="section">
+    <div class="wrap" id="blogIndex">
+      <p class="eyebrow reveal">The Blog</p>
+      <h1 style="margin-top:18px;font-size:clamp(38px,5.5vw,72px);font-weight:700">No bullshit,<br/>just what works.</h1>
+      <p class="muted" style="margin-top:22px;max-width:34em">Notes on training, nutrition, and building a life that actually holds. Written by Erika, managed from her dashboard.</p>
+      <div class="bloglist reveal-stagger" id="blogList"></div>
+      <p class="demo-inline">Demo posts shown for structure. Erika writes and publishes real posts from the dashboard.</p>
+    </div>
+    <div class="wrap post-full" id="blogPost" style="display:none"></div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot-inner">
+    <div>
+      <div class="brandmark">ERIKA<span>.</span>WESCOTT</div>
+      <p class="muted" style="margin-top:10px">Performance &amp; lifestyle coaching for ambitious people.</p>
+    </div>
+    <div class="muted">© 2026 Erika Wescott. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- ============ VIDEO MODAL ============ -->
+<div class="vmodal" id="vmodal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video testimonial">
+  <div class="vmodal-backdrop" data-vclose></div>
+  <button class="vmodal-close" data-vclose aria-label="Close video"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div class="vmodal-stage"><div class="vmodal-media" id="vmodalMedia"></div></div>
+</div>
+<script>
+/* ---------------- demo content ---------------- */
+const VIDEOS = [
+  {name:'Annie S.', src:'assets/videos/annie.mp4', poster:'assets/videos/annie.webp'},
+  {name:'Ashleigh C.', src:'assets/videos/ashleigh.mp4', poster:'assets/videos/ashleigh.webp'},
+  {name:'Ashley O.', src:'assets/videos/ashley.mp4', poster:'assets/videos/ashley.webp'},
+  {name:'Kayla', src:'assets/videos/kayla.mp4', poster:'assets/videos/kayla.webp'},
+  {name:'Martha B.', src:'assets/videos/martha.mp4', poster:'assets/videos/martha.webp'},
+];
+const WRITTEN_TESTIMONIALS = [
+  {quote:"These months with you have changed me. It's no bullshit. Do the work and it works.", by:"Erin M."},
+  {quote:"I feel ready to take care of myself in ways I could never have imagined before we began working together.", by:"Chassee H."},
+  {quote:"Thank you for taking my mind off the hamster wheel and making me stronger mentally.", by:"Alexander"},
+  {quote:"I feel empowered now to trust the process and stay accountable.", by:"Vicky G."},
+  {quote:"I plan to get back to all of the good skills you helped me build.", by:"Brittany P."},
+];
+const BLOG_POSTS = [
+  {tag:'Nutrition', title:'You don’t need another reset', date:'June 2026', excerpt:'Why the all-or-nothing cycle keeps you stuck, and what to build instead.', body:['The Monday reset feels productive. It isn’t. It’s the same loop dressed up as a fresh start.','What actually moves you forward is boring on purpose: structure you can repeat, food you can fuel with, and accountability that does not disappear the second work gets busy.','You do not need another reset. You need better systems.']},
+  {tag:'Training', title:'Lift heavy, recover harder', date:'June 2026', excerpt:'Strength is built in the recovery, not just the reps.', body:['Most people training hard are recovering like an afterthought. Sleep, protein, and rest days are not the soft part of the program. They are the program.','Train hard. Then take recovery as seriously as the lift itself.']},
+  {tag:'Real Life', title:'How to eat at a restaurant without spiraling', date:'May 2026', excerpt:'Travel, dinners, and drinks are not the enemy. Here’s the framework.', body:['Real life includes restaurants, alcohol, and work events. A plan that ignores those is a plan that fails in week three.','Here is the simple version: anchor your protein, choose what is worth it, and move on without the guilt tax.']},
+];
+
+/* ---------------- render demo content ---------------- */
+const imgphVideo = (label,sub)=>`<div class="imgph ratio-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg><span class="lbl">${label}</span><span class="sub">${sub}</span></div>`;
+
+const playSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
+const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${v.src}" aria-label="Play ${v.name}'s testimonial"><img class="vposter" src="${v.poster}" alt="" loading="lazy"><span class="vbtn">${playSvg}</span><span class="vname">${v.name}</span></button></div>`;
+document.getElementById('homeVtrack').innerHTML = VIDEOS.map(videoCard).join('');
+document.getElementById('tvidGrid').innerHTML = VIDEOS.map(videoCard).join('');
+
+document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(t=>`
+  <div class="quote"><p>"${t.quote}"</p><div class="by">${t.by}</div></div>`).join('');
+
+document.getElementById('blogList').innerHTML = BLOG_POSTS.map((p,i)=>`
+  <div class="post-card" data-post="${i}">
+    ${imgphVideo('Post Image','Alex to place').replace('ratio-video','ratio-video').replace('Video Clip','Post Image')}
+    <div class="pc-body"><span class="tag">${p.tag}</span><h3>${p.title}</h3><p class="ex">${p.excerpt}</p><div class="dt">${p.date}</div></div>
+  </div>`).join('');
+
+/* ---------------- blog post view ---------------- */
+function openPost(i){
+  const p = BLOG_POSTS[i];
+  document.getElementById('blogIndex').style.display='none';
+  const el = document.getElementById('blogPost');
+  el.style.display='block';
+  el.innerHTML = `<span class="back" id="backBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>All posts</span>
+    <span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${p.tag}</span>
+    <h1 style="margin-top:12px">${p.title}</h1><div class="meta">${p.date} · Erika Wescott</div>
+    <div class="body">${p.body.map(par=>`<p>${par}</p>`).join('')}</div>`;
+  document.getElementById('backBtn').onclick=()=>{el.style.display='none';document.getElementById('blogIndex').style.display='block';window.scrollTo(0,0);};
+  window.scrollTo(0,0);
+}
+document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
+
+/* ---------------- routing ---------------- */
+const closeMenu=()=>document.getElementById('navlinks').classList.remove('open');
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===page));
+  if(page==='blog'){document.getElementById('blogIndex').style.display='block';document.getElementById('blogPost').style.display='none';}
+  document.getElementById('page-'+page).querySelectorAll('.reveal,.reveal-stagger').forEach(e=>e.classList.add('in'));
+  closeMenu();
+}
+// logo -> home top
+document.querySelectorAll('[data-home]').forEach(a=>a.addEventListener('click',()=>{showPage('home');window.scrollTo({top:0,behavior:'smooth'});}));
+// page links (separate pages)
+document.querySelectorAll('[data-page]').forEach(a=>a.addEventListener('click',()=>{showPage(a.dataset.page);window.scrollTo(0,0);}));
+// anchor links (one-pager sections) — route home first if needed, then scroll
+document.querySelectorAll('[data-anchor]').forEach(a=>a.addEventListener('click',()=>{
+  const id=a.dataset.anchor;
+  const onHome=document.getElementById('page-home').classList.contains('active');
+  showPage('home');
+  const target=document.getElementById(id);
+  if(!target)return;
+  if(onHome){target.scrollIntoView({behavior:'smooth'});}
+  else{requestAnimationFrame(()=>requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth'})));}
+}));
+
+/* mobile menu */
+document.getElementById('menuToggle').onclick=()=>document.getElementById('navlinks').classList.toggle('open');
+
+/* ---- video testimonials: cinematic modal + centered autoplay carousel ---- */
+(function(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const modal=document.getElementById('vmodal'), media=document.getElementById('vmodalMedia');
+  let modalOpen=false; const ROT=5000;
+  function openModal(src){ modalOpen=true; pauseAll();
+    media.innerHTML='<video src="'+src+'" controls autoplay playsinline></video>';
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeModal(){ modalOpen=false; media.innerHTML=''; modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; resumeAll(); }
+  modal.querySelectorAll('[data-vclose]').forEach(el=>el.addEventListener('click',closeModal));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&modalOpen)closeModal(); });
+  document.addEventListener('click',e=>{ const b=e.target.closest('.vplay'); if(b)openModal(b.dataset.src); });
+
+  const carousels=[...document.querySelectorAll('.vtrack')].map(track=>({track,cards:[...track.querySelectorAll('.vcard')],idx:0,timer:null,settle:null}));
+  function pad(c){ if(!c.cards.length)return; const cw=c.cards[0].offsetWidth; const p=Math.max(0,(c.track.clientWidth-cw)/2); c.track.style.paddingLeft=p+'px'; c.track.style.paddingRight=p+'px'; }
+  function centerIndex(c){ const mid=c.track.scrollLeft+c.track.clientWidth/2; let best=0,bd=Infinity; c.cards.forEach((card,j)=>{ const cc=card.offsetLeft+card.offsetWidth/2; const d=Math.abs(cc-mid); if(d<bd){bd=d;best=j;} }); return best; }
+  function setFeatured(c,i){
+    c.cards.forEach((card,j)=>{ const ex=card.querySelector('video.vfeat');
+      if(j===i && !reduce){
+        if(!ex){ const v=document.createElement('video'); v.className='vfeat'; v.src=card.querySelector('.vplay').dataset.src;
+          v.muted=true; v.defaultMuted=true; v.playsInline=true; v.loop=true; v.preload='metadata'; v.poster=card.querySelector('.vposter').getAttribute('src'); card.querySelector('.vplay').appendChild(v); }
+        const vid=card.querySelector('video.vfeat'); if(vid&&!modalOpen)vid.play().catch(()=>{});
+        card.classList.add('is-featured');
+      } else { if(ex){ ex.pause(); ex.remove(); } card.classList.remove('is-featured'); }
+    });
+    c.idx=i;
+  }
+  function scrollToIndex(c,i,smooth){ const card=c.cards[i]; if(!card)return; c.programmatic=true; clearTimeout(c.pg); c.pg=setTimeout(()=>{c.programmatic=false;}, smooth?700:140); const left=card.offsetLeft-(c.track.clientWidth-card.offsetWidth)/2; c.track.scrollTo({left:Math.max(0,left),behavior:smooth?'smooth':'auto'}); }
+  function advance(c){ if(modalOpen||reduce)return; const next=(c.idx+1)%c.cards.length; scrollToIndex(c,next, next!==0); setFeatured(c,next); }
+  function restart(c){ clearInterval(c.timer); if(!reduce&&!modalOpen)c.timer=setInterval(()=>advance(c),ROT); }
+  function pauseAll(){ carousels.forEach(c=>{ clearInterval(c.timer); const v=c.track.querySelector('video.vfeat'); if(v)v.pause(); }); }
+  function resumeAll(){ carousels.forEach(c=>{ const v=c.track.querySelector('video.vfeat'); if(v&&!reduce)v.play().catch(()=>{}); restart(c); }); }
+  document.querySelectorAll('.vnav').forEach(btn=>btn.addEventListener('click',()=>{
+    const c=carousels.find(x=>x.track.id===btn.dataset.track); if(!c)return;
+    const i=btn.classList.contains('next')?(c.idx+1)%c.cards.length:(c.idx-1+c.cards.length)%c.cards.length;
+    scrollToIndex(c,i,true); setFeatured(c,i); restart(c);
+  }));
+  carousels.forEach(c=>{
+    pad(c);
+    c.track.addEventListener('scroll',()=>{ clearTimeout(c.settle); c.settle=setTimeout(()=>{ if(modalOpen||c.programmatic)return; setFeatured(c,centerIndex(c)); },150); });
+    c.track.addEventListener('mouseenter',()=>{ clearInterval(c.timer); const v=c.track.querySelector('video.vfeat'); if(v)v.pause(); });
+    c.track.addEventListener('mouseleave',()=>{ if(modalOpen)return; const v=c.track.querySelector('video.vfeat'); if(v&&!reduce)v.play().catch(()=>{}); restart(c); });
+    if(!reduce){ scrollToIndex(c,0,false); setFeatured(c,0); restart(c); }
+  });
+  window.addEventListener('resize',()=>{ carousels.forEach(c=>{ pad(c); scrollToIndex(c,c.idx,false); }); });
+})();
+
+/* ---------------- FAQ accordion ---------------- */
+document.querySelectorAll('.faq button').forEach(b=>b.onclick=()=>{
+  const f=b.parentElement, ans=f.querySelector('.ans'), open=f.classList.contains('open');
+  document.querySelectorAll('.faq').forEach(x=>{x.classList.remove('open');x.querySelector('.ans').style.maxHeight=null;});
+  if(!open){f.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+});
+
+/* ---------------- booking demo (TidyCal-style) ---------------- */
+let viewDate=new Date(); viewDate.setDate(1);
+let pickedDay=null, pickedSlot=null;
+const SLOTS=['7:00 AM','8:30 AM','12:00 PM','4:30 PM','6:00 PM'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCal(){
+  const y=viewDate.getFullYear(), m=viewDate.getMonth();
+  document.getElementById('calMonth').textContent=MONTHS[m]+' '+y;
+  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+  const today=new Date(); today.setHours(0,0,0,0);
+  let html=['S','M','T','W','T','F','S'].map(d=>`<div class="dow">${d}</div>`).join('');
+  for(let i=0;i<first;i++)html+='<div></div>';
+  for(let d=1;d<=days;d++){
+    const date=new Date(y,m,d), dow=date.getDay();
+    const past=date<today, weekend=(dow===0||dow===6);
+    const disabled=past||weekend;
+    html+=`<button class="cal-day${pickedDay===d&&pickedMonthMatch()?' sel':''}" data-day="${d}" ${disabled?'disabled':''}>${d}</button>`;
+  }
+  document.getElementById('calGrid').innerHTML=html;
+  document.querySelectorAll('.cal-day[data-day]').forEach(b=>{ if(!b.disabled) b.onclick=()=>pickDay(+b.dataset.day); });
+}
+function pickedMonthMatch(){return pickedDay&&pickedDayMonth===viewDate.getMonth()&&pickedDayYear===viewDate.getFullYear();}
+let pickedDayMonth=null, pickedDayYear=null;
+function pickDay(d){
+  pickedDay=d; pickedDayMonth=viewDate.getMonth(); pickedDayYear=viewDate.getFullYear(); pickedSlot=null;
+  renderCal();
+  const sl=document.getElementById('slots'); sl.style.display='grid';
+  sl.innerHTML=SLOTS.map(s=>`<button class="slot" data-slot="${s}">${s}</button>`).join('');
+  document.querySelectorAll('.slot').forEach(b=>b.onclick=()=>{pickedSlot=b.dataset.slot;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('confirmWrap').style.display='block';document.getElementById('bookMsg').textContent='';});
+  document.getElementById('confirmWrap').style.display='none';
+  document.getElementById('bookMsg').textContent='';
+}
+document.getElementById('calPrev').onclick=()=>{viewDate.setMonth(viewDate.getMonth()-1);renderCal();};
+document.getElementById('calNext').onclick=()=>{viewDate.setMonth(viewDate.getMonth()+1);renderCal();};
+document.getElementById('confirmBtn').onclick=()=>{
+  document.getElementById('bookMsg').innerHTML=`Demo booking confirmed for <b>${MONTHS[pickedDayMonth]} ${pickedDay}</b> at <b>${pickedSlot}</b>. Wire TidyCal to make this live.`;
+};
+renderCal();
+
+/* ---- scroll reveal (subtle, premium) ---- */
+(function(){
+  const els=[...document.querySelectorAll('.reveal,.reveal-stagger')];
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(e=>e.classList.add('in'));return;}
+  const io=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:0.01,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){
+    if(e.getBoundingClientRect().top < window.innerHeight*0.95){e.classList.add('in');} else {io.observe(e);}
+  });
+  // failsafe: never leave content hidden
+  window.addEventListener('load',function(){setTimeout(function(){els.forEach(function(e){if(e.getBoundingClientRect().top < window.innerHeight){e.classList.add('in');io.unobserve(e);}});},300);});
+})();
+</script>
+</body>
+</html>
