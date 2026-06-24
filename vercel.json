@@ -10,6 +10,50 @@
       "has": [
         {
           "type": "host",
+          "value": "erikawescott.com"
+        }
+      ],
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "erikawescott.com"
+        }
+      ],
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.erikawescott.com"
+        }
+      ],
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/edit/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.erikawescott.com"
+        }
+      ],
+      "destination": "/admin",
+      "permanent": false
+    },
+    {
+      "source": "/edit",
+      "has": [
+        {
+          "type": "host",
           "value": "ismatducksonaziz.net"
         }
       ],
