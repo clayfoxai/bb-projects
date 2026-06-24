@@ -215,7 +215,8 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(14,17,15,.82);backdr
 .booking-info .who .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--moss),var(--forest));display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:18px;color:#0b1410}
 .meta-row{display:flex;align-items:center;gap:12px;color:var(--bone-dim);font-size:15px;margin-top:14px}
 .meta-row svg{color:var(--moss-bright);flex:0 0 auto}
-.booking-pick{padding:34px 40px}
+.booking-pick{padding:clamp(14px,2.4vw,22px)}
+.tidycal-frame{width:100%;min-height:660px;border:0;border-radius:6px;background:#fff;display:block}
 .demo-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(199,165,123,.12);color:var(--tan);border:1px solid rgba(199,165,123,.4);font-family:'Oswald';text-transform:uppercase;letter-spacing:.14em;font-size:11px;padding:6px 12px;border-radius:2px;margin-bottom:22px}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cal-head .mo{font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:16px}
@@ -363,6 +364,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   .hero-ph .lbl{font-size:10.5px;letter-spacing:.12em}
   .two-col,.about-grid,.booking-card,.intro-grid{grid-template-columns:1fr;gap:40px}
   .booking-info{border-right:0;border-bottom:1px solid var(--line)}
+  .tidycal-frame{min-height:740px}
   .approach-list,.qgrid{grid-template-columns:1fr}
   .proof-grid{grid-template-columns:1fr;gap:16px}
   .tenets{grid-template-columns:1fr 1fr}
@@ -598,7 +600,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     </div>
   </section>
 
-  <!-- BOOKING (TidyCal-style demo) -->
+  <!-- BOOKING (TidyCal embed) -->
   <section id="booking-anchor" class="section">
     <div class="wrap">
       <p class="eyebrow center reveal">Apply for Coaching</p>
@@ -619,20 +621,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
           <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-7.6-12A8.38 8.38 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>No pressure, no pitch. Just a real conversation.</div>
         </div>
         <div class="booking-pick">
-          <span class="demo-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Demo: connect TidyCal to go live</span>
-          <div class="cal-head">
-            <span class="mo" id="calMonth">Month</span>
-            <div class="cal-nav">
-              <button id="calPrev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-              <button id="calNext" aria-label="Next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-            </div>
-          </div>
-          <div class="cal-grid" id="calGrid"></div>
-          <div class="slots" id="slots" style="display:none"></div>
-          <div class="booking-confirm" id="confirmWrap" style="display:none">
-            <button class="btn btn-primary btn-lg" id="confirmBtn" style="width:100%">Confirm Booking</button>
-          </div>
-          <div class="booking-msg" id="bookMsg"></div>
+          <iframe class="tidycal-frame" src="https://tidycal.com/theerikawescott/strategy" title="Book your discovery call with Erika Wescott" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -841,44 +830,6 @@ document.querySelectorAll('.faq button').forEach(b=>b.onclick=()=>{
   if(!open){f.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
 });
 
-/* ---------------- booking demo (TidyCal-style) ---------------- */
-let viewDate=new Date(); viewDate.setDate(1);
-let pickedDay=null, pickedSlot=null;
-const SLOTS=['7:00 AM','8:30 AM','12:00 PM','4:30 PM','6:00 PM'];
-const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-function renderCal(){
-  const y=viewDate.getFullYear(), m=viewDate.getMonth();
-  document.getElementById('calMonth').textContent=MONTHS[m]+' '+y;
-  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
-  const today=new Date(); today.setHours(0,0,0,0);
-  let html=['S','M','T','W','T','F','S'].map(d=>`<div class="dow">${d}</div>`).join('');
-  for(let i=0;i<first;i++)html+='<div></div>';
-  for(let d=1;d<=days;d++){
-    const date=new Date(y,m,d), dow=date.getDay();
-    const past=date<today, weekend=(dow===0||dow===6);
-    const disabled=past||weekend;
-    html+=`<button class="cal-day${pickedDay===d&&pickedMonthMatch()?' sel':''}" data-day="${d}" ${disabled?'disabled':''}>${d}</button>`;
-  }
-  document.getElementById('calGrid').innerHTML=html;
-  document.querySelectorAll('.cal-day[data-day]').forEach(b=>{ if(!b.disabled) b.onclick=()=>pickDay(+b.dataset.day); });
-}
-function pickedMonthMatch(){return pickedDay&&pickedDayMonth===viewDate.getMonth()&&pickedDayYear===viewDate.getFullYear();}
-let pickedDayMonth=null, pickedDayYear=null;
-function pickDay(d){
-  pickedDay=d; pickedDayMonth=viewDate.getMonth(); pickedDayYear=viewDate.getFullYear(); pickedSlot=null;
-  renderCal();
-  const sl=document.getElementById('slots'); sl.style.display='grid';
-  sl.innerHTML=SLOTS.map(s=>`<button class="slot" data-slot="${s}">${s}</button>`).join('');
-  document.querySelectorAll('.slot').forEach(b=>b.onclick=()=>{pickedSlot=b.dataset.slot;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('confirmWrap').style.display='block';document.getElementById('bookMsg').textContent='';});
-  document.getElementById('confirmWrap').style.display='none';
-  document.getElementById('bookMsg').textContent='';
-}
-document.getElementById('calPrev').onclick=()=>{viewDate.setMonth(viewDate.getMonth()-1);renderCal();};
-document.getElementById('calNext').onclick=()=>{viewDate.setMonth(viewDate.getMonth()+1);renderCal();};
-document.getElementById('confirmBtn').onclick=()=>{
-  document.getElementById('bookMsg').innerHTML=`Demo booking confirmed for <b>${MONTHS[pickedDayMonth]} ${pickedDay}</b> at <b>${pickedSlot}</b>. Wire TidyCal to make this live.`;
-};
-renderCal();
 
 /* ---- scroll reveal (subtle, premium) ---- */
 (function(){
