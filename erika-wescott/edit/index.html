@@ -67,8 +67,26 @@ a{color:var(--moss-bright)}
 .card h3 svg{width:15px;height:15px;flex:none;color:var(--moss-bright)}
 .stat-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 .mini-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-faint);font-weight:600;margin-bottom:10px;font-family:'Oswald'}
-.bk-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
-.bk-row:last-child{border-bottom:0}
+.bk-item{border-bottom:1px solid var(--line)}
+.bk-item:last-child{border-bottom:0}
+.bk-row{display:flex;align-items:center;gap:14px;padding:14px 0}
+.bk-acts{display:flex;gap:6px;flex:none;margin-left:auto}
+.bk-act{width:32px;height:32px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--bone-dim);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:.15s;padding:0;font-family:inherit}
+.bk-act svg{width:16px;height:16px}
+.bk-act:hover{border-color:var(--moss-bright);color:var(--moss-bright)}
+.bk-act-danger:hover{border-color:#c97b7b;color:#c97b7b}
+.bk-notes{margin:0 0 14px;padding:10px 12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;gap:8px}
+.bk-note .bk-q{display:block;color:var(--bone-faint);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
+.bk-note .bk-a{color:var(--bone-dim);font-size:13px;line-height:1.5;white-space:pre-wrap}
+.bkc-ov{position:fixed;inset:0;z-index:1100;background:rgba(8,11,9,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px}
+.bkc-card{background:var(--charcoal);border:1px solid var(--line);border-radius:14px;padding:26px;max-width:430px;width:100%}
+.bkc-card h3{font-family:'Oswald';text-transform:uppercase;letter-spacing:.04em;color:var(--bone);font-size:18px;margin:0 0 10px}
+.bkc-card p{font-size:13.5px;color:var(--bone-dim);line-height:1.6;margin:0 0 16px}
+.bkc-lbl{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-faint);margin-bottom:6px}
+.bkc-ta{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:7px;color:var(--bone);font-size:13.5px;padding:10px;font-family:inherit;resize:vertical;box-sizing:border-box}
+.bkc-row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.bkc-danger{background:#c97b7b!important;color:#1a0e0e!important;border-color:#c97b7b!important}
+.bkc-msg{font-size:12.5px;color:#e0a3a3;margin-top:10px;min-height:14px}
 .bk-when{min-width:172px;font-family:'Oswald';font-size:14px;color:var(--bone);letter-spacing:.02em}
 .bk-who{flex:1;min-width:0}
 .bk-who .nm{font-size:14px;color:var(--bone)}
@@ -564,23 +582,40 @@ a{color:var(--moss-bright)}
   function fmtDate(d){if(!d)return"";var p=String(d).split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric"});}
   function bkWhen(iso){if(!iso)return"";var d=new Date(iso);return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' \u00b7 '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
   function getBookings(cb){postFn(SB+"/functions/v1/tidycal-proxy",{p_site:SITE,action:"bookings",p_pass:PASS},cb);}
-  function bkRowHtml(b,withJoin){return '<div class="bk-row"><div class="bk-when">'+esc(bkWhen(b.starts_at))+'</div><div class="bk-who"><div class="nm">'+esc(b.name||'Guest')+'</div><div class="em">'+esc(b.email||'')+'</div></div>'+((withJoin&&b.meeting_url)?'<a class="bk-join" href="'+attr(b.meeting_url)+'" target="_blank" rel="noopener">Join</a>':'')+'</div>';}
+  var IC_VIDEO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14M4 6h11v12H4z"/></svg>';
+  var IC_MAIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>';
+  var IC_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  function bkRowHtml(b,opts){opts=opts||{};var acts='';
+    if(opts.join&&b.meeting_url)acts+='<a class="bk-act" href="'+attr(b.meeting_url)+'" target="_blank" rel="noopener" title="Join the call">'+IC_VIDEO+'</a>';
+    if(opts.email&&b.email)acts+='<a class="bk-act" href="mailto:'+attr(b.email)+'" title="Email '+attr(b.name||'them')+'">'+IC_MAIL+'</a>';
+    if(opts.cancel)acts+='<button type="button" class="bk-act bk-act-danger" data-bk-cancel="'+attr(b.id)+'" data-bk-name="'+attr(b.name||'this guest')+'" data-bk-when="'+attr(bkWhen(b.starts_at))+'" title="Cancel this call">'+IC_X+'</button>';
+    var notes=(opts.notes!==false&&b.notes&&b.notes.length)?('<div class="bk-notes">'+b.notes.map(function(n){return '<div class="bk-note"><span class="bk-q">'+esc(n.q||'Note')+'</span><span class="bk-a">'+esc(n.a||'')+'</span></div>';}).join('')+'</div>'):'';
+    return '<div class="bk-item"><div class="bk-row"><div class="bk-when">'+esc(bkWhen(b.starts_at))+'</div><div class="bk-who"><div class="nm">'+esc(b.name||'Guest')+'</div><div class="em">'+esc(b.email||'')+'</div></div><div class="bk-acts">'+acts+'</div></div>'+notes+'</div>';}
+  function bkCancelPrompt(id,name,when){var o=document.createElement('div');o.className='bkc-ov';
+    o.innerHTML='<div class="bkc-card"><h3>Cancel this call?</h3><p>This cancels <b>'+esc(name)+'</b> on <b>'+esc(when)+'</b> and emails them a cancellation notice. This can\u2019t be undone here.</p><label class="bkc-lbl">Reason (optional, shared with them)</label><textarea class="bkc-ta" id="bkcReason" rows="2" placeholder="e.g. Something came up \u2014 I\u2019ll reach out to reschedule"></textarea><div class="bkc-row"><button type="button" class="btn btn-sm" id="bkcKeep">Keep it</button><button type="button" class="btn btn-sm bkc-danger" id="bkcGo">Cancel the call</button></div><div class="bkc-msg" id="bkcMsg"></div></div>';
+    document.body.appendChild(o);function close(){o.remove();}
+    o.addEventListener('click',function(e){if(e.target===o)close();});
+    o.querySelector('#bkcKeep').onclick=close;
+    o.querySelector('#bkcGo').onclick=function(){var btn=this;btn.disabled=true;btn.textContent='Cancelling\u2026';
+      postFn(SB+"/functions/v1/tidycal-proxy",{p_site:SITE,action:"cancel",p_pass:PASS,booking_id:id,reason:o.querySelector('#bkcReason').value},function(r){
+        if(r&&r.ok){close();renderBookings();}else{btn.disabled=false;btn.textContent='Cancel the call';o.querySelector('#bkcMsg').textContent=(r&&r.error==='already_cancelled')?'That call was already cancelled.':'Could not cancel \u2014 please try again.';}});};}
+  document.addEventListener('click',function(e){var c=e.target&&e.target.closest&&e.target.closest('[data-bk-cancel]');if(c)bkCancelPrompt(c.getAttribute('data-bk-cancel'),c.getAttribute('data-bk-name'),c.getAttribute('data-bk-when'));});
   function bkNotConnected(){return '<div class="bk-empty">Your booking isn\u2019t connected yet. Once it\u2019s live, every call booked on your site shows up here automatically.</div>';}
   function renderBookings(){var v=$("view-bookings");
-    v.innerHTML='<div class="dash"><div class="dash-h">Bookings</div><div class="dash-sub">Every discovery call booked through your website, in one place. Manage your availability in TidyCal.</div>'
+    v.innerHTML='<div class="dash"><div class="dash-h">Bookings</div><div class="dash-sub">Every discovery call booked through your website, in one place. Need to reschedule or change availability? <a href="https://tidycal.com/bookings" target="_blank" rel="noopener" style="color:var(--moss-bright)">Manage in TidyCal \u2197</a></div>'
       +'<div class="kpis" id="bkKpis"><div class="kpi"><div class="k-label">Loading\u2026</div></div></div>'
       +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Upcoming calls</h3><div id="bkUpcoming"><p class="muted">Loading\u2026</p></div></div>'
       +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Past calls</h3><div id="bkRecent"><p class="muted">Loading\u2026</p></div></div></div>';
     getBookings(function(d){var kp=$("bkKpis");
       if(!d||!d.ok){if(kp)kp.innerHTML=kpiCard("Bookings","\u2014","not connected yet");$("bkUpcoming").innerHTML=bkNotConnected();$("bkRecent").innerHTML='';return;}
       if(kp)kp.innerHTML=kpiCard("Total bookings",d.total||0,"all time")+kpiCard("Upcoming",d.upcomingCount||0,"scheduled");
-      var up=d.upcoming||[];$("bkUpcoming").innerHTML=up.length?up.map(function(b){return bkRowHtml(b,true);}).join(""):'<div class="bk-empty">No upcoming calls yet.</div>';
-      var rc=d.recent||[];$("bkRecent").innerHTML=rc.length?rc.map(function(b){return bkRowHtml(b,false);}).join(""):'<div class="bk-empty">No past calls yet.</div>';});}
+      var up=d.upcoming||[];$("bkUpcoming").innerHTML=up.length?up.map(function(b){return bkRowHtml(b,{join:true,email:true,cancel:true});}).join(""):'<div class="bk-empty">No upcoming calls yet.</div>';
+      var rc=d.recent||[];$("bkRecent").innerHTML=rc.length?rc.map(function(b){return bkRowHtml(b,{email:true});}).join(""):'<div class="bk-empty">No past calls yet.</div>';});}
   function mountUpcoming(hostId){var host=$(hostId);if(!host)return;
     getBookings(function(d){
       if(!d||!d.ok){host.innerHTML=bkNotConnected();return;}
       var up=(d.upcoming||[]).slice(0,3);
-      host.innerHTML=(up.length?up.map(function(b){return bkRowHtml(b,true);}).join(""):'<div class="bk-empty">No upcoming calls yet. They\u2019ll appear here as people book.</div>')
+      host.innerHTML=(up.length?up.map(function(b){return bkRowHtml(b,{join:true,notes:false});}).join(""):'<div class="bk-empty">No upcoming calls yet. They\u2019ll appear here as people book.</div>')
         +'<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-sm" id="bkGoAll">View all bookings</button><a class="btn btn-sm" id="bkManage" target="_blank" rel="noopener">Manage availability in TidyCal \u2197</a></div>';
       var g=$("bkGoAll");if(g)g.onclick=function(){showView('bookings');};
       var m=$("bkManage");if(m)rest("site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_url&select=value").then(function(rows){var path=((rows&&rows[0]&&rows[0].value)||"").trim();var src=/^https?:\/\//.test(path)?path:("https://tidycal.com/"+path);m.href=src||"https://tidycal.com";}).catch(function(){m.href="https://tidycal.com";});});}
