@@ -731,6 +731,12 @@ function renderContent(){
 }
 
 /* ---------- hydrate editable copy (progressive enhancement: overlay only non-empty) ---------- */
+function setMeta(sel,attr,val){ if(val==null||String(val).trim()==='') return; var el=document.head.querySelector(sel); if(!el){ el=document.createElement('meta'); var m=sel.match(/\[(name|property)=\"([^\"]+)\"\]/); if(m){el.setAttribute(m[1],m[2]);} document.head.appendChild(el);} el.setAttribute(attr,val); }
+function hydrateSeo(){
+  var t=CONTENT['seo_title']; if(t&&t.trim()){ document.title=t; setMeta('meta[property="og:title"]','content',t); setMeta('meta[name="twitter:title"]','content',t); }
+  var d=CONTENT['seo_description']; if(d&&d.trim()){ setMeta('meta[name="description"]','content',d); setMeta('meta[property="og:description"]','content',d); setMeta('meta[name="twitter:description"]','content',d); }
+  var img=CONTENT['seo_share_image']; if(img&&img.trim()){ setMeta('meta[property="og:image"]','content',img); setMeta('meta[name="twitter:image"]','content',img); setMeta('meta[name="twitter:card"]','content','summary_large_image'); }
+}
 function hydrateStatic(){
   document.querySelectorAll('[data-edit]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit')]; if(v!=null && String(v).trim()!=='') el.textContent=v; });
   document.querySelectorAll('[data-edit-rich]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-rich')]; if(v!=null && String(v).trim()!==''){ var hadStrong=!!el.querySelector('.strong'); el.innerHTML=paras(v).map(function(p,i){return '<p'+(i===0&&hadStrong?' class="strong"':'')+'>'+esc(p)+'</p>';}).join(''); } });
@@ -851,7 +857,7 @@ function initFaq(){
 /* ---------------- boot: render + hydrate + init (after DB load, fallback-safe) ---------------- */
 let booted=false;
 function boot(){ if(booted)return; booted=true;
-  renderContent(); hydrateStatic();
+  renderContent(); hydrateStatic(); hydrateSeo();
   document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
   initCarousel(); initFaq();
   // reveal any freshly-rendered content already in view
