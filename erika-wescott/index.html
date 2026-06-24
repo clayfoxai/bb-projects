@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Erika Wescott | Performance &amp; Nutrition Coaching</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%230E110F%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27Arial,sans-serif%27 font-size=%2715%27 font-weight=%27bold%27 fill=%27%235C8A6E%27 text-anchor=%27middle%27%3EE%3C/text%3E%3C/svg%3E" />
 <meta name="description" content="No-bullshit performance and lifestyle coaching for ambitious professionals who want more energy, better habits, and a stronger body." />
 <meta property="og:title" content="Erika Wescott | Performance &amp; Nutrition Coaching" />
 <meta property="og:description" content="Lift heavy. Eat real food. Feel GOOD AF." />
@@ -385,6 +386,16 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
 }
 </style>
 <script>document.documentElement.classList.add("js")</script>
+<!-- PostHog analytics — Erika Wescott's OWN isolated project. -->
+<script>
+(function(){
+  var EK="phc_C8CRx6CKDsRCnmJpBSMHPvwQ9ZYik8VPUCxXManTCoQe";
+  if(!/^phc_/.test(EK)) return;
+  var s=document.createElement("script");s.src="https://us-assets.i.posthog.com/static/array.js";s.async=true;
+  s.onload=function(){ posthog.init(EK,{api_host:"https://us.i.posthog.com",person_profiles:"identified_only"}); posthog.register({site:"erika"}); };
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 
@@ -418,15 +429,15 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     </picture>
     <div class="wrap">
       <div class="hero-copy">
-        <p class="eyebrow reveal">Performance &amp; Lifestyle Coaching</p>
+        <p class="eyebrow reveal" data-edit="hero_eyebrow">Performance &amp; Lifestyle Coaching</p>
         <h1 class="reveal" style="margin-top:20px">
-          <span class="ln">Lift heavy.</span>
-          <span class="ln">Eat real food.</span>
-          <span class="ln accent">Feel GOOD AF.</span>
+          <span class="ln" data-edit="hero_l1">Lift heavy.</span>
+          <span class="ln" data-edit="hero_l2">Eat real food.</span>
+          <span class="ln accent" data-edit="hero_l3">Feel GOOD AF.</span>
         </h1>
-        <p class="sub reveal">Performance and lifestyle coaching for ambitious people who want more energy, better habits, and a stronger body, without the bullshit.</p>
+        <p class="sub reveal" data-edit="hero_sub">Performance and lifestyle coaching for ambitious people who want more energy, better habits, and a stronger body, without the bullshit.</p>
         <div class="cta-row reveal">
-          <a class="btn btn-primary btn-lg" data-anchor="booking-anchor">Apply to Work With Me</a>
+          <a class="btn btn-primary btn-lg" data-anchor="booking-anchor" data-edit="hero_cta">Apply to Work With Me</a>
           <a class="btn btn-ghost btn-lg" data-anchor="approach-anchor">How It Works</a>
         </div>
       </div>
@@ -522,8 +533,8 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
       <img class="sec-img ratio-portrait" src="assets/about.webp" alt="Erika Wescott in the gym" loading="lazy" />
       <div>
         <p class="eyebrow reveal">About Erika</p>
-        <h2 class="sec-title reveal" style="margin-bottom:20px">I've actually lived it.</h2>
-        <div class="prose reveal" style="margin-top:18px">
+        <h2 class="sec-title reveal" style="margin-bottom:20px" data-edit="about_lead">I've actually lived it.</h2>
+        <div class="prose reveal" style="margin-top:18px" data-edit-rich="about_body">
           <p class="strong">I've spent 14 years working in demanding corporate and entrepreneurial environments while balancing fitness, travel, performance pressure, business, stress, and real life.</p>
           <p>I understand what it feels like to be ambitious, capable, and disciplined, while needing to manage consistency, energy, and everything in between.</p>
           <p>My coaching combines fitness, nutrition, accountability, and practical lifestyle strategy for people who want to feel better physically and mentally without turning their lives upside down.</p>
@@ -571,32 +582,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <div class="wrap" style="max-width:880px">
       <p class="eyebrow center reveal">FAQs</p>
       <h2 class="sec-title center reveal">Questions, answered.</h2>
-      <div style="margin-top:40px">
-        <div class="faq">
-          <button>What app do I need?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="ans"><p>I work with Cronometer and a personalized client portal with all of my clients.</p></div>
-        </div>
-        <div class="faq">
-          <button>Is macro tracking required?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="ans">
-            <p>Usually, yes, at least initially. Macro tracking helps us establish awareness, understand your current habits, and create a realistic starting point. Most people have never truly learned how much protein they're eating, how little they're fueling themselves, or where their consistency breaks down.</p>
-            <p>That said, the goal is not to obsessively track forever. The goal is to build awareness, structure, consistency, and confidence around food so you can make better choices long term, even without tracking.</p>
-          </div>
-        </div>
-        <div class="faq">
-          <button>Why work with you?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="ans">
-            <p>Most fitness coaches have never lived in the real world. I have. I've worked in corporate leadership, startups, entrepreneurship, and high-pressure environments while coaching clients along the way.</p>
-            <p>I know what it feels like to balance stress, travel, long workdays, social pressure, fitness goals, and trying to stay healthy in the middle of all of it. I've also lived with Crohn's disease since childhood, which taught me early on how important consistency, resilience, and taking care of your body really are. This is real-life coaching for real people.</p>
-          </div>
-        </div>
-        <div class="faq">
-          <button>Do you also write workouts?<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button>
-          <div class="ans">
-            <p>Yes. Customized strength and workout programming is included in my premium coaching options based on your goals, experience level, schedule, and lifestyle. My approach focuses on building a stronger, healthier, more athletic body in a realistic and sustainable way.</p>
-          </div>
-        </div>
-      </div>
+      <div class="faq-list" id="faqList" style="margin-top:40px"></div>
     </div>
   </section>
 
@@ -615,13 +601,13 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
               <div class="muted" style="font-size:13px">Performance Coach</div>
             </div>
           </div>
-          <h3>Coaching Discovery Call</h3>
-          <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>30 minutes</div>
+          <h3 data-edit="session_name">Coaching Discovery Call</h3>
+          <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span data-edit="session_len">30 minutes</span></div>
           <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 10l4.5-2.5v9L15 14M4 6h11v12H4z"/></svg>Video call (link after booking)</div>
           <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-7.6-12A8.38 8.38 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>No pressure, no pitch. Just a real conversation.</div>
         </div>
         <div class="booking-pick">
-          <iframe class="tidycal-frame" src="https://tidycal.com/theerikawescott/strategy" title="Book your discovery call with Erika Wescott" loading="lazy"></iframe>
+          <iframe class="tidycal-frame" data-edit-src="tidycal_url" src="https://tidycal.com/theerikawescott/strategy" title="Book your discovery call with Erika Wescott" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -688,60 +674,85 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <div class="vmodal-stage"><div class="vmodal-media" id="vmodalMedia"></div></div>
 </div>
 <script>
-/* ---------------- demo content ---------------- */
-const VIDEOS = [
+/* ===== Supabase (publishable key = read-only; all writes are password-gated RPCs) ===== */
+var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
+    KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
+    SITE="erika";
+var HH={apikey:KEY,Authorization:"Bearer "+KEY};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function paras(t){return String(t==null?'':t).split(/\n\s*\n/).map(function(x){return x.trim();}).filter(Boolean);}
+
+/* ---------- offline fallback content (mirrors live DB seed; page never blank) ---------- */
+let VIDEOS = [
   {name:'Annie S.', src:'assets/videos/annie.mp4', poster:'assets/videos/annie.webp'},
   {name:'Ashleigh C.', src:'assets/videos/ashleigh.mp4', poster:'assets/videos/ashleigh.webp'},
   {name:'Ashley O.', src:'assets/videos/ashley.mp4', poster:'assets/videos/ashley.webp'},
   {name:'Kayla', src:'assets/videos/kayla.mp4', poster:'assets/videos/kayla.webp'},
   {name:'Martha B.', src:'assets/videos/martha.mp4', poster:'assets/videos/martha.webp'},
 ];
-const WRITTEN_TESTIMONIALS = [
+let WRITTEN_TESTIMONIALS = [
   {quote:"These months with you have changed me. It's no bullshit. Do the work and it works.", by:"Erin M."},
   {quote:"I feel ready to take care of myself in ways I could never have imagined before we began working together.", by:"Chassee H."},
   {quote:"Thank you for taking my mind off the hamster wheel and making me stronger mentally.", by:"Alexander"},
   {quote:"I feel empowered now to trust the process and stay accountable.", by:"Vicky G."},
   {quote:"I plan to get back to all of the good skills you helped me build.", by:"Brittany P."},
 ];
-const BLOG_POSTS = [
+let BLOG_POSTS = [
   {tag:'Nutrition', title:'You don’t need another reset', date:'June 2026', excerpt:'Why the all-or-nothing cycle keeps you stuck, and what to build instead.', body:['The Monday reset feels productive. It isn’t. It’s the same loop dressed up as a fresh start.','What actually moves you forward is boring on purpose: structure you can repeat, food you can fuel with, and accountability that does not disappear the second work gets busy.','You do not need another reset. You need better systems.']},
   {tag:'Training', title:'Lift heavy, recover harder', date:'June 2026', excerpt:'Strength is built in the recovery, not just the reps.', body:['Most people training hard are recovering like an afterthought. Sleep, protein, and rest days are not the soft part of the program. They are the program.','Train hard. Then take recovery as seriously as the lift itself.']},
   {tag:'Real Life', title:'How to eat at a restaurant without spiraling', date:'May 2026', excerpt:'Travel, dinners, and drinks are not the enemy. Here’s the framework.', body:['Real life includes restaurants, alcohol, and work events. A plan that ignores those is a plan that fails in week three.','Here is the simple version: anchor your protein, choose what is worth it, and move on without the guilt tax.']},
 ];
+let FAQS = [
+  {q:'What app do I need?', a:['I work with Cronometer and a personalized client portal with all of my clients.']},
+  {q:'Is macro tracking required?', a:['Usually, yes, at least initially.','That said, the goal is to build awareness and confidence around food so you can make better choices long term, even without tracking.']},
+  {q:'Why work with you?', a:['Most fitness coaches have never lived in the real world. I have.','This is real-life coaching for real people.']},
+  {q:'Do you also write workouts?', a:['Yes. Customized strength and workout programming is included in my premium coaching options.']},
+];
+let CONTENT = {};
 
-/* ---------------- render demo content ---------------- */
+/* ---------- templates ---------- */
 const imgphVideo = (label,sub)=>`<div class="imgph ratio-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg><span class="lbl">${label}</span><span class="sub">${sub}</span></div>`;
-
 const playSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
-const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${v.src}" aria-label="Play ${v.name}'s testimonial"><img class="vposter" src="${v.poster}" alt="" loading="lazy"><span class="vbtn">${playSvg}</span><span class="vname">${v.name}</span></button></div>`;
-document.getElementById('homeVtrack').innerHTML = VIDEOS.map(videoCard).join('');
-document.getElementById('tvidGrid').innerHTML = VIDEOS.map(videoCard).join('');
+const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v.src)}" aria-label="Play ${esc(v.name)}'s testimonial"><img class="vposter" src="${esc(v.poster)}" alt="" loading="lazy"><span class="vbtn">${playSvg}</span><span class="vname">${esc(v.name)}</span></button></div>`;
+const faqSvg='<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
 
-document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(t=>`
-  <div class="quote"><p>"${t.quote}"</p><div class="by">${t.by}</div></div>`).join('');
+function renderContent(){
+  document.getElementById('homeVtrack').innerHTML = VIDEOS.map(videoCard).join('');
+  document.getElementById('tvidGrid').innerHTML = VIDEOS.map(videoCard).join('');
+  document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(t=>`
+    <div class="quote"><p>"${esc(t.quote)}"</p><div class="by">${esc(t.by)}</div></div>`).join('');
+  document.getElementById('blogList').innerHTML = BLOG_POSTS.map((p,i)=>`
+    <div class="post-card" data-post="${i}">
+      ${imgphVideo('Post Image','Alex to place')}
+      <div class="pc-body"><span class="tag">${esc(p.tag)}</span><h3>${esc(p.title)}</h3><p class="ex">${esc(p.excerpt)}</p><div class="dt">${esc(p.date)}</div></div>
+    </div>`).join('');
+  var fl=document.getElementById('faqList');
+  if(fl) fl.innerHTML = FAQS.map(f=>`<div class="faq"><button>${esc(f.q)}${faqSvg}</button><div class="ans">${(f.a||[]).map(p=>`<p>${esc(p)}</p>`).join('')}</div></div>`).join('');
+}
 
-document.getElementById('blogList').innerHTML = BLOG_POSTS.map((p,i)=>`
-  <div class="post-card" data-post="${i}">
-    ${imgphVideo('Post Image','Alex to place').replace('ratio-video','ratio-video').replace('Video Clip','Post Image')}
-    <div class="pc-body"><span class="tag">${p.tag}</span><h3>${p.title}</h3><p class="ex">${p.excerpt}</p><div class="dt">${p.date}</div></div>
-  </div>`).join('');
+/* ---------- hydrate editable copy (progressive enhancement: overlay only non-empty) ---------- */
+function hydrateStatic(){
+  document.querySelectorAll('[data-edit]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit')]; if(v!=null && String(v).trim()!=='') el.textContent=v; });
+  document.querySelectorAll('[data-edit-rich]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-rich')]; if(v!=null && String(v).trim()!==''){ var hadStrong=!!el.querySelector('.strong'); el.innerHTML=paras(v).map(function(p,i){return '<p'+(i===0&&hadStrong?' class="strong"':'')+'>'+esc(p)+'</p>';}).join(''); } });
+  document.querySelectorAll('[data-edit-src]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-src')]; if(v!=null && String(v).trim()!=='') el.setAttribute('src',v); });
+}
 
 /* ---------------- blog post view ---------------- */
 function openPost(i){
-  const p = BLOG_POSTS[i];
+  const p = BLOG_POSTS[i]; if(!p) return;
   document.getElementById('blogIndex').style.display='none';
   const el = document.getElementById('blogPost');
   el.style.display='block';
   el.innerHTML = `<span class="back" id="backBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>All posts</span>
-    <span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${p.tag}</span>
-    <h1 style="margin-top:12px">${p.title}</h1><div class="meta">${p.date} · Erika Wescott</div>
-    <div class="body">${p.body.map(par=>`<p>${par}</p>`).join('')}</div>`;
+    <span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${esc(p.tag)}</span>
+    <h1 style="margin-top:12px">${esc(p.title)}</h1><div class="meta">${esc(p.date)} · Erika Wescott</div>
+    <div class="body">${(p.body||[]).map(par=>`<p>${esc(par)}</p>`).join('')}</div>`;
   document.getElementById('backBtn').onclick=()=>{el.style.display='none';document.getElementById('blogIndex').style.display='block';window.scrollTo(0,0);};
+  if(window.posthog)posthog.capture('blog_post_open',{title:p.title});
   window.scrollTo(0,0);
 }
-document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
 
-/* ---------------- routing ---------------- */
+/* ---------------- routing (data-independent; bind immediately) ---------------- */
 const closeMenu=()=>document.getElementById('navlinks').classList.remove('open');
 function showPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -749,15 +760,14 @@ function showPage(page){
   document.querySelectorAll('.nav-links a[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===page));
   if(page==='blog'){document.getElementById('blogIndex').style.display='block';document.getElementById('blogPost').style.display='none';}
   document.getElementById('page-'+page).querySelectorAll('.reveal,.reveal-stagger').forEach(e=>e.classList.add('in'));
+  if(window.posthog)posthog.capture('page_view',{page:page});
   closeMenu();
 }
-// logo -> home top
 document.querySelectorAll('[data-home]').forEach(a=>a.addEventListener('click',()=>{showPage('home');window.scrollTo({top:0,behavior:'smooth'});}));
-// page links (separate pages)
 document.querySelectorAll('[data-page]').forEach(a=>a.addEventListener('click',()=>{showPage(a.dataset.page);window.scrollTo(0,0);}));
-// anchor links (one-pager sections) — route home first if needed, then scroll
 document.querySelectorAll('[data-anchor]').forEach(a=>a.addEventListener('click',()=>{
   const id=a.dataset.anchor;
+  if(id==='booking-anchor'&&window.posthog)posthog.capture('apply_click');
   const onHome=document.getElementById('page-home').classList.contains('active');
   showPage('home');
   const target=document.getElementById(id);
@@ -765,18 +775,16 @@ document.querySelectorAll('[data-anchor]').forEach(a=>a.addEventListener('click'
   if(onHome){target.scrollIntoView({behavior:'smooth'});}
   else{requestAnimationFrame(()=>requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth'})));}
 }));
-
-/* mobile menu */
 document.getElementById('menuToggle').onclick=()=>document.getElementById('navlinks').classList.toggle('open');
 
-/* ---- video testimonials: cinematic modal + centered autoplay carousel ---- */
-(function(){
+/* ---------------- video carousel + modal (init after render) ---------------- */
+function initCarousel(){
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const modal=document.getElementById('vmodal'), media=document.getElementById('vmodalMedia');
   let modalOpen=false; const ROT=5000;
   function openModal(src){ modalOpen=true; pauseAll();
     media.innerHTML='<video src="'+src+'" controls autoplay playsinline></video>';
-    modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; if(window.posthog)posthog.capture('video_play'); }
   function closeModal(){ modalOpen=false; media.innerHTML=''; modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; resumeAll(); }
   modal.querySelectorAll('[data-vclose]').forEach(el=>el.addEventListener('click',closeModal));
@@ -807,7 +815,6 @@ document.getElementById('menuToggle').onclick=()=>document.getElementById('navli
     const i=btn.classList.contains('next')?(c.idx+1)%c.cards.length:(c.idx-1+c.cards.length)%c.cards.length;
     scrollToIndex(c,i,true); setFeatured(c,i); restart(c);
   }));
-  // user interaction pauses auto-advance, then resumes after 5s of no interaction
   function userInteracted(c){ if(reduce)return; clearInterval(c.timer); clearTimeout(c.idle); c.idle=setTimeout(()=>{ if(!modalOpen)restart(c); }, 5000); }
   carousels.forEach(c=>{
     pad(c);
@@ -821,26 +828,56 @@ document.getElementById('menuToggle').onclick=()=>document.getElementById('navli
     if(!reduce){ scrollToIndex(c,0,false); setFeatured(c,0); restart(c); }
   });
   window.addEventListener('resize',()=>{ carousels.forEach(c=>{ pad(c); scrollToIndex(c,c.idx,false); }); });
-})();
+}
 
-/* ---------------- FAQ accordion ---------------- */
-document.querySelectorAll('.faq button').forEach(b=>b.onclick=()=>{
-  const f=b.parentElement, ans=f.querySelector('.ans'), open=f.classList.contains('open');
-  document.querySelectorAll('.faq').forEach(x=>{x.classList.remove('open');x.querySelector('.ans').style.maxHeight=null;});
-  if(!open){f.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
-});
+/* ---------------- FAQ accordion (init after render) ---------------- */
+function initFaq(){
+  document.querySelectorAll('.faq button').forEach(b=>b.onclick=()=>{
+    const f=b.parentElement, ans=f.querySelector('.ans'), open=f.classList.contains('open');
+    document.querySelectorAll('.faq').forEach(x=>{x.classList.remove('open');x.querySelector('.ans').style.maxHeight=null;});
+    if(!open){f.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+  });
+}
 
-
-/* ---- scroll reveal (subtle, premium) ---- */
+/* ---------------- scroll reveal (parse-time; static copy never hidden during fetch) ---------------- */
 (function(){
   const els=[...document.querySelectorAll('.reveal,.reveal-stagger')];
   if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(e=>e.classList.add('in'));return;}
   const io=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:0.01,rootMargin:'0px 0px -8% 0px'});
-  els.forEach(function(e){
-    if(e.getBoundingClientRect().top < window.innerHeight*0.95){e.classList.add('in');} else {io.observe(e);}
-  });
-  // failsafe: never leave content hidden
-  window.addEventListener('load',function(){setTimeout(function(){els.forEach(function(e){if(e.getBoundingClientRect().top < window.innerHeight){e.classList.add('in');io.unobserve(e);}});},300);});
+  els.forEach(function(e){ if(e.getBoundingClientRect().top < window.innerHeight*0.95){e.classList.add('in');} else {io.observe(e);} });
+  window.addEventListener('load',function(){setTimeout(function(){[...document.querySelectorAll('.reveal,.reveal-stagger')].forEach(function(e){if(e.getBoundingClientRect().top < window.innerHeight){e.classList.add('in');}});},300);});
+})();
+
+/* ---------------- boot: render + hydrate + init (after DB load, fallback-safe) ---------------- */
+let booted=false;
+function boot(){ if(booted)return; booted=true;
+  renderContent(); hydrateStatic();
+  document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
+  initCarousel(); initFaq();
+  // reveal any freshly-rendered content already in view
+  document.querySelectorAll('.reveal,.reveal-stagger').forEach(function(e){ if(e.getBoundingClientRect().top < window.innerHeight*0.98) e.classList.add('in'); });
+}
+function mapData(r){
+  if(r.testi&&r.testi.length){
+    var vids=r.testi.filter(t=>t.kind==='video').sort((a,b)=>a.sort-b.sort).map(t=>({name:t.name,src:t.video_url,poster:t.poster_url}));
+    var wr=r.testi.filter(t=>t.kind==='written').sort((a,b)=>a.sort-b.sort).map(t=>({quote:t.quote,by:t.name}));
+    if(vids.length)VIDEOS=vids; if(wr.length)WRITTEN_TESTIMONIALS=wr;
+  }
+  if(r.blog&&r.blog.length){ BLOG_POSTS=r.blog.sort((a,b)=>a.sort-b.sort).map(p=>({tag:p.tag,title:p.title,date:p.post_date,excerpt:p.excerpt,body:paras(p.body)})); }
+  if(r.faq&&r.faq.length){ FAQS=r.faq.sort((a,b)=>a.sort-b.sort).map(f=>({q:f.question,a:paras(f.answer)})); }
+  if(r.content&&r.content.length){ r.content.forEach(c=>{ if(c.value!=null) CONTENT[c.field_key]=c.value; }); }
+}
+function q(path){ return fetch(SB+'/rest/v1/'+path,{headers:HH}).then(r=>r.ok?r.json():[]).catch(()=>[]); }
+(function(){
+  var done=false; function go(r){ if(done)return; done=true; if(r)mapData(r); boot(); }
+  var t=setTimeout(function(){go(null);},3500);
+  Promise.all([
+    q('site_content?site_slug=eq.'+SITE+'&select=field_key,value'),
+    q('testimonials?site_slug=eq.'+SITE+'&published=eq.true&select=*'),
+    q('blog_posts?site_slug=eq.'+SITE+'&published=eq.true&select=*'),
+    q('faqs?site_slug=eq.'+SITE+'&published=eq.true&select=*')
+  ]).then(function(a){ clearTimeout(t); go({content:a[0],testi:a[1],blog:a[2],faq:a[3]}); })
+   .catch(function(){ clearTimeout(t); go(null); });
 })();
 </script>
 </body>

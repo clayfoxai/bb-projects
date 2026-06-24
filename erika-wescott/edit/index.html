@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Erika Wescott | Content Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%230E110F%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27Arial,sans-serif%27 font-size=%2715%27 font-weight=%27bold%27 fill=%27%235C8A6E%27 text-anchor=%27middle%27%3EE%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -104,35 +105,30 @@ input,textarea,select{font-family:inherit}
   <div class="gate-box">
     <div class="brandmark">ERIKA<span>.</span>WESCOTT</div>
     <p>Content Studio</p>
-    <input type="password" id="pw" placeholder="Enter password" />
+    <input type="password" id="pw" placeholder="Enter password" autocomplete="current-password" />
     <button id="enterBtn">Enter</button>
     <div class="gate-err" id="gateErr"></div>
-    <div class="hint">Demo password: <b>erika</b></div>
   </div>
 </div>
 
 <!-- ===== APP ===== -->
 <div class="app" id="app">
-  <!-- SIDEBAR -->
   <aside class="side">
     <div class="brandmark">ERIKA<span>.</span>WESCOTT</div>
     <div class="sub">Content Studio</div>
     <button class="navbtn active" data-panel="content"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4v16h16v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>Page Content</button>
     <button class="navbtn" data-panel="testimonials"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Testimonials</button>
     <button class="navbtn" data-panel="blog"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Blog Posts</button>
-    <button class="navbtn" data-panel="images"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Images</button>
-    <button class="navbtn" data-panel="booking"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Booking</button>
     <div class="foot">
       <a class="viewlink" href="../" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View live site</a>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <h2 id="panelTitle">Page Content</h2>
       <div class="actions">
-        <span class="status" id="saveStatus">All changes saved</span>
+        <span class="status" id="saveStatus">Loading…</span>
         <button class="btn" id="saveDraft">Save Draft</button>
         <button class="btn btn-primary" id="publishBtn">Publish</button>
       </div>
@@ -141,34 +137,12 @@ input,textarea,select{font-family:inherit}
     <div class="content">
       <div class="lock-note">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <div>You control all <b>content</b> here, text, testimonials, blog posts, images, and your booking link. The <b>structure, layout, and design are locked</b> so the site always stays on-brand. Edit freely, nothing you do here can break the page.</div>
+        <div>You control all <b>content</b> here, page text, testimonials and blog posts. The <b>structure, layout, and design are locked</b> so the site always stays on-brand. Page text saves as a <b>draft</b> until you hit <b>Publish</b>. Testimonials and blog posts save live the moment you click Save on a card (use the Published toggle to control what shows).</div>
       </div>
 
-      <!-- PAGE CONTENT -->
+      <!-- PAGE CONTENT (dynamic from site_content) -->
       <div class="panel on" id="panel-content">
-        <div class="group">
-          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Hero</div>
-          <div class="field"><label>Headline <span class="sec">(3 lines)</span></label><textarea data-k="heroHead">Lift heavy.
-Eat real food.
-Feel GOOD AF.</textarea></div>
-          <div class="field"><label>Subheadline</label><textarea data-k="heroSub">Performance and lifestyle coaching for ambitious people who want more energy, better habits, and a stronger body, without the bullshit.</textarea></div>
-          <div class="field"><label>Primary Button Label</label><input data-k="heroBtn" value="Work With Me" /></div>
-        </div>
-        <div class="group">
-          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>Intro</div>
-          <div class="field"><label>Lead line</label><input data-k="introLead" value="Most people do not need more information. They need structure." /></div>
-          <div class="field"><label>Body</label><textarea data-k="introBody">They need accountability. They need someone honest enough to tell them what's actually getting in their way.
-
-I work with ambitious people who are tired of starting over every Monday, skipping workouts when work gets busy, under-eating all day and overeating at night.
-
-This is not about perfection. It's about building a stronger body, better routines, and a lifestyle that actually works in real life.</textarea></div>
-        </div>
-        <div class="group">
-          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>About Erika</div>
-          <div class="field"><label>About body</label><textarea data-k="aboutBody">I've spent 14 years working in demanding corporate and entrepreneurial environments while balancing fitness, travel, performance pressure, business, stress, and real life.
-
-My coaching combines fitness, nutrition, accountability, and practical lifestyle strategy for people who want to feel better physically and mentally without turning their lives upside down.</textarea></div>
-        </div>
+        <div id="contentFields"></div>
         <div class="group">
           <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQs</div>
           <div id="faqWrap"></div>
@@ -191,23 +165,6 @@ My coaching combines fitness, nutrition, accountability, and practical lifestyle
         <div id="postWrap"></div>
         <button class="btn btn-sm addrow" id="addPost">+ New blog post</button>
       </div>
-
-      <!-- IMAGES -->
-      <div class="panel" id="panel-images">
-        <p class="hint" style="margin-bottom:18px;color:var(--bone-dim)">Drop in your photos for each slot. The layout adjusts automatically, you just choose the image.</p>
-        <div class="images-grid" id="imgGrid"></div>
-      </div>
-
-      <!-- BOOKING -->
-      <div class="panel" id="panel-booking">
-        <div class="group">
-          <div class="gh"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>Discovery Call Booking</div>
-          <div class="field"><label>TidyCal booking link</label><input data-k="tidycal" placeholder="https://tidycal.com/erikawescott/discovery-call" /><div class="hint">Demo: paste your TidyCal link here to make the on-page booking widget live.</div></div>
-          <div class="field"><label>Session name</label><input data-k="sessionName" value="Coaching Discovery Call" /></div>
-          <div class="field"><label>Session length</label><input data-k="sessionLen" value="30 minutes" /></div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
@@ -215,134 +172,154 @@ My coaching combines fitness, nutrition, accountability, and practical lifestyle
 <div class="toast" id="toast">Saved</div>
 
 <script>
+var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
+    KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
+    SITE="erika";
+function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+var PASS=null;
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1600);}
+function rpc(name,body){return fetch(SB+"/rest/v1/rpc/"+name,{method:"POST",headers:Hh(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error(name+" "+r.status);return r.json();});}
+function rest(path){return fetch(SB+"/rest/v1/"+path,{headers:Hh()}).then(function(r){if(!r.ok)throw new Error(path+" "+r.status);return r.json();});}
+
 /* ---------- gate ---------- */
-const enter=()=>{const v=document.getElementById('pw').value.trim().toLowerCase();
-  if(v==='erika'){document.getElementById('gate').style.display='none';document.getElementById('app').classList.add('on');}
-  else{document.getElementById('gateErr').textContent='Incorrect password. Try again.';}};
-document.getElementById('enterBtn').onclick=enter;
-document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
-
-/* ---------- state (demo persistence) ---------- */
-const KEY='erika-wescott:studio:v1';
-const DEFAULT={
-  faqs:[
-    {q:'What app do I need?',a:'I work with Cronometer and a personalized client portal with all of my clients.'},
-    {q:'Is macro tracking required?',a:'Usually, yes, at least initially. The goal is to build awareness and confidence around food so you can make better choices long term, even without tracking.'},
-    {q:'Why work with you?',a:"Most fitness coaches have never lived in the real world. I have. This is real-life coaching for real people."},
-    {q:'Do you also write workouts?',a:'Yes. Customized strength and workout programming is included in my premium coaching options.'},
-  ],
-  vids:[{name:'Client Name',role:'Founder'},{name:'Client Name',role:'Finance'},{name:'Client Name',role:'Consulting'}],
-  quotes:[
-    {text:'I stopped starting over every Monday. The structure actually held through travel, work, all of it.',by:'Erika coaching client'},
-    {text:"She is not the cheerleader type and that's exactly what I needed.",by:'Erika coaching client'},
-  ],
-  posts:[
-    {title:'You don’t need another reset',tag:'Nutrition',published:true,body:'The Monday reset feels productive. It isn’t. What actually moves you forward is structure you can repeat.'},
-    {title:'Lift heavy, recover harder',tag:'Training',published:false,body:'Strength is built in the recovery, not just the reps.'},
-  ],
-  images:[
-    {slot:'Hero Portrait',note:'Full-height athletic portrait'},
-    {slot:'About Photo',note:'Lifestyle / training shot'},
-    {slot:'Testimonial Clips',note:'Client video thumbnails'},
-    {slot:'Blog Post Images',note:'One per post'},
-  ],
-  fields:{}
-};
-let S=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(DEFAULT);
-const save=(silent)=>{localStorage.setItem(KEY,JSON.stringify(S));if(!silent)toast('Saved');document.getElementById('saveStatus').textContent='All changes saved';};
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
-function dirty(){document.getElementById('saveStatus').textContent='Unsaved changes';}
-
-/* restore simple fields */
-document.querySelectorAll('[data-k]').forEach(el=>{
-  if(S.fields[el.dataset.k]!=null)el.value=S.fields[el.dataset.k];
-  el.addEventListener('input',()=>{S.fields[el.dataset.k]=el.value;dirty();});
-});
+function enter(){
+  var p=$('pw').value;
+  if(!p){$('gateErr').textContent='Enter your password.';return;}
+  $('gateErr').textContent='Checking…';
+  rpc('bb_login',{p_site:SITE,p_pass:p}).then(function(canon){
+    if(canon){ PASS=canon; $('gate').style.display='none'; $('app').classList.add('on'); loadAll(); }
+    else { $('gateErr').textContent='Incorrect password. Try again.'; }
+  }).catch(function(){ $('gateErr').textContent='Connection error. Try again.'; });
+}
+$('enterBtn').onclick=enter;
+$('pw').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
 
 /* ---------- panels ---------- */
-const titles={content:'Page Content',testimonials:'Testimonials',blog:'Blog Posts',images:'Images',booking:'Booking'};
-document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  document.getElementById('panel-'+b.dataset.panel).classList.add('on');
-  document.getElementById('panelTitle').textContent=titles[b.dataset.panel];
-});
+var titles={content:'Page Content',testimonials:'Testimonials',blog:'Blog Posts'};
+document.querySelectorAll('.navbtn').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('.navbtn').forEach(function(x){x.classList.remove('active');});b.classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  $('panel-'+b.dataset.panel).classList.add('on');
+  $('panelTitle').textContent=titles[b.dataset.panel];
+};});
 
-/* ---------- FAQ editor ---------- */
-function renderFaqs(){
-  document.getElementById('faqWrap').innerHTML=S.faqs.map((f,i)=>`
-    <div class="card"><div class="ch"><span class="t">FAQ ${i+1}</span><button class="btn btn-sm btn-danger" data-del-faq="${i}">Delete</button></div>
-    <div class="field" style="margin-bottom:12px"><input data-faq-q="${i}" value="${esc(f.q)}" placeholder="Question"/></div>
-    <textarea data-faq-a="${i}" placeholder="Answer">${esc(f.a)}</textarea></div>`).join('');
-  bind('[data-faq-q]','input',(e,i)=>{S.faqs[i].q=e.target.value;dirty();});
-  bind('[data-faq-a]','input',(e,i)=>{S.faqs[i].a=e.target.value;dirty();},'faqA');
-  bindClick('[data-del-faq]',i=>{S.faqs.splice(i,1);renderFaqs();dirty();});
+/* ---------- page text: site_content draft/publish ---------- */
+var content=[], draftMap={};
+function setStatus(t){$('saveStatus').textContent=t;}
+function dirty(){setStatus('Unsaved changes');}
+var SECTION_TITLES={hero:'Hero',about:'About Erika',booking:'Booking'};
+function loadContent(){
+  return rest("site_content?site_slug=eq."+SITE+"&select=field_key,value,draft_value,label,field_type,section,sort&order=section.asc,sort.asc").then(function(rows){
+    content=rows; draftMap={};
+    var bySection={};
+    rows.forEach(function(r){ (bySection[r.section||'general']=bySection[r.section||'general']||[]).push(r); });
+    var html='';
+    Object.keys(bySection).forEach(function(sec){
+      html+='<div class="group"><div class="gh">'+esc(SECTION_TITLES[sec]||sec)+'</div>';
+      bySection[sec].forEach(function(r){
+        var val=r.draft_value!=null?r.draft_value:(r.value||'');
+        var multi=(r.field_type==='textarea')||/\n/.test(val);
+        html+='<div class="field"><label>'+esc(r.label||r.field_key)+'</label>';
+        html+= multi ? '<textarea data-fk="'+esc(r.field_key)+'">'+esc(val)+'</textarea>'
+                     : '<input data-fk="'+esc(r.field_key)+'" value="'+esc(val)+'"/>';
+        html+='</div>';
+      });
+      html+='</div>';
+    });
+    $('contentFields').innerHTML=html;
+    document.querySelectorAll('#contentFields [data-fk]').forEach(function(el){
+      el.addEventListener('input',function(){ draftMap[el.dataset.fk]=el.value; dirty(); });
+    });
+  });
 }
-document.getElementById('addFaq').onclick=()=>{S.faqs.push({q:'',a:''});renderFaqs();dirty();};
-
-/* ---------- video testimonials ---------- */
-function renderVids(){
-  document.getElementById('vidWrap').innerHTML=S.vids.map((v,i)=>`
-    <div class="card"><div class="ch"><span class="t">Video ${i+1}</span><button class="btn btn-sm btn-danger" data-del-vid="${i}">Remove</button></div>
-    <div class="row2"><input data-vid-n="${i}" value="${esc(v.name)}" placeholder="Client name"/><input data-vid-r="${i}" value="${esc(v.role)}" placeholder="Role / industry"/></div>
-    <div class="imgslot" style="margin-top:12px">Upload video clip<small>From Erika's iCloud album · MP4 or share link</small></div></div>`).join('');
-  bind('[data-vid-n]','input',(e,i)=>{S.vids[i].name=e.target.value;dirty();});
-  bind('[data-vid-r]','input',(e,i)=>{S.vids[i].role=e.target.value;dirty();},'vidR');
-  bindClick('[data-del-vid]',i=>{S.vids.splice(i,1);renderVids();dirty();});
+function saveDrafts(){
+  var keys=Object.keys(draftMap);
+  if(!keys.length) return Promise.resolve(0);
+  return keys.reduce(function(pr,k){ return pr.then(function(){ return rpc('bb_save_draft',{p_site:SITE,p_key:k,p_value:draftMap[k],p_pass:PASS}); }); }, Promise.resolve()).then(function(){ draftMap={}; return keys.length; });
 }
-document.getElementById('addVid').onclick=()=>{S.vids.push({name:'',role:''});renderVids();dirty();};
+$('saveDraft').onclick=function(){ setStatus('Saving…'); saveDrafts().then(function(){ setStatus('Draft saved'); toast('Draft saved'); }).catch(function(){ setStatus('Save failed'); }); };
+$('publishBtn').onclick=function(){ setStatus('Publishing…'); saveDrafts().then(function(){ return rpc('bb_publish_all',{p_site:SITE,p_pass:PASS}); }).then(function(){ setStatus('Published to live site ✓'); toast('Published to live site'); }).catch(function(){ setStatus('Publish failed'); }); };
 
-/* ---------- written testimonials ---------- */
-function renderQuotes(){
-  document.getElementById('quoteWrap').innerHTML=S.quotes.map((q,i)=>`
-    <div class="card"><div class="ch"><span class="t">Quote ${i+1}</span><button class="btn btn-sm btn-danger" data-del-q="${i}">Remove</button></div>
-    <textarea data-q-t="${i}" placeholder="Testimonial text">${esc(q.text)}</textarea>
-    <div class="field" style="margin-top:12px;margin-bottom:0"><input data-q-b="${i}" value="${esc(q.by)}" placeholder="Attribution"/></div></div>`).join('');
-  bind('[data-q-t]','input',(e,i)=>{S.quotes[i].text=e.target.value;dirty();});
-  bind('[data-q-b]','input',(e,i)=>{S.quotes[i].by=e.target.value;dirty();},'qB');
-  bindClick('[data-del-q]',i=>{S.quotes.splice(i,1);renderQuotes();dirty();});
+/* ---------- FAQs (bb_faqs_*) ---------- */
+function loadFaqs(){
+  return rpc('bb_faqs_all',{p_site:SITE,p_pass:PASS}).then(function(rows){
+    $('faqWrap').innerHTML=rows.map(function(f){return (
+      '<div class="card" data-id="'+f.id+'"><div class="ch"><span class="t">FAQ</span>'+
+      '<div style="display:flex;gap:10px;align-items:center"><span class="pubrow"><button class="toggle '+(f.published?'on':'')+'" data-pub></button>'+(f.published?'Visible':'Hidden')+'</span>'+
+      '<button class="btn btn-sm" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Delete</button></div></div>'+
+      '<div class="field" style="margin-bottom:12px"><input data-q value="'+esc(f.question)+'" placeholder="Question"/></div>'+
+      '<textarea data-a placeholder="Answer (blank line = new paragraph)">'+esc(f.answer)+'</textarea></div>'
+    );}).join('');
+    bindCollection('faqWrap', function(card){return {id:card.dataset.id, question:card.querySelector('[data-q]').value, answer:card.querySelector('[data-a]').value, published:card.querySelector('[data-pub]').classList.contains('on')};}, 'bb_faqs_upsert','bb_faqs_delete', loadFaqs);
+  });
 }
-document.getElementById('addQuote').onclick=()=>{S.quotes.push({text:'',by:'Erika coaching client'});renderQuotes();dirty();};
+$('addFaq').onclick=function(){ rpc('bb_faqs_upsert',{p_site:SITE,p_pass:PASS,p_row:{question:'New question',answer:'',published:false}}).then(loadFaqs).then(function(){toast('FAQ added');}); };
 
-/* ---------- blog posts ---------- */
-function renderPosts(){
-  document.getElementById('postWrap').innerHTML=S.posts.map((p,i)=>`
-    <div class="card"><div class="ch"><span class="t">Post ${i+1}</span>
-      <div style="display:flex;gap:10px;align-items:center">
-        <span class="pubrow"><button class="toggle ${p.published?'on':''}" data-pub="${i}"></button>${p.published?'Published':'Draft'}</span>
-        <button class="btn btn-sm btn-danger" data-del-post="${i}">Delete</button></div></div>
-    <div class="row2"><input data-p-t="${i}" value="${esc(p.title)}" placeholder="Post title"/><input data-p-tag="${i}" value="${esc(p.tag)}" placeholder="Category"/></div>
-    <textarea data-p-b="${i}" style="margin-top:12px" placeholder="Write your post...">${esc(p.body)}</textarea>
-    <div class="imgslot" style="margin-top:12px">Upload featured image<small>Optional · Alex/Erika to place</small></div></div>`).join('');
-  bind('[data-p-t]','input',(e,i)=>{S.posts[i].title=e.target.value;dirty();});
-  bind('[data-p-tag]','input',(e,i)=>{S.posts[i].tag=e.target.value;dirty();},'pTag');
-  bind('[data-p-b]','input',(e,i)=>{S.posts[i].body=e.target.value;dirty();},'pB');
-  bindClick('[data-pub]',i=>{S.posts[i].published=!S.posts[i].published;renderPosts();dirty();});
-  bindClick('[data-del-post]',i=>{S.posts.splice(i,1);renderPosts();dirty();});
+/* ---------- testimonials (bb_testimonials_*) ---------- */
+function loadTesti(){
+  return rpc('bb_testimonials_all',{p_site:SITE,p_pass:PASS}).then(function(rows){
+    var vids=rows.filter(function(r){return r.kind==='video';});
+    var wr=rows.filter(function(r){return r.kind==='written';});
+    $('vidWrap').innerHTML=vids.map(function(v){return (
+      '<div class="card" data-id="'+v.id+'" data-kind="video"><div class="ch"><span class="t">Video</span>'+
+      '<div style="display:flex;gap:10px;align-items:center"><span class="pubrow"><button class="toggle '+(v.published?'on':'')+'" data-pub></button>'+(v.published?'Visible':'Hidden')+'</span>'+
+      '<button class="btn btn-sm" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div>'+
+      '<div class="row2"><input data-name value="'+esc(v.name)+'" placeholder="Client name"/><input data-role value="'+esc(v.role)+'" placeholder="Role / industry (optional)"/></div>'+
+      '<div class="field" style="margin-top:12px;margin-bottom:0"><label>Video file path</label><input data-video value="'+esc(v.video_url)+'" placeholder="assets/videos/name.mp4"/><div class="hint">Poster: <input data-poster value="'+esc(v.poster_url)+'" placeholder="assets/videos/name.webp" style="margin-top:6px"/></div></div></div>'
+    );}).join('');
+    bindCollection('vidWrap', function(card){return {id:card.dataset.id, kind:'video', name:card.querySelector('[data-name]').value, role:card.querySelector('[data-role]').value, video_url:card.querySelector('[data-video]').value, poster_url:card.querySelector('[data-poster]').value, published:card.querySelector('[data-pub]').classList.contains('on')};}, 'bb_testimonials_upsert','bb_testimonials_delete', loadTesti);
+
+    $('quoteWrap').innerHTML=wr.map(function(q){return (
+      '<div class="card" data-id="'+q.id+'" data-kind="written"><div class="ch"><span class="t">Quote</span>'+
+      '<div style="display:flex;gap:10px;align-items:center"><span class="pubrow"><button class="toggle '+(q.published?'on':'')+'" data-pub></button>'+(q.published?'Visible':'Hidden')+'</span>'+
+      '<button class="btn btn-sm" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div>'+
+      '<textarea data-quote placeholder="Testimonial text">'+esc(q.quote)+'</textarea>'+
+      '<div class="field" style="margin-top:12px;margin-bottom:0"><input data-name value="'+esc(q.name)+'" placeholder="Attribution (e.g. Erin M.)"/></div></div>'
+    );}).join('');
+    bindCollection('quoteWrap', function(card){return {id:card.dataset.id, kind:'written', quote:card.querySelector('[data-quote]').value, name:card.querySelector('[data-name]').value, published:card.querySelector('[data-pub]').classList.contains('on')};}, 'bb_testimonials_upsert','bb_testimonials_delete', loadTesti);
+  });
 }
-document.getElementById('addPost').onclick=()=>{S.posts.unshift({title:'',tag:'',published:false,body:''});renderPosts();dirty();};
+$('addVid').onclick=function(){ rpc('bb_testimonials_upsert',{p_site:SITE,p_pass:PASS,p_row:{kind:'video',name:'New client',published:false}}).then(loadTesti).then(function(){toast('Video added');}); };
+$('addQuote').onclick=function(){ rpc('bb_testimonials_upsert',{p_site:SITE,p_pass:PASS,p_row:{kind:'written',name:'Erika coaching client',published:false}}).then(loadTesti).then(function(){toast('Quote added');}); };
 
-/* ---------- images ---------- */
-function renderImages(){
-  document.getElementById('imgGrid').innerHTML=S.images.map(im=>`
-    <div class="imgcard"><div class="lbl">${esc(im.slot)}</div>
-    <div class="imgslot">Upload image<small>${esc(im.note)}</small></div></div>`).join('');
+/* ---------- blog (bb_blog_*) ---------- */
+function loadBlog(){
+  return rpc('bb_blog_all',{p_site:SITE,p_pass:PASS}).then(function(rows){
+    $('postWrap').innerHTML=rows.map(function(p){return (
+      '<div class="card" data-id="'+p.id+'"><div class="ch"><span class="t">Post</span>'+
+      '<div style="display:flex;gap:10px;align-items:center"><span class="pubrow"><button class="toggle '+(p.published?'on':'')+'" data-pub></button>'+(p.published?'Published':'Draft')+'</span>'+
+      '<button class="btn btn-sm" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Delete</button></div></div>'+
+      '<div class="row2"><input data-title value="'+esc(p.title)+'" placeholder="Post title"/><input data-tag value="'+esc(p.tag)+'" placeholder="Category"/></div>'+
+      '<div class="row2" style="margin-top:12px"><input data-date value="'+esc(p.post_date)+'" placeholder="Date (e.g. June 2026)"/><input data-excerpt value="'+esc(p.excerpt)+'" placeholder="Short excerpt"/></div>'+
+      '<textarea data-body style="margin-top:12px" placeholder="Write your post… (blank line = new paragraph)">'+esc(p.body)+'</textarea></div>'
+    );}).join('');
+    bindCollection('postWrap', function(card){return {id:card.dataset.id, title:card.querySelector('[data-title]').value, tag:card.querySelector('[data-tag]').value, post_date:card.querySelector('[data-date]').value, excerpt:card.querySelector('[data-excerpt]').value, body:card.querySelector('[data-body]').value, published:card.querySelector('[data-pub]').classList.contains('on')};}, 'bb_blog_upsert','bb_blog_delete', loadBlog);
+  });
+}
+$('addPost').onclick=function(){ rpc('bb_blog_upsert',{p_site:SITE,p_pass:PASS,p_row:{title:'New post',tag:'',published:false}}).then(loadBlog).then(function(){toast('Post added');}); };
+
+/* ---------- generic collection card binding ---------- */
+function bindCollection(wrapId, collect, upsertFn, deleteFn, reload){
+  var wrap=$(wrapId);
+  wrap.querySelectorAll('.card').forEach(function(card){
+    var tog=card.querySelector('[data-pub]');
+    if(tog) tog.onclick=function(){ tog.classList.toggle('on'); };
+    var sv=card.querySelector('[data-save]');
+    if(sv) sv.onclick=function(){ sv.textContent='Saving…'; rpc(upsertFn,{p_site:SITE,p_pass:PASS,p_row:collect(card)}).then(function(){ toast('Saved'); reload(); }).catch(function(){ sv.textContent='Save'; toast('Save failed'); }); };
+    var del=card.querySelector('[data-del]');
+    if(del) del.onclick=function(){ if(!confirm('Delete this item? This cannot be undone.'))return; rpc(deleteFn,{p_site:SITE,p_pass:PASS,p_id:card.dataset.id}).then(function(){ toast('Deleted'); reload(); }).catch(function(){ toast('Delete failed'); }); };
+  });
 }
 
-/* ---------- helpers ---------- */
-function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function idxOf(el,sel){ // sel is like '[data-faq-q]' -> read that attribute's value as the index
-  const attr=sel.replace(/[\[\]]/g,'');
-  return parseInt(el.getAttribute(attr),10)||0;
+/* ---------- load everything after login ---------- */
+function loadAll(){
+  setStatus('Loading…');
+  Promise.all([loadContent(), loadFaqs(), loadTesti(), loadBlog()])
+    .then(function(){ setStatus('All changes saved'); })
+    .catch(function(){ setStatus('Load error — refresh'); });
 }
-function bind(sel,ev,fn){document.querySelectorAll(sel).forEach(el=>{const i=idxOf(el,sel);el.addEventListener(ev,e=>fn(e,i));});}
-function bindClick(sel,fn){document.querySelectorAll(sel).forEach(el=>{const i=idxOf(el,sel);el.addEventListener('click',()=>fn(i));});}
-
-renderFaqs();renderVids();renderQuotes();renderPosts();renderImages();
-
-/* ---------- save / publish ---------- */
-document.getElementById('saveDraft').onclick=()=>save();
-document.getElementById('publishBtn').onclick=()=>{save(true);toast('Published to live site');};
 </script>
 </body>
 </html>
