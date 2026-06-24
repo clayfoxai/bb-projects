@@ -228,6 +228,41 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(14,17,15,.82);backdr
 .meta-row svg{color:var(--moss-bright);flex:0 0 auto}
 .booking-pick{padding:clamp(14px,2.4vw,22px)}
 .tidycal-frame{width:100%;min-height:660px;border:0;border-radius:6px;background:#fff;display:block}
+.bk-wrap{padding:30px;background:var(--forest-2);min-height:660px;display:flex;flex-direction:column}
+.bk-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.bk-month{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:17px;color:var(--bone)}
+.bk-nav{display:flex;gap:8px}
+.bk-nav button{width:34px;height:34px;border:1px solid var(--line);background:transparent;color:var(--bone);border-radius:4px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.18s;font-family:inherit}
+.bk-nav button:hover:not(:disabled){border-color:var(--moss-bright);color:var(--moss-bright)}
+.bk-nav button:disabled{opacity:.3;cursor:not-allowed}
+.bk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.bk-wd{text-align:center;font-size:11px;letter-spacing:.1em;color:var(--bone-dim);text-transform:uppercase;padding:4px 0}
+.bk-day{aspect-ratio:1;border:1px solid transparent;background:transparent;color:var(--bone-dim);border-radius:5px;cursor:pointer;font-size:14px;transition:.15s;font-family:inherit}
+.bk-day.has{background:rgba(92,138,110,.14);color:var(--bone);border-color:rgba(92,138,110,.35);font-weight:600}
+.bk-day.has:hover{border-color:var(--moss-bright);background:rgba(92,138,110,.28)}
+.bk-day.sel{background:var(--moss-bright);color:#0b1410;border-color:var(--moss-bright)}
+.bk-day.empty{opacity:.22;cursor:default;pointer-events:none}
+.bk-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:auto;margin-top:4px;align-content:start}
+.bk-slot{padding:13px;border:1px solid var(--line);background:transparent;color:var(--bone);border-radius:5px;cursor:pointer;font-size:14px;font-family:'Oswald',sans-serif;letter-spacing:.04em;transition:.15s}
+.bk-slot:hover{border-color:var(--moss-bright);color:var(--moss-bright)}
+.bk-back{background:none;border:0;color:var(--bone-dim);cursor:pointer;font-size:13px;padding:0;margin-bottom:14px;align-self:flex-start;font-family:inherit}
+.bk-back:hover{color:var(--moss-bright)}
+.bk-sumln{font-size:14px;color:var(--bone-dim);margin-bottom:16px}
+.bk-sumln b{color:var(--bone)}
+.bk-field{margin-bottom:14px}
+.bk-field label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:6px}
+.bk-field input{width:100%;padding:12px 14px;background:var(--charcoal);border:1px solid var(--line);border-radius:5px;color:var(--bone);font-size:15px;font-family:inherit}
+.bk-field input:focus{outline:0;border-color:var(--moss-bright)}
+.bk-submit{width:100%;margin-top:8px}
+.bk-tz{font-size:12px;color:var(--bone-dim);margin-top:16px;text-align:center}
+.bk-msg{font-size:13px;color:#e0a3a3;margin-top:10px;min-height:16px}
+.bk-spin{display:flex;align-items:center;justify-content:center;flex:1;color:var(--bone-dim);font-size:14px;gap:10px}
+.bk-spin::before{content:'';width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--moss-bright);border-radius:50%;animation:bkspin .7s linear infinite}
+@keyframes bkspin{to{transform:rotate(360deg)}}
+.bk-success{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px}
+.bk-check{width:60px;height:60px;border-radius:50%;background:rgba(92,138,110,.18);display:flex;align-items:center;justify-content:center;color:var(--moss-bright)}
+.bk-step{display:none;flex-direction:column;flex:1;min-height:0}
+.bk-step.on{display:flex}
 .demo-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(199,165,123,.12);color:var(--tan);border:1px solid rgba(199,165,123,.4);font-family:'Oswald';text-transform:uppercase;letter-spacing:.14em;font-size:11px;padding:6px 12px;border-radius:2px;margin-bottom:22px}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cal-head .mo{font-family:'Oswald';text-transform:uppercase;letter-spacing:.1em;font-size:16px}
@@ -633,7 +668,37 @@ posthog.register({site:'erika'});
           <div class="meta-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-7.6-12A8.38 8.38 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>No pressure, no pitch. Just a real conversation.</div>
         </div>
         <div class="booking-pick">
-          <iframe class="tidycal-frame" data-edit-src="tidycal_url" src="https://tidycal.com/theerikawescott/strategy" title="Book your discovery call with Erika Wescott" loading="lazy"></iframe>
+          <div class="bk-wrap" id="bkWidget" hidden>
+            <div class="bk-step on" data-step="cal">
+              <div class="bk-head"><span class="bk-month" id="bkMonth">&mdash;</span><span class="bk-nav"><button type="button" id="bkPrev" aria-label="Previous month">&#8249;</button><button type="button" id="bkNext" aria-label="Next month">&#8250;</button></span></div>
+              <div class="bk-grid" id="bkWeekdays"></div>
+              <div class="bk-grid" id="bkDays" style="margin-top:6px"></div>
+              <div class="bk-tz" id="bkTz"></div>
+            </div>
+            <div class="bk-step" data-step="slots">
+              <button type="button" class="bk-back" data-back="cal">&#8249; Back to calendar</button>
+              <div class="bk-sumln" id="bkSlotsDate"></div>
+              <div class="bk-slots" id="bkSlots"></div>
+            </div>
+            <div class="bk-step" data-step="form">
+              <button type="button" class="bk-back" data-back="slots">&#8249; Change time</button>
+              <div class="bk-sumln" id="bkFormSum"></div>
+              <div class="bk-field"><label for="bkName">Your name</label><input id="bkName" type="text" autocomplete="name" maxlength="120"></div>
+              <div class="bk-field"><label for="bkEmail">Email</label><input id="bkEmail" type="email" autocomplete="email" maxlength="160"></div>
+              <button type="button" class="btn btn-primary bk-submit" id="bkConfirm">Confirm booking</button>
+              <div class="bk-msg" id="bkMsg"></div>
+            </div>
+            <div class="bk-step" data-step="success">
+              <div class="bk-success">
+                <div class="bk-check"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <h3 style="font-family:'Oswald';text-transform:uppercase;letter-spacing:.04em">You're booked.</h3>
+                <div class="bk-sumln" id="bkDoneSum" style="margin:0"></div>
+                <p class="muted" style="font-size:13.5px;max-width:24em">Check your email for the confirmation and your video call link. Talk soon.</p>
+              </div>
+            </div>
+            <div class="bk-step" data-step="loading"><div class="bk-spin">Loading availability</div></div>
+          </div>
+          <iframe class="tidycal-frame" id="bkEmbed" data-edit-src="tidycal_url" src="https://tidycal.com/theerikawescott/strategy" title="Book your discovery call with Erika Wescott" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -910,10 +975,59 @@ function initFaq(){
 
 /* ---------------- boot: render + hydrate + init (after DB load, fallback-safe) ---------------- */
 let booted=false;
+/* ---- Custom branded TidyCal booking (falls back to embed until configured) ---- */
+var BK={y:0,m:0,by:{},slot:null,tz:(window.Intl&&Intl.DateTimeFormat?Intl.DateTimeFormat().resolvedOptions().timeZone:'UTC'),started:false,minY:0,minM:0};
+function bkFn(action,body,cb){var x=new XMLHttpRequest();x.open('POST',SB+'/functions/v1/tidycal-proxy');x.setRequestHeader('Content-Type','application/json');x.setRequestHeader('apikey',KEY);x.setRequestHeader('Authorization','Bearer '+KEY);x.onreadystatechange=function(){if(x.readyState===4){var r={};try{r=JSON.parse(x.responseText);}catch(e){}cb(r,x.status);}};var o={p_site:SITE,action:action};for(var k in body)o[k]=body[k];x.send(JSON.stringify(o));}
+function bkStep(st){document.querySelectorAll('#bkWidget .bk-step').forEach(function(e){e.classList.toggle('on',e.dataset.step===st);});}
+function bkTrack(ev){try{if(window.posthog&&posthog.capture)posthog.capture(ev,{site:'erika'});}catch(e){}try{if(window.dataLayer)window.dataLayer.push({event:ev});}catch(e){}}
+function bkPad(n){return(n<10?'0':'')+n;}
+function bkKey(d){return d.getFullYear()+'-'+bkPad(d.getMonth()+1)+'-'+bkPad(d.getDate());}
+function bkFmtDate(d){return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});}
+function bkFmtTime(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
+function initBooking(){var w=document.getElementById('bkWidget'),em=document.getElementById('bkEmbed');if(!w)return;
+  bkFn('config',{},function(r){
+    if(!r||!r.configured){return;} /* not configured -> keep iframe fallback (no visual change) */
+    if(em)em.style.display='none'; w.hidden=false;
+    var tz=document.getElementById('bkTz'); if(tz)tz.textContent='Times shown in '+BK.tz;
+    document.getElementById('bkWeekdays').innerHTML=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function(d){return '<div class="bk-wd">'+d+'</div>';}).join('');
+    var now=new Date(); BK.y=now.getFullYear(); BK.m=now.getMonth(); BK.minY=BK.y; BK.minM=BK.m;
+    document.getElementById('bkPrev').onclick=function(){bkShift(-1);};
+    document.getElementById('bkNext').onclick=function(){bkShift(1);};
+    document.querySelectorAll('#bkWidget .bk-back').forEach(function(b){b.onclick=function(){bkStep(b.dataset.back);};});
+    document.getElementById('bkConfirm').onclick=bkSubmit;
+    bkLoadMonth();
+  });
+}
+function bkShift(delta){var d=new Date(BK.y,BK.m+delta,1);if(d.getFullYear()<BK.minY||(d.getFullYear()===BK.minY&&d.getMonth()<BK.minM))return;BK.y=d.getFullYear();BK.m=d.getMonth();bkLoadMonth();}
+function bkLoadMonth(){bkStep('loading');var first=new Date(BK.y,BK.m,1),last=new Date(BK.y,BK.m+1,0,23,59,59),now=new Date();var from=(first<now)?now:first;
+  bkFn('timeslots',{from:from.toISOString(),to:last.toISOString()},function(r){BK.by={};
+    if(r&&r.ok&&r.slots){r.slots.forEach(function(s){var d=new Date(s.starts_at),k=bkKey(d);(BK.by[k]=BK.by[k]||[]).push({iso:s.starts_at,d:d});});}
+    bkRenderCal(); bkStep('cal');});}
+function bkRenderCal(){document.getElementById('bkMonth').textContent=new Date(BK.y,BK.m,1).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  document.getElementById('bkPrev').disabled=(BK.y===BK.minY&&BK.m===BK.minM);
+  var firstDow=new Date(BK.y,BK.m,1).getDay(),days=new Date(BK.y,BK.m+1,0).getDate(),html='';
+  for(var i=0;i<firstDow;i++)html+='<div class="bk-day empty"></div>';
+  for(var n=1;n<=days;n++){var k=BK.y+'-'+bkPad(BK.m+1)+'-'+bkPad(n),has=BK.by[k]&&BK.by[k].length;html+='<button type="button" class="bk-day'+(has?' has':' empty')+'" '+(has?'data-day="'+k+'"':'disabled')+'>'+n+'</button>';}
+  var el=document.getElementById('bkDays'); el.innerHTML=html;
+  el.querySelectorAll('[data-day]').forEach(function(b){b.onclick=function(){if(!BK.started){BK.started=true;bkTrack('booking_started');}bkPickDay(b.dataset.day);};});}
+function bkPickDay(k){var list=(BK.by[k]||[]).slice().sort(function(a,b){return a.d-b.d;});
+  document.getElementById('bkSlotsDate').textContent=list.length?bkFmtDate(list[0].d):'';
+  document.getElementById('bkSlots').innerHTML=list.map(function(s){return '<button type="button" class="bk-slot" data-iso="'+s.iso+'">'+bkFmtTime(s.d)+'</button>';}).join('');
+  document.getElementById('bkSlots').querySelectorAll('[data-iso]').forEach(function(b){b.onclick=function(){bkPickSlot(b.dataset.iso);};});
+  bkStep('slots');}
+function bkPickSlot(iso){BK.slot=iso;var d=new Date(iso);document.getElementById('bkFormSum').innerHTML='<b>'+bkFmtDate(d)+'</b> at <b>'+bkFmtTime(d)+'</b>';document.getElementById('bkMsg').textContent='';bkStep('form');}
+function bkSubmit(){var name=document.getElementById('bkName').value.trim(),email=document.getElementById('bkEmail').value.trim(),msg=document.getElementById('bkMsg');
+  if(!name){msg.textContent='Please enter your name.';return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Please enter a valid email.';return;}
+  var btn=document.getElementById('bkConfirm');btn.disabled=true;btn.textContent='Booking...';msg.textContent='';
+  bkFn('book',{starts_at:BK.slot,name:name,email:email,timezone:BK.tz},function(r,st){btn.disabled=false;btn.textContent='Confirm booking';
+    if(r&&r.ok){var d=new Date((r.booking&&r.booking.starts_at)||BK.slot);document.getElementById('bkDoneSum').innerHTML='<b>'+bkFmtDate(d)+'</b> at <b>'+bkFmtTime(d)+'</b>';bkTrack('booking_confirmed');bkStep('success');}
+    else if(st===409||(r&&r.error==='slot_taken')){msg.textContent='Sorry, that time was just taken. Pick another below.';setTimeout(bkLoadMonth,1500);}
+    else{msg.textContent='Something went wrong. Please try again.';}});}
 function boot(){ if(booted)return; booted=true;
   renderContent(); hydrateStatic(); hydrateSeo(); hydrateLists(); hydrateImages();
   document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
-  initCarousel(); initFaq();
+  initCarousel(); initFaq(); initBooking();
   // reveal any freshly-rendered content already in view
   document.querySelectorAll('.reveal,.reveal-stagger').forEach(function(e){ if(e.getBoundingClientRect().top < window.innerHeight*0.98) e.classList.add('in'); });
 }
