@@ -468,7 +468,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
       <p class="eyebrow reveal" data-edit="why_eyebrow">Why It Works</p>
       <h2 class="sec-title reveal" style="text-transform:none;font-weight:600;max-width:18em" data-edit="why_heading">Structure, accountability, and honesty. That's the mechanism.</h2>
       <p class="muted" style="margin-top:20px;max-width:36em" data-edit="why_intro">It's why this sticks when motivation and willpower didn't. I'm not interested in making fitness your entire personality. I want you to:</p>
-      <ul class="approach-list reveal-stagger">
+      <ul class="approach-list reveal-stagger" data-edit-list="approach_list">
         <li><span class="dot"></span>feel strong and capable</li>
         <li><span class="dot"></span>have more energy throughout the day</li>
         <li><span class="dot"></span>stop negotiating with yourself constantly</li>
@@ -476,7 +476,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
         <li><span class="dot"></span>look athletic and healthy</li>
         <li><span class="dot"></span>feel more confident in your choices</li>
       </ul>
-      <div class="mantra reveal-stagger" data-edit-rich="why_mantra">
+      <div class="mantra reveal-stagger" data-edit-list="why_mantra">
         <p>We lift weights.</p>
         <p>We eat real food.</p>
         <p>We stop overcomplicating things.</p>
@@ -494,7 +494,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
         <p class="muted" style="margin-top:20px;max-width:24em" data-edit="wyg_sub">No extremes. No fake wellness culture. Just the structure, strength, and honesty that actually move you forward.</p>
         <img class="sec-img ratio-wide wyg-img" src="assets/what-you-get.webp" alt="Strength training" loading="lazy" />
       </div>
-      <ul class="benefits reveal-stagger">
+      <ul class="benefits reveal-stagger" data-edit-list="benefits">
         <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Consistency without obsession.</b></span></li>
         <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Energy</b> from learning how to fuel yourself properly.</span></li>
         <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Strength</b> from learning how to actually train and recover.</span></li>
@@ -551,7 +551,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <div class="wrap center">
       <p class="eyebrow reveal" data-edit="cred_eyebrow">Credentials</p>
       <h2 class="sec-title center reveal" data-edit="cred_heading">The receipts.</h2>
-      <div class="creds reveal-stagger">
+      <div class="creds reveal-stagger" data-edit-list="credentials_list">
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Precision Nutrition L1</div>
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>ACE Fitness Nutrition Specialist</div>
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>ACE Certified Personal Trainer</div>
@@ -567,7 +567,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <div class="wrap">
       <p class="eyebrow center reveal" data-edit="tenet_eyebrow">What I Believe</p>
       <h2 class="sec-title center reveal" data-edit="tenet_heading">My health &amp; performance tenets.</h2>
-      <div class="tenets reveal-stagger" style="margin-top:40px">
+      <div class="tenets reveal-stagger" style="margin-top:40px" data-edit-list="tenets_list">
         <div class="tenet"><span class="n">01</span><p>Weekends matter</p></div>
         <div class="tenet"><span class="n">02</span><p>You can and should eat dessert</p></div>
         <div class="tenet"><span class="n">03</span><p>Meat is good for you</p></div>
@@ -731,6 +731,23 @@ function renderContent(){
 }
 
 /* ---------- hydrate editable copy (progressive enhancement: overlay only non-empty) ---------- */
+var _CK='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>';
+var _CREDCK='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+function renderList(key,arr){
+  if(key==='approach_list')return arr.map(function(t){return '<li><span class="dot"></span>'+esc(t)+'</li>';}).join('');
+  if(key==='why_mantra')return arr.map(function(t){return '<p>'+esc(t)+'</p>';}).join('');
+  if(key==='benefits')return arr.map(function(it){it=it||{};var b=it.b?('<b>'+esc(it.b)+'</b>'):'';var t=it.t?((it.b?' ':'')+esc(it.t)):'';return '<li><span class="ck">'+_CK+'</span><span>'+b+t+'</span></li>';}).join('');
+  if(key==='credentials_list')return arr.map(function(it){it=it||{};return '<div class="cred'+(it.flag?' flag':'')+'">'+_CREDCK+(it.flag?('<b>'+esc(it.text)+'</b>'):esc(it.text))+'</div>';}).join('');
+  if(key==='tenets_list')return arr.map(function(t,i){return '<div class="tenet"><span class="n">'+('0'+(i+1)).slice(-2)+'</span><p>'+esc(t)+'</p></div>';}).join('');
+  return '';
+}
+function hydrateLists(){
+  document.querySelectorAll('[data-edit-list]').forEach(function(el){
+    var key=el.getAttribute('data-edit-list'); var v=CONTENT[key]; if(v==null||String(v).trim()==='')return;
+    var arr; try{arr=JSON.parse(v);}catch(e){return;} if(!Array.isArray(arr))return;
+    var html=renderList(key,arr); if(html)el.innerHTML=html;
+  });
+}
 function setMeta(sel,attr,val){ if(val==null||String(val).trim()==='') return; var el=document.head.querySelector(sel); if(!el){ el=document.createElement('meta'); var m=sel.match(/\[(name|property)=\"([^\"]+)\"\]/); if(m){el.setAttribute(m[1],m[2]);} document.head.appendChild(el);} el.setAttribute(attr,val); }
 function hydrateSeo(){
   var t=CONTENT['seo_title']; if(t&&t.trim()){ document.title=t; setMeta('meta[property="og:title"]','content',t); setMeta('meta[name="twitter:title"]','content',t); }
@@ -857,7 +874,7 @@ function initFaq(){
 /* ---------------- boot: render + hydrate + init (after DB load, fallback-safe) ---------------- */
 let booted=false;
 function boot(){ if(booted)return; booted=true;
-  renderContent(); hydrateStatic(); hydrateSeo();
+  renderContent(); hydrateStatic(); hydrateSeo(); hydrateLists();
   document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
   initCarousel(); initFaq();
   // reveal any freshly-rendered content already in view
