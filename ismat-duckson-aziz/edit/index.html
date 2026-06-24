@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edit — Ismat Duckson Aziz</title>
+<title>Edit, Ismat Duckson Aziz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{--navy:#112A52;--navy-d:#0B1C3A;--blue:#2E63B5;--blue-d:#234E92;--steel:#8FA9D2;--silver:#C7CCD4;--mist:#F3F5F9;--ink:#161C28;--line:#dce3ef;--amber:#b7791f;--amber-bg:#fbf3df;--green:#2e8b57;--topbar:60px;}
@@ -177,6 +177,8 @@
   .rangebtns{display:flex;gap:8px;margin-bottom:20px;}
   .rangebtns button{background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 16px;font-size:12px;font-weight:600;color:#5a6480;cursor:pointer;}
   .rangebtns button.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .dateinp{background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:12px;color:var(--ink);font-family:'Montserrat';}
+  .customrange{display:flex;gap:8px;align-items:center;margin:-8px 0 20px;flex-wrap:wrap;font-size:12px;color:#7a8398;}
   .src-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px;}
   .src-row .sr-name{flex:none;width:130px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .src-row .sr-bar{flex:1;height:10px;background:var(--silver-l);border-radius:5px;overflow:hidden;}
@@ -292,10 +294,10 @@
   <div class="modal tut">
     <div class="tut-head"><h3>Welcome to your dashboard</h3><p>A quick tour of everything you can do here. It takes about a minute.</p></div>
     <div class="tut-body">
-      <div class="tut-step"><div class="tut-num">1</div><div class="tut-txt"><b>Your menu.</b> Use the menu on the left — <b>Home</b>, <b>Site Editor</b>, <b>Analytics</b>, and <b>Events</b> — to move between areas. On a phone it sits across the top.</div></div>
+      <div class="tut-step"><div class="tut-num">1</div><div class="tut-txt"><b>Your menu.</b> Use the menu on the left, <b>Home</b>, <b>Site Editor</b>, <b>Analytics</b>, and <b>Events</b>, to move between areas. On a phone it sits across the top.</div></div>
       <div class="tut-step"><div class="tut-num">2</div><div class="tut-txt"><b>Home.</b> Your at-a-glance view: how many people are visiting, how many have reached out, plus quick links to everything.</div></div>
-      <div class="tut-step"><div class="tut-num">3</div><div class="tut-txt"><b>Site Editor — edit your website.</b> Click any text box or photo, then <b>Preview</b> to try it. <b>Save draft</b> keeps it privately (drafts glow amber). <b>Publish</b> is the only step that updates your live website.</div></div>
-      <div class="tut-step"><div class="tut-num">4</div><div class="tut-txt"><b>Analytics.</b> See how many people visit your site, where they come from, and how many book a call or send a message — updated live.</div></div>
+      <div class="tut-step"><div class="tut-num">3</div><div class="tut-txt"><b>Site Editor, edit your website.</b> Click any text box or photo, then <b>Preview</b> to try it. <b>Save draft</b> keeps it privately (drafts glow amber). <b>Publish</b> is the only step that updates your live website.</div></div>
+      <div class="tut-step"><div class="tut-num">4</div><div class="tut-txt"><b>Analytics.</b> See how many people visit your site, where they come from, and how many book a call or send a message, updated live.</div></div>
       <div class="tut-step"><div class="tut-num">5</div><div class="tut-txt"><b>Events.</b> Add your speaking engagements and public events. Mark one “Show on site” and it appears on your website automatically. Your Events section stays hidden until you add one.</div></div>
       <div class="tut-step"><div class="tut-num">6</div><div class="tut-txt"><b>Anytime.</b> Reopen this guide from <b>How to use</b>, and <b>Sign out</b> from the menu when you are done.</div></div>
       <div class="tut-note">In the Site Editor: photos are resized and optimized for you on upload, so you can use images straight from your phone. Every image is saved to your library to reuse with “Choose from library.” For video, add a YouTube or Vimeo link or upload a file, then choose which one plays.</div>
@@ -382,8 +384,8 @@
       if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; if(r.section==="Search, Sharing & AI")html+='<div class="guide"><b>What is this section?</b> These details control how your site appears in Google, in AI search tools (ChatGPT, Perplexity, and similar), and in the preview people see when your link is shared (LinkedIn, text, email). Search engines and AI read these fields directly, so keep them accurate and in your own words. They update across your site automatically when you press Publish.</div>'; cur=r.section; }
       var body, K=r.field_key, lbl='font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;';
       if(r.field_type==="logos"){
-        body='<div class="guide"><b>Logo guidelines — please follow exactly:</b>'
-          +'<div style="background:#fff4e0;border:1px solid #ecd9ad;border-radius:6px;padding:9px 11px;margin:9px 0;color:#8a5a12;line-height:1.5;"><b>About Alt text:</b> Alt text is only a written description of a logo (for screen readers and Google) &mdash; it does <b>not</b> change the logo picture. To show a different company, you must also <b>upload the logo image for that company</b>. Changing the alt text by itself will not swap the logo.</div>'
+        body='<div class="guide"><b>Logo guidelines, please follow exactly:</b>'
+          +'<div style="background:#fff4e0;border:1px solid #ecd9ad;border-radius:6px;padding:9px 11px;margin:9px 0;color:#8a5a12;line-height:1.5;"><b>About Alt text:</b> Alt text is only a written description of a logo (for screen readers and Google) - it does <b>not</b> change the logo picture. To show a different company, you must also <b>upload the logo image for that company</b>. Changing the alt text by itself will not swap the logo.</div>'
           +'<ul>'
           +'<li>Use only the official logo of a company or publication that has genuinely featured or recognized Ismat.</li>'
           +'<li>Upload a <b>transparent-background PNG or WebP</b> (no white box). Horizontal / wordmark version preferred.</li>'
@@ -443,14 +445,14 @@
     fieldsEl.querySelectorAll("[data-libfor]").forEach(function(b){ b.addEventListener("click",function(){ var key=b.getAttribute("data-libfor"); openLibrary(function(url){ var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); var st=fld.querySelector(".imgstatus"); if(st){st.style.color="#2e8b57";st.textContent="Chosen from library. Preview or Save draft.";} scrollPreview(anchors[fSection[key]]||"top",true); }); }); });
     fieldsEl.querySelectorAll("[data-vlibfor]").forEach(function(b){ b.addEventListener("click",function(){ var key=b.getAttribute("data-vlibfor"); openLibrary(function(url){ var o=videoData(key); o.thumb=url; setVideoData(key,o,true); var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); if(st){st.style.color="#2e8b57";st.textContent="Thumbnail chosen from library. Save draft to apply.";} }); }); });
     fieldsEl.querySelectorAll(".mini.preview").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var doc=frameDoc(); if(doc)injectOne(doc,key); scrollPreview(anchors[fSection[key]]||"top",true); b.parentNode.querySelector(".fstatus").textContent="Showing in preview (not published)"; }); });
-    fieldsEl.querySelectorAll(".mini.save").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateNav();} else fs.textContent="Save failed — try again."; }); }); });
-    fieldsEl.querySelectorAll(".mini.revert").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Reverting..."; setValue(key,fPub[key]); saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=fPub[key];f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Reverted to published";updateNav();} else fs.textContent="Revert failed — try again."; }); }); });
+    fieldsEl.querySelectorAll(".mini.save").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Saving draft..."; saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Draft saved";updateNav();} else fs.textContent="Save failed, try again."; }); }); });
+    fieldsEl.querySelectorAll(".mini.revert").forEach(function(b){ b.addEventListener("click",function(){ var key=b.closest(".field").getAttribute("data-key-id"); var fs=b.parentNode.querySelector(".fstatus"); fs.textContent="Reverting..."; setValue(key,fPub[key]); saveDraft(key,function(ok){ var f=$("f_"+key); if(ok){fDraft[key]=fPub[key];f.classList.remove("is-dirty");refreshField(key);refreshGroups();var doc=frameDoc();if(doc)injectOne(doc,key);fs.textContent="Reverted to published";updateNav();} else fs.textContent="Revert failed, try again."; }); }); });
   }
 
   function saveDraft(key,cb){ fetch(SB+"/rest/v1/rpc/bb_save_draft",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_key:key,p_value:getValue(key),p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){syncRev();cb(true);}).catch(function(){cb(false);}); }
 
   $("draftAll").onclick=function(){ var dirty=[].slice.call(fieldsEl.querySelectorAll(".field.is-dirty")); if(!dirty.length){return;} statusEl.textContent="Saving "+dirty.length+" draft(s)..."; var done=0,fail=0;
-    dirty.forEach(function(f){var key=f.getAttribute("data-key-id"); saveDraft(key,function(ok){done++; if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);} else fail++; if(done===dirty.length){refreshGroups();injectAll();updateNav();if(fail)statusEl.textContent=fail+" failed — try again.";}});}); };
+    dirty.forEach(function(f){var key=f.getAttribute("data-key-id"); saveDraft(key,function(ok){done++; if(ok){fDraft[key]=getValue(key);f.classList.remove("is-dirty");refreshField(key);} else fail++; if(done===dirty.length){refreshGroups();injectAll();updateNav();if(fail)statusEl.textContent=fail+" failed, try again.";}});}); };
 
   $("pubAll").onclick=function(){ var c=counts(); if(!c.pending&&!c.dirty)return;
     openModal("Publish to your live site?","This will publish your changes to your public website. Visitors will see them immediately.","Yes, publish",function(){
@@ -461,13 +463,13 @@
       statusEl.textContent="Publishing...";
       pre.then(function(){return fetch(SB+"/rest/v1/rpc/bb_publish_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();});})
         .then(function(){ allKeys.forEach(function(k){fPub[k]=fDraft[k];refreshField(k);}); refreshGroups(); updateNav(); statusEl.textContent="Published to live site ✓"; frame.contentWindow.location.reload(); fetch(SB+"/functions/v1/regenerate-meta",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).catch(function(){}); syncRev(); })
-        .catch(function(){statusEl.textContent="Publish failed — try again.";}); }); }); };
+        .catch(function(){statusEl.textContent="Publish failed, try again.";}); }); }); };
 
   $("revertAll").onclick=function(){ if(!counts().pending)return;
     openModal("Discard all unpublished changes?","This resets the whole page back to the last published version. Your unpublished drafts will be lost.","Yes, revert",function(){ statusEl.textContent="Reverting...";
       fetch(SB+"/rest/v1/rpc/bb_revert_all",{method:"POST",headers:Hh(),body:JSON.stringify({p_site:SITE,p_pass:PASS})}).then(function(r){if(!r.ok)throw 0;return r.json();})
         .then(function(){ allKeys.forEach(function(k){fDraft[k]=fPub[k];setValue(k,fPub[k]);$("f_"+k).classList.remove("is-dirty");refreshField(k);}); refreshGroups(); injectAll(); updateNav(); statusEl.textContent="Reverted to last published."; syncRev(); })
-        .catch(function(){statusEl.textContent="Revert failed — try again.";}); }); };
+        .catch(function(){statusEl.textContent="Revert failed, try again.";}); }); };
 
   // ---- modal ----
   var pendingYes=null;
@@ -561,7 +563,7 @@
   function postFn(url,body,cb){ fetch(url,{method:"POST",headers:Hh(),body:JSON.stringify(body)}).then(function(r){return r.json();}).then(cb).catch(function(){cb({ok:false,error:"network"});}); }
   function kpiCard(label,num,foot){ return '<div class="kpi"><div class="k-label">'+esc(label)+'</div><div class="k-num">'+esc(String(num))+'</div><div class="k-foot">'+esc(foot||"")+'</div></div>'; }
   function fmtDate(d){ if(!d)return "Date TBD"; var p=String(d).split("-"); var dt=new Date(+p[0],(+p[1])-1,+p[2]); return dt.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
-  function getAnalytics(range,cb){ postFn(SB+"/functions/v1/site-analytics",{p_site:SITE,p_pass:PASS,range:range||30},cb); }
+  function getAnalytics(params,cb){ params=(typeof params==="number")?{range:params}:(params||{}); var body={p_site:SITE,p_pass:PASS}; if(params.from&&params.to){body.from=params.from;body.to=params.to;}else{body.range=params.range||30;} postFn(SB+"/functions/v1/site-analytics",body,cb); }
 
   function showView(v){
     Array.prototype.forEach.call(document.querySelectorAll(".side-link"),function(b){b.classList.toggle("active",b.getAttribute("data-view")===v);});
@@ -584,7 +586,7 @@
       +'<button data-go="analytics"><b>View analytics</b><span>Full traffic &amp; conversion detail</span></button>'
       +'</div></div>'
       +'<div class="card"><h3>Upcoming events</h3><div id="homeEvents" class="muted">Loading…</div></div>'
-      +'<div class="card"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px;">Your live booking page — the same calendar visitors use to book time with you. To change your availability or see who has booked, manage it in TidyCal.</p><div id="homeCal"><p class="muted">Loading your calendar…</p></div><div style="margin-top:14px;"><a href="https://tidycal.com/" target="_blank" style="color:var(--blue);font-weight:600;font-size:13px;">Manage availability in TidyCal &#8599;</a></div></div>'
+      +'<div class="card"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px;">Your live booking page, the same calendar visitors use to book time with you. To change your availability or see who has booked, manage it in TidyCal.</p><div id="homeCal"><p class="muted">Loading your calendar…</p></div><div style="margin-top:14px;"><a href="https://tidycal.com/" target="_blank" style="color:var(--blue);font-weight:600;font-size:13px;">Manage availability in TidyCal &#8599;</a></div></div>'
       +'</div>';
     Array.prototype.forEach.call(v.querySelectorAll(".qa button"),function(b){b.addEventListener("click",function(){showView(b.getAttribute("data-go"));});});
     getAnalytics(30,function(d){ var k=$("homeKpis"); if(!k)return; if(!d||!d.ok){k.innerHTML='<div class="kpi"><div class="k-label">Analytics</div><div class="k-foot">Numbers appear here as visitors arrive.</div></div>';return;} var s=d.summary;
@@ -615,19 +617,20 @@
     var v=$("view-analytics");
     if(v.getAttribute("data-init")!=="1"){
       v.innerHTML='<div class="dash"><div class="dash-h">Analytics</div><div class="dash-sub">How people find and use your website. Updated live.</div>'
-        +'<div class="rangebtns" id="anRange"><button data-r="7">7 days</button><button data-r="30" class="active">30 days</button><button data-r="90">90 days</button></div>'
+        +'<div class="rangebtns" id="anRange"><button data-r="7">7 days</button><button data-r="30" class="active">30 days</button><button data-r="90">90 days</button></div>'+'<div class="customrange"><span>or pick dates:</span><input type="date" id="anFrom" class="dateinp"><span>to</span><input type="date" id="anTo" class="dateinp"><button class="mini" id="anApply" style="border-color:var(--blue);color:var(--blue);background:#fff;">Apply</button></div>'
         +'<div class="kpis" id="anKpis"></div>'
         +'<div class="card"><h3>Traffic over time</h3><div id="anChart"></div></div>'
         +'<div class="card"><h3>Where visitors come from</h3><div id="anSrc"></div></div>'
         +'<div class="card"><h3>Conversion</h3><div id="anFunnel"></div></div></div>';
       v.setAttribute("data-init","1");
       Array.prototype.forEach.call(v.querySelectorAll("#anRange button"),function(b){b.addEventListener("click",function(){ Array.prototype.forEach.call(v.querySelectorAll("#anRange button"),function(x){x.classList.remove("active");}); b.classList.add("active"); loadAnalytics(+b.getAttribute("data-r")); });});
+      var ap=v.querySelector("#anApply"); if(ap)ap.addEventListener("click",function(){ var fr=v.querySelector("#anFrom").value,to=v.querySelector("#anTo").value; if(!fr||!to)return; Array.prototype.forEach.call(v.querySelectorAll("#anRange button"),function(x){x.classList.remove("active");}); loadAnalytics({from:fr,to:to}); });
     }
     loadAnalytics(30);
   }
-  function loadAnalytics(range){
+  function loadAnalytics(params){
     var k=$("anKpis"); if(k)k.innerHTML='<div class="kpi"><div class="k-label">Loading…</div></div>';
-    getAnalytics(range,function(d){
+    getAnalytics(params,function(d){
       if(!d||!d.ok){ if(k)k.innerHTML='<div class="kpi"><div class="k-label">Not available</div><div class="k-foot">'+esc((d&&d.error)||"Try again")+'</div></div>'; return; }
       var s=d.summary;
       $("anKpis").innerHTML=kpiCard("Visitors",s.visitors,"")+kpiCard("Page views",s.pageviews,"")+kpiCard("Leads",s.leads,"")+kpiCard("Bookings",s.bookings,"");
@@ -637,7 +640,7 @@
     });
   }
   function lineChart(daily){
-    if(!daily.length)return '<p class="muted">No data yet — this fills in as visitors arrive.</p>';
+    if(!daily.length)return '<p class="muted">No data yet, this fills in as visitors arrive.</p>';
     var W=720,H=160,pad=8,max=Math.max.apply(null,daily.map(function(p){return p.c;}).concat([1])),n=daily.length;
     var pts=daily.map(function(p,i){var x=pad+(n<=1?0:i*(W-2*pad)/(n-1));var y=H-pad-(p.c/max)*(H-2*pad);return [x,y];});
     var path=pts.map(function(p,i){return (i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1);}).join(" ");
@@ -693,7 +696,7 @@
       if(e.id)payload.id=e.id;
       if(!payload.title){$("ef_status").textContent="Please add a title.";return;}
       $("ef_status").textContent="Saving…";
-      postFn(SB+"/rest/v1/rpc/bb_events_upsert",{p_site:SITE,p_pass:PASS,p_event:payload},function(res){ if(res&&res.id){w.innerHTML="";loadEvents();syncRev();} else {$("ef_status").textContent="Save failed — try again.";} });
+      postFn(SB+"/rest/v1/rpc/bb_events_upsert",{p_site:SITE,p_pass:PASS,p_event:payload},function(res){ if(res&&res.id){w.innerHTML="";loadEvents();syncRev();} else {$("ef_status").textContent="Save failed, try again.";} });
     };
   }
 })();
