@@ -66,6 +66,16 @@ a{color:var(--moss-bright)}
 .card h3{font-size:13px;letter-spacing:.14em;color:var(--tan);margin-bottom:16px}
 .stat-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 .mini-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-faint);font-weight:600;margin-bottom:10px;font-family:'Oswald'}
+.bk-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.bk-row:last-child{border-bottom:0}
+.bk-when{min-width:172px;font-family:'Oswald';font-size:14px;color:var(--bone);letter-spacing:.02em}
+.bk-who{flex:1;min-width:0}
+.bk-who .nm{font-size:14px;color:var(--bone)}
+.bk-who .em{font-size:12.5px;color:var(--bone-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bk-join{font-size:12px;font-weight:600;color:var(--moss-bright);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap}
+.bk-join:hover{border-color:var(--moss-bright)}
+.bk-empty{color:var(--bone-dim);font-size:13.5px;padding:8px 0}
+@media(max-width:640px){.bk-when{min-width:0;width:100%}.bk-row{flex-wrap:wrap;gap:4px}}
 .qa{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .qa button{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:left;cursor:pointer;transition:.15s}
 .qa button:hover{border-color:var(--moss);box-shadow:0 8px 22px rgba(0,0,0,.25)}
@@ -254,6 +264,7 @@ a{color:var(--moss-bright)}
       <button class="side-link" data-view="editor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16v4z"/></svg> Site Editor</button>
       <button class="side-link" data-view="seo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg> Search &amp; Sharing</button>
       <button class="side-link" data-view="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 21h18"/><path d="M6 18v-6M12 18V7M18 18v-9"/></svg> Analytics</button>
+      <button class="side-link" data-view="bookings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Bookings</button>
       <button class="side-link" data-view="testimonials"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Testimonials</button>
       <button class="side-link" data-view="blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Blog Posts</button>
       <button class="side-link" data-view="faqs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> FAQs</button>
@@ -267,6 +278,7 @@ a{color:var(--moss-bright)}
   <main class="main">
     <section class="view active" id="view-home"></section>
     <section class="view" id="view-analytics"></section>
+    <section class="view" id="view-bookings"></section>
     <section class="view" id="view-seo"></section>
     <section class="view" id="view-testimonials"></section>
     <section class="view" id="view-blog"></section>
@@ -312,8 +324,8 @@ a{color:var(--moss-bright)}
   <div class="modal" style="max-width:560px;text-align:left;padding:0;overflow:hidden">
     <div style="background:var(--forest-2);padding:22px 28px;border-bottom:1px solid var(--line)"><h3 style="margin:0 0 4px">Welcome to your dashboard</h3><p style="margin:0;color:var(--bone-dim);font-size:13px">A quick tour of everything you can do here. About a minute.</p></div>
     <div style="padding:22px 28px 8px;max-height:54vh;overflow-y:auto">
-      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Your menu (left).</b> Move between <b>Home</b>, <b>Site Editor</b>, <b>Search &amp; Sharing</b>, <b>Analytics</b>, <b>Testimonials</b>, <b>Blog</b>, and <b>FAQs</b>. On a phone it sits across the top.</p>
-      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Home.</b> Your at-a-glance view, visits, apply clicks, and your live booking calendar.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Your menu (left).</b> Move between <b>Home</b>, <b>Site Editor</b>, <b>Search &amp; Sharing</b>, <b>Analytics</b>, <b>Bookings</b>, <b>Testimonials</b>, <b>Blog</b>, and <b>FAQs</b>. On a phone it sits across the top.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Home.</b> Your at-a-glance view: visits, apply clicks, and your next calls.</p>
       <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Site Editor.</b> Click any field, then <b>Preview</b> to try it on the right. Or click an element in the preview to jump straight to it. <b>Save draft</b> keeps it private; <b>Publish</b> is the only step that updates your live site. <b>Revert</b> undoes a change.</p>
       <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Search &amp; Sharing.</b> Controls how your site looks in Google, AI search, and link previews (LinkedIn, text). Includes your share image.</p>
       <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Analytics.</b> How many people visit, where they come from, and how many take action, updated live.</p>
@@ -528,7 +540,7 @@ a{color:var(--moss-bright)}
   function showView(v){
     document.querySelectorAll(".side-link").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===v);});
     document.querySelectorAll(".view").forEach(function(s){s.classList.toggle("active",s.id==="view-"+v);});
-    if(v==="home")renderHome();else if(v==="analytics")renderAnalytics();else if(v==="testimonials")loadTesti();else if(v==="blog")loadBlog();else if(v==="faqs")loadFaqs();
+    if(v==="home")renderHome();else if(v==="analytics")renderAnalytics();else if(v==="bookings")renderBookings();else if(v==="testimonials")loadTesti();else if(v==="blog")loadBlog();else if(v==="faqs")loadFaqs();
     if(v==="seo"){var ps=$("pubSeo");if(ps)ps.onclick=function(){doPublish($("seoStatus"));};}
   }
   document.querySelectorAll(".side-link").forEach(function(b){b.addEventListener("click",function(){showView(b.getAttribute("data-view"));});});
@@ -537,6 +549,28 @@ a{color:var(--moss-bright)}
   function getAnalytics(params,cb){params=(typeof params==="number")?{range:params}:(params||{});var body={p_site:SITE,p_pass:PASS};if(params.from&&params.to){body.from=params.from;body.to=params.to;}else{body.range=params.range||30;}postFn(SB+"/functions/v1/site-analytics",body,cb);}
   function kpiCard(l,n,f){return '<div class="kpi"><div class="k-label">'+esc(l)+'</div><div class="k-num">'+esc(String(n))+'</div><div class="k-foot">'+esc(f||"")+'</div></div>';}
   function fmtDate(d){if(!d)return"";var p=String(d).split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric"});}
+  function bkWhen(iso){if(!iso)return"";var d=new Date(iso);return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' \u00b7 '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
+  function getBookings(cb){postFn(SB+"/functions/v1/tidycal-proxy",{p_site:SITE,action:"bookings",p_pass:PASS},cb);}
+  function bkRowHtml(b,withJoin){return '<div class="bk-row"><div class="bk-when">'+esc(bkWhen(b.starts_at))+'</div><div class="bk-who"><div class="nm">'+esc(b.name||'Guest')+'</div><div class="em">'+esc(b.email||'')+'</div></div>'+((withJoin&&b.meeting_url)?'<a class="bk-join" href="'+attr(b.meeting_url)+'" target="_blank" rel="noopener">Join</a>':'')+'</div>';}
+  function bkNotConnected(){return '<div class="bk-empty">Your booking isn\u2019t connected yet. Once it\u2019s live, every call booked on your site shows up here automatically.</div>';}
+  function renderBookings(){var v=$("view-bookings");
+    v.innerHTML='<div class="dash"><div class="dash-h">Bookings</div><div class="dash-sub">Every discovery call booked through your website, in one place. Manage your availability in TidyCal.</div>'
+      +'<div class="kpis" id="bkKpis"><div class="kpi"><div class="k-label">Loading\u2026</div></div></div>'
+      +'<div class="card"><h3>Upcoming calls</h3><div id="bkUpcoming"><p class="muted">Loading\u2026</p></div></div>'
+      +'<div class="card"><h3>Past calls</h3><div id="bkRecent"><p class="muted">Loading\u2026</p></div></div></div>';
+    getBookings(function(d){var kp=$("bkKpis");
+      if(!d||!d.ok){if(kp)kp.innerHTML=kpiCard("Bookings","\u2014","not connected yet");$("bkUpcoming").innerHTML=bkNotConnected();$("bkRecent").innerHTML='';return;}
+      if(kp)kp.innerHTML=kpiCard("Total bookings",d.total||0,"all time")+kpiCard("Upcoming",d.upcomingCount||0,"scheduled");
+      var up=d.upcoming||[];$("bkUpcoming").innerHTML=up.length?up.map(function(b){return bkRowHtml(b,true);}).join(""):'<div class="bk-empty">No upcoming calls yet.</div>';
+      var rc=d.recent||[];$("bkRecent").innerHTML=rc.length?rc.map(function(b){return bkRowHtml(b,false);}).join(""):'<div class="bk-empty">No past calls yet.</div>';});}
+  function mountUpcoming(hostId){var host=$(hostId);if(!host)return;
+    getBookings(function(d){
+      if(!d||!d.ok){host.innerHTML=bkNotConnected();return;}
+      var up=(d.upcoming||[]).slice(0,3);
+      host.innerHTML=(up.length?up.map(function(b){return bkRowHtml(b,true);}).join(""):'<div class="bk-empty">No upcoming calls yet. They\u2019ll appear here as people book.</div>')
+        +'<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-sm" id="bkGoAll">View all bookings</button><a class="btn btn-sm" id="bkManage" target="_blank" rel="noopener">Manage availability in TidyCal \u2197</a></div>';
+      var g=$("bkGoAll");if(g)g.onclick=function(){showView('bookings');};
+      var m=$("bkManage");if(m)rest("site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_url&select=value").then(function(rows){var path=((rows&&rows[0]&&rows[0].value)||"").trim();var src=/^https?:\/\//.test(path)?path:("https://tidycal.com/"+path);m.href=src||"https://tidycal.com";}).catch(function(){m.href="https://tidycal.com";});});}
   function renderHome(){var v=$("view-home");
     v.innerHTML='<div class="dash">'
       +'<div class="dash-h">Welcome back, Erika</div>'
@@ -549,13 +583,13 @@ a{color:var(--moss-bright)}
         +'<div class="row2" style="margin-top:6px"><div><div class="mini-h">Daily traffic</div><div id="homeChart"></div></div><div><div class="mini-h">Where visitors come from</div><div id="homeSrc"></div></div></div>'
       +'</div>'
       +'<div class="card"><h3>Quick actions</h3><div class="qa"><button data-go="editor"><b>Edit your site</b><span>Update your page text</span></button><button data-go="blog"><b>Write a blog post</b><span>Add or edit posts</span></button><button data-go="analytics"><b>Full analytics</b><span>Traffic &amp; conversion</span></button></div></div>'
-      +'<div class="card"><h3>Your booking calendar</h3><p class="muted" style="margin-bottom:14px">Your live TidyCal page, the same calendar visitors use. Manage availability in TidyCal.</p><div id="homeCal"><p class="muted">Loading…</p></div></div>'
+      +'<div class="card"><h3>Your next calls</h3><p class="muted" style="margin-bottom:14px">The discovery calls coming up on your calendar.</p><div id="homeUpcoming"><p class="muted">Loading…</p></div></div>'
     +'</div>';
     v.querySelectorAll(".qa button").forEach(function(b){b.addEventListener("click",function(){showView(b.getAttribute("data-go"));});});
     var hr=v.querySelector("#homeRange");if(hr)hr.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){hr.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});b.classList.add("active");loadHomeStats(+b.getAttribute("data-r"));});});
     var ha=v.querySelector("#hsApply");if(ha)ha.addEventListener("click",function(){var fr=v.querySelector("#hsFrom").value,to=v.querySelector("#hsTo").value;if(!fr||!to)return;if(hr)hr.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});loadHomeStats({from:fr,to:to});});
     loadHomeStats(30);
-    mountCal("homeCal");}
+    mountUpcoming("homeUpcoming");}
   function loadHomeStats(params){var k=$("homeKpis");if(k)k.innerHTML='<div class="kpi"><div class="k-label">Loading…</div></div>';
     var lbl=(params&&params.from)?"selected dates":("last "+((typeof params==="number")?params:((params&&params.range)||30))+" days");
     getAnalytics(params,function(d){var k=$("homeKpis");
