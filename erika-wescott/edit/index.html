@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
 <style>
 :root{
   --ink:#0E110F;--forest:#173A2B;--forest-2:#0F261C;--charcoal:#171B18;
@@ -170,6 +172,36 @@ a{color:var(--moss-bright)}
 .litem .lflag{display:flex;align-items:center;gap:7px;margin-top:7px;font-size:12px;color:var(--bone-dim);text-transform:none;letter-spacing:0}
 .litem .lflag input{width:auto}
 .litem .lrm{flex:none;background:none;border:1px solid rgba(217,140,140,.35);color:#e0a39c;border-radius:5px;width:30px;height:32px;cursor:pointer}
+.frow{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start}
+.frow>label{flex:0 0 130px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:var(--bone-dim);padding-top:9px}
+.frow>label .opt{color:var(--bone-faint);text-transform:none;letter-spacing:0;font-size:11px}
+.frow .finput{flex:1;min-width:0}
+.frow .finput input[type=text],.frow .finput textarea,.frow .finput select{width:100%;background:var(--ink);border:1px solid var(--line);color:var(--bone);padding:10px 12px;border-radius:5px;font-size:14.5px;font-family:inherit}
+.frow .finput textarea{min-height:70px;resize:vertical;line-height:1.5}
+.frow .finput input:focus,.frow .finput textarea:focus,.frow .finput select:focus{outline:none;border-color:var(--moss)}
+.frow .finput .hint{font-size:12px;color:var(--bone-faint);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(92,138,110,.18);border:1px solid var(--moss);color:var(--moss-bright);border-radius:20px;padding:4px 5px 4px 11px;font-size:12.5px}
+.chip button{background:none;border:0;color:var(--moss-bright);cursor:pointer;font-size:16px;line-height:1;padding:0 3px}
+.catrow{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.catrow input{flex:1;background:var(--ink);border:1px solid var(--line);color:var(--bone);padding:8px 11px;border-radius:5px;font-size:14px}
+.catrow input:focus{outline:none;border-color:var(--moss)}
+.catadd{display:flex;gap:8px;margin-top:10px}
+.catadd input{flex:1;background:var(--ink);border:1px solid var(--line);color:var(--bone);padding:8px 11px;border-radius:5px;font-size:14px}
+.catadd input:focus{outline:none;border-color:var(--moss)}
+.blhead{display:flex;justify-content:space-between;align-items:center;margin:20px 0 14px}
+.postrow{display:flex;align-items:center;gap:12px;background:var(--charcoal);border:1px solid var(--line);border-radius:8px;padding:13px 16px;margin-bottom:10px}
+.postrow .pr-main{flex:1;min-width:0}
+.postrow .pr-main b{color:var(--bone);font-size:15px}
+.postrow .pr-meta{font-size:12px;color:var(--bone-faint);margin-top:3px}
+.dummybadge{display:inline-block;background:rgba(199,165,123,.15);color:var(--tan);border:1px solid rgba(199,165,123,.4);border-radius:20px;padding:1px 8px;font-size:10.5px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.05em}
+.postform{margin-top:18px}
+.formactions{display:flex;gap:10px;align-items:center;margin-top:10px}
+.postform .pthumb img{width:160px;height:100px;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
+.postform .pthumb .vph{width:160px;height:100px;border-radius:6px;border:1px solid var(--line);background:var(--ink);display:flex;align-items:center;justify-content:center;color:var(--bone-faint);font-size:12px}
+#pf_body{background:#fff;min-height:200px;color:#1a1a1a;border-radius:0 0 6px 6px}
+.ql-toolbar.ql-snow{background:#f3f3ee;border-color:var(--line)!important;border-radius:6px 6px 0 0}
+.ql-container.ql-snow{border-color:var(--line)!important;font-family:'Inter',sans-serif;font-size:15px}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--moss);color:#0b1410;padding:13px 20px;border-radius:4px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;z-index:80}
 .toast.show{opacity:1;transform:translateY(0)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:70;padding:20px}
@@ -578,10 +610,55 @@ a{color:var(--moss-bright)}
       $("quoteList").innerHTML=wr.map(function(q){return '<div class="cl-card" data-id="'+q.id+'"><div class="ch"><span class="t">Quote</span><div class="r">'+reordBtns()+pubToggle(q.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div><textarea data-quote placeholder="Testimonial text">'+esc(q.quote)+'</textarea><div style="margin-top:12px"><input type="text" data-name value="'+attr(q.name)+'" placeholder="Attribution (e.g. Erin M.)"></div></div>';}).join("")||'<p class="muted">No written testimonials yet.</p>';
       bindCards("quoteList",function(c){return {id:c.dataset.id,kind:"written",quote:c.querySelector("[data-quote]").value,name:c.querySelector("[data-name]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);});}
 
-  function loadBlog(){if($("view-blog").getAttribute("data-init")!=="1"){$("view-blog").innerHTML=collWrap("blog","Blog Posts","Write and manage your posts. Draft posts stay hidden until you set them Published.","New blog post");$("view-blog").setAttribute("data-init","1");$("blogAdd").onclick=function(){rpc("bb_blog_upsert",{p_site:SITE,p_pass:PASS,p_row:{title:"New post",tag:"",published:false}}).then(loadBlog);};}
-    rpc("bb_blog_all",{p_site:SITE,p_pass:PASS}).then(function(rows){
-      $("blogList").innerHTML=rows.map(function(p){return '<div class="cl-card" data-id="'+p.id+'"><div class="ch"><span class="t">Post</span><div class="r">'+reordBtns()+pubToggle(p.published,"Published","Draft")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Delete</button></div></div><div class="row2"><input type="text" data-title value="'+attr(p.title)+'" placeholder="Post title"><input type="text" data-tag value="'+attr(p.tag)+'" placeholder="Category"></div><div class="row2" style="margin-top:12px"><input type="text" data-date value="'+attr(p.post_date)+'" placeholder="Date (e.g. June 2026)"><input type="text" data-excerpt value="'+attr(p.excerpt)+'" placeholder="Short excerpt"></div><textarea data-body placeholder="Write your post… (blank line = new paragraph)">'+esc(p.body)+'</textarea></div>';}).join("")||'<p class="muted">No posts yet.</p>';
-      bindCards("blogList",function(c){return {id:c.dataset.id,title:c.querySelector("[data-title]").value,tag:c.querySelector("[data-tag]").value,post_date:c.querySelector("[data-date]").value,excerpt:c.querySelector("[data-excerpt]").value,body:c.querySelector("[data-body]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_blog_upsert","bb_blog_delete",loadBlog);});}
+  var BLOG_CATS=[], blogQuill=null;
+  function loadBlog(){
+    $("view-blog").innerHTML='<div class="cwrap"><div class="dash-h">Blog Posts</div><div class="dash-sub">Write and manage your articles. Drafts stay hidden until Published. Add a cover image or a YouTube video, choose a category, and add tags.</div>'
+      +'<div class="card" style="margin-bottom:18px"><h3>Categories</h3><p class="muted" style="margin:-6px 0 14px">Create the categories you use, then pick one per post.</p><div id="catList"></div><div class="catadd"><input type="text" id="catNew" placeholder="New category name"><button class="btn btn-sm" id="catAddBtn">+ Add category</button></div></div>'
+      +'<div class="blhead"><h3 style="margin:0">Posts</h3><button class="btn btn-sm btn-primary" id="blogNew">+ New post</button></div><div id="postList"></div>'
+      +'<div id="blogFormWrap"></div></div>';
+    $("blogNew").onclick=function(){openPostForm(null);};
+    $("catAddBtn").onclick=function(){var v=$("catNew").value.trim();if(!v)return;rpc("bb_categories_upsert",{p_site:SITE,p_pass:PASS,p_row:{name:v,sort:BLOG_CATS.length}}).then(function(){$("catNew").value="";loadCategories();toast("Category added");});};
+    $("catNew").addEventListener("keydown",function(e){if(e.key==="Enter")$("catAddBtn").click();});
+    loadCategories(); loadPostList();
+  }
+  function loadCategories(cb){ rpc("bb_categories_all",{p_site:SITE,p_pass:PASS}).then(function(rows){ BLOG_CATS=rows; var el=$("catList"); if(el){ el.innerHTML=rows.length?rows.map(function(c){return '<div class="catrow" data-id="'+c.id+'"><input type="text" data-catname value="'+attr(c.name)+'"><button class="btn btn-sm" data-catsave>Save</button><button class="btn btn-sm btn-danger" data-catdel>Delete</button></div>';}).join(""):'<p class="muted" style="margin:0 0 10px">No categories yet. Add your first below.</p>';
+      el.querySelectorAll(".catrow").forEach(function(row){ row.querySelector("[data-catsave]").onclick=function(){rpc("bb_categories_upsert",{p_site:SITE,p_pass:PASS,p_row:{id:row.dataset.id,name:row.querySelector("[data-catname]").value}}).then(function(){toast("Category saved");loadCategories();});}; row.querySelector("[data-catdel]").onclick=function(){if(!confirm("Delete this category?"))return;rpc("bb_categories_delete",{p_site:SITE,p_pass:PASS,p_id:row.dataset.id}).then(function(){loadCategories();});}; }); }
+      if(cb)cb(); }).catch(function(){if(cb)cb();}); }
+  function loadPostList(){ rpc("bb_blog_all",{p_site:SITE,p_pass:PASS}).then(function(rows){ var el=$("postList"); if(!el)return;
+    el.innerHTML=rows.length?rows.map(function(p){return '<div class="postrow"><div class="pr-main"><b>'+esc(p.title||"(untitled)")+'</b><div class="pr-meta">'+esc(p.tag||"No category")+(p.is_dummy?' &middot; <span class="dummybadge">Example</span>':'')+' &middot; '+(p.published?'<span style="color:var(--moss-bright)">Published</span>':'<span style="color:var(--bone-faint)">Draft</span>')+'</div></div><button class="btn btn-sm" data-edit="'+p.id+'">Edit</button><button class="btn btn-sm btn-danger" data-del="'+p.id+'">Delete</button></div>';}).join(""):'<p class="muted">No posts yet. Click New post to write your first.</p>';
+    el.querySelectorAll("[data-edit]").forEach(function(b){b.onclick=function(){var id=b.getAttribute("data-edit");rpc("bb_blog_all",{p_site:SITE,p_pass:PASS}).then(function(rs){openPostForm(rs.filter(function(x){return x.id===id;})[0]);});};});
+    el.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){if(!confirm("Delete this post? This cannot be undone."))return;rpc("bb_blog_delete",{p_site:SITE,p_pass:PASS,p_id:b.getAttribute("data-del")}).then(loadPostList);};});
+  }); }
+  function openPostForm(post){
+    post=post||{published:false,tags:[]}; var tags=[]; if(Array.isArray(post.tags))tags=post.tags.slice(); else if(typeof post.tags==="string"){try{tags=JSON.parse(post.tags);}catch(e){tags=[];}}
+    var catOpts='<option value="">Choose a category...</option>'+BLOG_CATS.map(function(c){return '<option value="'+attr(c.name)+'"'+(post.tag===c.name?' selected':'')+'>'+esc(c.name)+'</option>';}).join("");
+    var w=$("blogFormWrap");
+    w.innerHTML='<div class="card postform"><h3>'+(post.id?"Edit post":"New post")+(post.is_dummy?' <span class="dummybadge">Example - editing makes it real</span>':'')+'</h3>'
+      +'<div class="frow"><label>Cover image</label><div class="finput"><div class="pthumb" id="pf_coverthumb">'+(post.cover_url?('<img src="'+attr(post.cover_url)+'">'):'<div class="vph">No image</div>')+'</div><div class="vbtnrow" style="margin-top:8px"><label class="mini filebtn">Upload image<input type="file" accept="image/png,image/jpeg,image/webp" id="pf_coverfile"></label><button type="button" class="mini" id="pf_coverlib">Choose from library</button></div><input type="hidden" id="pf_cover" value="'+attr(post.cover_url||"")+'"><div class="vstatus" id="pf_coverstatus"></div></div></div>'
+      +'<div class="frow"><label>YouTube video <span class="opt">(optional)</span></label><div class="finput"><input type="text" id="pf_video" value="'+attr(post.video_url||"")+'" placeholder="https://youtube.com/watch?v=..."><div class="hint">If added, the video plays at the top of the post. Just paste a YouTube link, no hosting needed.</div></div></div>'
+      +'<div class="frow"><label>Title</label><div class="finput"><input type="text" id="pf_title" value="'+attr(post.title||"")+'" placeholder="Post title"></div></div>'
+      +'<div class="frow"><label>Category</label><div class="finput"><select id="pf_cat">'+catOpts+'</select></div></div>'
+      +'<div class="frow"><label>Tags</label><div class="finput"><div class="chips" id="pf_tags"></div><input type="text" id="pf_taginput" placeholder="Type a tag and press Enter"><div class="hint">Small keywords shown on the post. Press Enter or comma to add.</div></div></div>'
+      +'<div class="frow"><label>Date</label><div class="finput"><input type="text" id="pf_date" value="'+attr(post.post_date||"")+'" placeholder="e.g. June 2026"></div></div>'
+      +'<div class="frow"><label>Excerpt</label><div class="finput"><textarea id="pf_excerpt" placeholder="One-line summary shown in the blog list">'+esc(post.excerpt||"")+'</textarea></div></div>'
+      +'<div class="frow"><label>Post</label><div class="finput"><div id="pf_body"></div></div></div>'
+      +'<div class="frow"><label>Visibility</label><div class="finput"><span class="pubrow"><button class="toggle '+(post.published?"on":"")+'" data-pub></button><span id="pf_pubtxt">'+(post.published?"Published (live)":"Draft (hidden)")+'</span></span></div></div>'
+      +'<div class="formactions"><button class="btn btn-go" id="pf_save">Save post</button><button class="btn" id="pf_cancel">Cancel</button><span class="vstatus" id="pf_status"></span></div></div>';
+    w.scrollIntoView({behavior:"smooth",block:"start"});
+    function renderTags(){ var c=$("pf_tags"); c.innerHTML=tags.map(function(t,i){return '<span class="chip">'+esc(t)+'<button data-rm="'+i+'">&times;</button></span>';}).join(""); c.querySelectorAll("[data-rm]").forEach(function(b){b.onclick=function(){tags.splice(+b.getAttribute("data-rm"),1);renderTags();};}); }
+    renderTags();
+    $("pf_taginput").addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===","){e.preventDefault();var v=this.value.trim().replace(/,$/,"");if(v&&tags.indexOf(v)<0){tags.push(v);renderTags();}this.value="";} });
+    blogQuill=new Quill("#pf_body",{theme:"snow",placeholder:"Write your post...",modules:{toolbar:[["bold","italic","underline"],[{header:2},{header:3}],["blockquote"],[{list:"ordered"},{list:"bullet"}],["link"],["clean"]]}});
+    if(post.body){ blogQuill.clipboard.dangerouslyPasteHTML(post.body); }
+    $("pf_coverfile").addEventListener("change",function(){var f=this.files[0];if(!f)return;var st=$("pf_coverstatus");st.style.color="var(--bone-dim)";st.textContent="Optimizing image...";uploadImage("blogcover",f,function(err,url){if(err){st.style.color="#e0a39c";st.textContent=err;return;}$("pf_cover").value=url;$("pf_coverthumb").innerHTML='<img src="'+attr(url)+'">';st.style.color="var(--moss-bright)";st.textContent="Image set.";});});
+    $("pf_coverlib").onclick=function(){openLibrary(function(url){$("pf_cover").value=url;$("pf_coverthumb").innerHTML='<img src="'+attr(url)+'">';});};
+    var tg=w.querySelector("[data-pub]"); if(tg)tg.onclick=function(){tg.classList.toggle("on");$("pf_pubtxt").textContent=tg.classList.contains("on")?"Published (live)":"Draft (hidden)";};
+    $("pf_cancel").onclick=function(){w.innerHTML="";blogQuill=null;};
+    $("pf_save").onclick=function(){ var st=$("pf_status"); var title=$("pf_title").value.trim(); if(!title){st.style.color="#e0a39c";st.textContent="Add a title.";return;} st.style.color="var(--bone-dim)";st.textContent="Saving...";
+      var payload={ title:title, tag:$("pf_cat").value, post_date:$("pf_date").value.trim(), excerpt:$("pf_excerpt").value.trim(), body:blogQuill.root.innerHTML, cover_url:$("pf_cover").value, video_url:$("pf_video").value.trim(), tags:tags, published:w.querySelector("[data-pub]").classList.contains("on"), is_dummy:false };
+      if(post.id)payload.id=post.id;
+      rpc("bb_blog_upsert",{p_site:SITE,p_pass:PASS,p_row:payload}).then(function(){toast("Post saved");w.innerHTML="";blogQuill=null;loadPostList();}).catch(function(){st.style.color="#e0a39c";st.textContent="Save failed - try again.";}); };
+  }
 
   function loadFaqs(){if($("view-faqs").getAttribute("data-init")!=="1"){$("view-faqs").innerHTML=collWrap("faq","FAQs","Add and edit the questions on your site. The Visible toggle controls what shows.","Add FAQ");$("view-faqs").setAttribute("data-init","1");$("faqAdd").onclick=function(){rpc("bb_faqs_upsert",{p_site:SITE,p_pass:PASS,p_row:{question:"New question",answer:"",published:false}}).then(loadFaqs);};}
     rpc("bb_faqs_all",{p_site:SITE,p_pass:PASS}).then(function(rows){

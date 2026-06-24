@@ -269,6 +269,30 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
 .quote{border:1px solid var(--line);border-left:3px solid var(--tan);border-radius:3px;padding:30px 32px;background:var(--charcoal)}
 .quote p{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:19px;line-height:1.5;color:var(--bone)}
 .quote .by{margin-top:18px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--bone-dim)}
+.blog-soon{text-align:center;padding:60px 24px;border:1px dashed var(--line);border-radius:12px;margin-top:30px;background:var(--charcoal)}
+.blog-soon h3{font-size:clamp(24px,3vw,34px);color:var(--tan);font-family:'Oswald';text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.blog-soon p{color:var(--bone-dim);max-width:34em;margin:0 auto;line-height:1.6}
+.pc-cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--forest-2)}
+.pc-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.pc-nocover{background:linear-gradient(135deg,var(--forest-2),var(--charcoal))}
+.pc-vbadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.pc-vbadge svg{width:50px;height:50px;color:#fff;opacity:.92;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.pc-tags,.post-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tchip{font-size:11px;color:var(--bone-dim);background:rgba(237,237,230,.06);border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-family:'Oswald';letter-spacing:.05em;text-transform:uppercase}
+.post-cover{margin:24px 0;border-radius:10px;overflow:hidden}
+.post-cover img{width:100%;display:block}
+.post-video{position:relative;margin:24px 0;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#000;cursor:pointer}
+.post-video img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .2s}
+.post-video:hover img{opacity:.7}
+.pv-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer}
+.pv-play svg{width:70px;height:70px;color:#fff;filter:drop-shadow(0 6px 16px rgba(0,0,0,.6))}
+.post-tags{margin-top:30px;padding-top:20px;border-top:1px solid var(--line)}
+.post-full .body h2{font-size:clamp(22px,2.6vw,30px);margin:28px 0 12px}
+.post-full .body h3{font-size:clamp(18px,2vw,22px);margin:24px 0 10px}
+.post-full .body ul,.post-full .body ol{margin:14px 0 14px 22px}
+.post-full .body li{margin-bottom:7px;color:var(--bone-dim)}
+.post-full .body blockquote{border-left:3px solid var(--moss);padding-left:18px;margin:18px 0;color:var(--bone);font-style:italic}
+.post-full .body a{color:var(--moss-bright);text-decoration:underline}
 .demo-inline{margin-top:14px;color:var(--bone-faint);font-size:13.5px;font-style:italic}
 
 /* ---------- blog page ---------- */
@@ -650,7 +674,6 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
       <h1 style="margin-top:18px;font-size:clamp(38px,5.5vw,72px);font-weight:700">No bullshit,<br/>just what works.</h1>
       <p class="muted" style="margin-top:22px;max-width:34em">Notes on training, nutrition, and building a life that actually holds. Written by Erika, managed from her dashboard.</p>
       <div class="bloglist reveal-stagger" id="blogList"></div>
-      <p class="demo-inline">Demo posts shown for structure. Erika writes and publishes real posts from the dashboard.</p>
     </div>
     <div class="wrap post-full" id="blogPost" style="display:none"></div>
   </section>
@@ -697,11 +720,7 @@ let WRITTEN_TESTIMONIALS = [
   {quote:"I feel empowered now to trust the process and stay accountable.", by:"Vicky G."},
   {quote:"I plan to get back to all of the good skills you helped me build.", by:"Brittany P."},
 ];
-let BLOG_POSTS = [
-  {tag:'Nutrition', title:'You don’t need another reset', date:'June 2026', excerpt:'Why the all-or-nothing cycle keeps you stuck, and what to build instead.', body:['The Monday reset feels productive. It isn’t. It’s the same loop dressed up as a fresh start.','What actually moves you forward is boring on purpose: structure you can repeat, food you can fuel with, and accountability that does not disappear the second work gets busy.','You do not need another reset. You need better systems.']},
-  {tag:'Training', title:'Lift heavy, recover harder', date:'June 2026', excerpt:'Strength is built in the recovery, not just the reps.', body:['Most people training hard are recovering like an afterthought. Sleep, protein, and rest days are not the soft part of the program. They are the program.','Train hard. Then take recovery as seriously as the lift itself.']},
-  {tag:'Real Life', title:'How to eat at a restaurant without spiraling', date:'May 2026', excerpt:'Travel, dinners, and drinks are not the enemy. Here’s the framework.', body:['Real life includes restaurants, alcohol, and work events. A plan that ignores those is a plan that fails in week three.','Here is the simple version: anchor your protein, choose what is worth it, and move on without the guilt tax.']},
-];
+let BLOG_POSTS = [];
 let FAQS = [
   {q:'What app do I need?', a:['I work with Cronometer and a personalized client portal with all of my clients.']},
   {q:'Is macro tracking required?', a:['Usually, yes, at least initially.','That said, the goal is to build awareness and confidence around food so you can make better choices long term, even without tracking.']},
@@ -721,11 +740,13 @@ function renderContent(){
   document.getElementById('tvidGrid').innerHTML = VIDEOS.map(videoCard).join('');
   document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(t=>`
     <div class="quote"><p>"${esc(t.quote)}"</p><div class="by">${esc(t.by)}</div></div>`).join('');
-  document.getElementById('blogList').innerHTML = BLOG_POSTS.map((p,i)=>`
+  var _bl=document.getElementById('blogList');
+  if(!BLOG_POSTS.length){ _bl.innerHTML='<div class="blog-soon"><h3>Coming soon</h3><p>New articles on training, nutrition, and building a life that actually holds are on the way. Check back soon.</p></div>'; }
+  else { _bl.innerHTML = BLOG_POSTS.map((p,i)=>`
     <div class="post-card" data-post="${i}">
-      ${imgphVideo('Post Image','Alex to place')}
-      <div class="pc-body"><span class="tag">${esc(p.tag)}</span><h3>${esc(p.title)}</h3><p class="ex">${esc(p.excerpt)}</p><div class="dt">${esc(p.date)}</div></div>
-    </div>`).join('');
+      <div class="pc-cover${p.cover?'':' pc-nocover'}">${p.cover?`<img src="${esc(p.cover)}" alt="" loading="lazy">`:''}${p.video?`<span class="pc-vbadge">${playSvg}</span>`:''}</div>
+      <div class="pc-body">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}<h3>${esc(p.title)}</h3><p class="ex">${esc(p.excerpt)}</p><div class="dt">${esc(p.date)}</div>${(p.tags&&p.tags.length)?`<div class="pc-tags">${p.tags.map(t=>`<span class="tchip">${esc(t)}</span>`).join('')}</div>`:''}</div>
+    </div>`).join(''); }
   var fl=document.getElementById('faqList');
   if(fl) fl.innerHTML = FAQS.map(f=>`<div class="faq"><button>${esc(f.q)}${faqSvg}</button><div class="ans">${(f.a||[]).map(p=>`<p>${esc(p)}</p>`).join('')}</div></div>`).join('');
 }
@@ -761,16 +782,25 @@ function hydrateStatic(){
 }
 
 /* ---------------- blog post view ---------------- */
+function ytId(u){ var m=String(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/); return m?m[1]:''; }
 function openPost(i){
   const p = BLOG_POSTS[i]; if(!p) return;
   document.getElementById('blogIndex').style.display='none';
   const el = document.getElementById('blogPost');
   el.style.display='block';
+  const yt = p.video ? ytId(p.video) : '';
+  const hero = yt
+    ? `<div class="post-video" data-yt="${yt}"><img src="https://i.ytimg.com/vi/${yt}/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${yt}/hqdefault.jpg'"><button class="pv-play" aria-label="Play video">${playSvg}</button></div>`
+    : (p.cover ? `<div class="post-cover"><img src="${esc(p.cover)}" alt=""></div>` : '');
   el.innerHTML = `<span class="back" id="backBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>All posts</span>
-    <span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${esc(p.tag)}</span>
+    ${p.tag?`<span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${esc(p.tag)}</span>`:''}
     <h1 style="margin-top:12px">${esc(p.title)}</h1><div class="meta">${esc(p.date)} · Erika Wescott</div>
-    <div class="body">${(p.body||[]).map(par=>`<p>${esc(par)}</p>`).join('')}</div>`;
+    ${hero}
+    <div class="body">${p.body||''}</div>
+    ${(p.tags&&p.tags.length)?`<div class="post-tags">${p.tags.map(t=>`<span class="tchip">${esc(t)}</span>`).join('')}</div>`:''}`;
   document.getElementById('backBtn').onclick=()=>{el.style.display='none';document.getElementById('blogIndex').style.display='block';window.scrollTo(0,0);};
+  const pv=el.querySelector('.post-video');
+  if(pv){ pv.querySelector('.pv-play').onclick=()=>{ const html='<iframe src="https://www.youtube.com/embed/'+yt+'?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="width:100%;height:100%;border:0"></iframe>'; if(window.bbVideoModal)window.bbVideoModal(html); }; }
   if(window.posthog)posthog.capture('blog_post_open',{title:p.title});
   window.scrollTo(0,0);
 }
@@ -808,6 +838,7 @@ function initCarousel(){
   function openModal(src){ modalOpen=true; pauseAll();
     media.innerHTML='<video src="'+src+'" controls autoplay playsinline></video>';
     modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; if(window.posthog)posthog.capture('video_play'); }
+  window.bbVideoModal=function(html){ modalOpen=true; pauseAll(); media.innerHTML=html; modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
   function closeModal(){ modalOpen=false; media.innerHTML=''; modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; resumeAll(); }
   modal.querySelectorAll('[data-vclose]').forEach(el=>el.addEventListener('click',closeModal));
@@ -886,7 +917,7 @@ function mapData(r){
     var wr=r.testi.filter(t=>t.kind==='written').sort((a,b)=>a.sort-b.sort).map(t=>({quote:t.quote,by:t.name}));
     if(vids.length)VIDEOS=vids; if(wr.length)WRITTEN_TESTIMONIALS=wr;
   }
-  if(r.blog&&r.blog.length){ BLOG_POSTS=r.blog.sort((a,b)=>a.sort-b.sort).map(p=>({tag:p.tag,title:p.title,date:p.post_date,excerpt:p.excerpt,body:paras(p.body)})); }
+  if(r.blog){ BLOG_POSTS=r.blog.sort((a,b)=>a.sort-b.sort).map(p=>({tag:p.tag,title:p.title,date:p.post_date,excerpt:p.excerpt,body:p.body,cover:p.cover_url,video:p.video_url,tags:(function(){try{return Array.isArray(p.tags)?p.tags:JSON.parse(p.tags||'[]');}catch(e){return [];}})()})); }
   if(r.faq&&r.faq.length){ FAQS=r.faq.sort((a,b)=>a.sort-b.sort).map(f=>({q:f.question,a:paras(f.answer)})); }
   if(r.content&&r.content.length){ r.content.forEach(c=>{ if(c.value!=null) CONTENT[c.field_key]=c.value; }); }
 }
@@ -897,7 +928,7 @@ function q(path){ return fetch(SB+'/rest/v1/'+path,{headers:HH}).then(r=>r.ok?r.
   Promise.all([
     q('site_content?site_slug=eq.'+SITE+'&select=field_key,value'),
     q('testimonials?site_slug=eq.'+SITE+'&published=eq.true&select=*'),
-    q('blog_posts?site_slug=eq.'+SITE+'&published=eq.true&select=*'),
+    q('blog_posts?site_slug=eq.'+SITE+'&published=eq.true&is_dummy=eq.false&select=*'),
     q('faqs?site_slug=eq.'+SITE+'&published=eq.true&select=*')
   ]).then(function(a){ clearTimeout(t); go({content:a[0],testi:a[1],blog:a[2],faq:a[3]}); })
    .catch(function(){ clearTimeout(t); go(null); });
