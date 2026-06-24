@@ -63,7 +63,8 @@ a{color:var(--moss-bright)}
 .kpi .k-num{font-family:'Oswald';font-size:34px;line-height:1;color:var(--moss-bright)}
 .kpi .k-foot{font-size:11.5px;color:var(--bone-faint);margin-top:8px}
 .card{background:var(--charcoal);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:18px}
-.card h3{font-size:13px;letter-spacing:.14em;color:var(--tan);margin-bottom:16px}
+.card h3{font-size:13px;letter-spacing:.14em;color:var(--tan);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card h3 svg{width:15px;height:15px;flex:none;color:var(--moss-bright)}
 .stat-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
 .mini-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-faint);font-weight:600;margin-bottom:10px;font-family:'Oswald'}
 .bk-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -77,10 +78,13 @@ a{color:var(--moss-bright)}
 .bk-empty{color:var(--bone-dim);font-size:13.5px;padding:8px 0}
 @media(max-width:640px){.bk-when{min-width:0;width:100%}.bk-row{flex-wrap:wrap;gap:4px}}
 .qa{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.qa button{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:left;cursor:pointer;transition:.15s}
+.qa button{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:left;cursor:pointer;transition:.15s;display:flex;gap:13px;align-items:center}
 .qa button:hover{border-color:var(--moss);box-shadow:0 8px 22px rgba(0,0,0,.25)}
 .qa b{display:block;color:var(--bone);font-size:14px;margin-bottom:3px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.04em;font-weight:500}
 .qa span{font-size:12px;color:var(--bone-faint)}
+.qa-ico{flex:none;width:38px;height:38px;border-radius:9px;background:rgba(92,138,110,.14);display:flex;align-items:center;justify-content:center;color:var(--moss-bright)}
+.qa-ico svg{width:19px;height:19px}
+.qa-txt{min-width:0}
 .rangebtns{display:flex;gap:8px;margin-bottom:20px}
 .rangebtns button{background:var(--charcoal);border:1px solid var(--line);border-radius:20px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--bone-dim);cursor:pointer}
 .rangebtns button.active{background:var(--moss);color:#0b1410;border-color:var(--moss)}
@@ -128,6 +132,7 @@ a{color:var(--moss-bright)}
 .secnav a:hover{border-color:var(--moss);color:var(--bone)}
 .group h2{font-size:18px;letter-spacing:.03em;color:var(--bone);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line-soft);cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Oswald';text-transform:uppercase}
 .group h2 .jump{font-family:'Inter';font-size:10px;letter-spacing:.1em;color:var(--bone-faint);text-transform:none}
+.group h2 .sec-i{width:14px;height:14px;flex:none;color:var(--tan);margin-right:8px;vertical-align:-2px}
 .group.group-pending h2{color:var(--moss-bright)}
 .guide{background:rgba(199,165,123,.08);border:1px solid rgba(199,165,123,.3);border-radius:7px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--bone-dim);line-height:1.55}
 .guide b{color:var(--tan)}
@@ -423,7 +428,7 @@ a{color:var(--moss-bright)}
     // editor view = all non-SEO sections, grouped
     var secs=[];
     rows.filter(function(r){return r.section!==SEO_SECTION;}).forEach(function(r){
-      if(r.section!==cur){if(cur!==null)edHtml+="</div>";var an=anchors[r.section]||"top";secs.push(r.section);edHtml+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(secLabel(r.section))+'<span class="jump">show ↗</span></h2>';cur=r.section;}
+      if(r.section!==cur){if(cur!==null)edHtml+="</div>";var an=anchors[r.section]||"top";secs.push(r.section);edHtml+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+secIcon(r.section)+esc(secLabel(r.section))+'<span class="jump">show ↗</span></h2>';cur=r.section;}
       edHtml+=fieldHTML(r);});
     if(cur!==null)edHtml+="</div>";
     fieldsEl.innerHTML=edHtml;
@@ -437,6 +442,7 @@ a{color:var(--moss-bright)}
     $("seoFields").appendChild(sf);
     wire();allKeys.forEach(refreshField);refreshGroups();updateNav();
   }
+  function secIcon(s){var m={hero:'home',problem:'alert',why:'spark',whatyouget:'gift',proof:'quote',about:'user',credentials:'award',tenets:'check',booking:'calendar',final:'flag'};return '<svg class="sec-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(({home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',alert:'<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h.01"/>',spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/>',gift:'<rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4.5 9.5 8 12 8zM12 8s2-5 4.5-3.5S14.5 8 12 8z"/>',quote:'<path d="M7 7H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v3H4M17 7h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v3h-2"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/>',award:'<circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/>',check:'<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'})[m[s]]||'<rect x="4" y="4" width="16" height="16" rx="2"/>')+'</svg>';}
   function secLabel(s){return ({hero:"Hero",problem:"The Problem",why:"Why It Works",whatyouget:"What You Get",proof:"Proof",about:"About Erika",credentials:"Credentials",tenets:"Tenets",booking:"Booking",final:"Final CTA"})[s]||s;}
 
   function markDirty(key){var f=$("f_"+key);if(f)f.classList.add("is-dirty");updateNav();}
@@ -562,8 +568,8 @@ a{color:var(--moss-bright)}
   function renderBookings(){var v=$("view-bookings");
     v.innerHTML='<div class="dash"><div class="dash-h">Bookings</div><div class="dash-sub">Every discovery call booked through your website, in one place. Manage your availability in TidyCal.</div>'
       +'<div class="kpis" id="bkKpis"><div class="kpi"><div class="k-label">Loading\u2026</div></div></div>'
-      +'<div class="card"><h3>Upcoming calls</h3><div id="bkUpcoming"><p class="muted">Loading\u2026</p></div></div>'
-      +'<div class="card"><h3>Past calls</h3><div id="bkRecent"><p class="muted">Loading\u2026</p></div></div></div>';
+      +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Upcoming calls</h3><div id="bkUpcoming"><p class="muted">Loading\u2026</p></div></div>'
+      +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Past calls</h3><div id="bkRecent"><p class="muted">Loading\u2026</p></div></div></div>';
     getBookings(function(d){var kp=$("bkKpis");
       if(!d||!d.ok){if(kp)kp.innerHTML=kpiCard("Bookings","\u2014","not connected yet");$("bkUpcoming").innerHTML=bkNotConnected();$("bkRecent").innerHTML='';return;}
       if(kp)kp.innerHTML=kpiCard("Total bookings",d.total||0,"all time")+kpiCard("Upcoming",d.upcomingCount||0,"scheduled");
@@ -582,14 +588,14 @@ a{color:var(--moss-bright)}
       +'<div class="dash-h">Welcome back, Erika</div>'
       +'<div class="dash-sub">A quick look at how your site is performing and what needs your attention.</div>'
       +'<div class="card">'
-        +'<div class="stat-head"><h3 style="margin:0">Performance at a glance</h3>'
+        +'<div class="stat-head"><h3 style="margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Performance at a glance</h3>'
         +'<div class="rangebtns" id="homeRange" style="margin:0"><button data-r="7">7 days</button><button data-r="30" class="active">30 days</button><button data-r="90">90 days</button></div></div>'
         +'<div class="customrange" id="homeCustom"><span style="font-size:12px;color:var(--bone-faint)">or pick dates:</span><input type="date" id="hsFrom" class="dateinp"><span style="color:var(--bone-faint);font-size:12px">to</span><input type="date" id="hsTo" class="dateinp"><button class="mini" id="hsApply">Apply</button></div>'
         +'<div class="kpis" id="homeKpis"><div class="kpi"><div class="k-label">Loading…</div></div></div>'
         +'<div class="row2" style="margin-top:6px"><div><div class="mini-h">Daily traffic</div><div id="homeChart"></div></div><div><div class="mini-h">Where visitors come from</div><div id="homeSrc"></div></div></div>'
       +'</div>'
-      +'<div class="card"><h3>Quick actions</h3><div class="qa"><button data-go="editor"><b>Edit your site</b><span>Update your page text</span></button><button data-go="blog"><b>Write a blog post</b><span>Add or edit posts</span></button><button data-go="analytics"><b>Full analytics</b><span>Traffic &amp; conversion</span></button></div></div>'
-      +'<div class="card"><h3>Your next calls</h3><p class="muted" style="margin-bottom:14px">The discovery calls coming up on your calendar.</p><div id="homeUpcoming"><p class="muted">Loading…</p></div></div>'
+      +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>Quick actions</h3><div class="qa"><button data-go="editor"><div class="qa-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16v4z"/></svg></div><div class="qa-txt"><b>Edit your site</b><span>Update your page text</span></div></button><button data-go="blog"><div class="qa-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div><div class="qa-txt"><b>Write a blog post</b><span>Add or edit posts</span></div></button><button data-go="analytics"><div class="qa-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 18v-6M12 18V7M18 18v-9"/></svg></div><div class="qa-txt"><b>Full analytics</b><span>Traffic &amp; conversion</span></div></button></div></div>'
+      +'<div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Your next calls</h3><p class="muted" style="margin-bottom:14px">The discovery calls coming up on your calendar.</p><div id="homeUpcoming"><p class="muted">Loading…</p></div></div>'
     +'</div>';
     v.querySelectorAll(".qa button").forEach(function(b){b.addEventListener("click",function(){showView(b.getAttribute("data-go"));});});
     var hr=v.querySelector("#homeRange");if(hr)hr.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){hr.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});b.classList.add("active");loadHomeStats(+b.getAttribute("data-r"));});});
@@ -606,7 +612,7 @@ a{color:var(--moss-bright)}
       var hs=$("homeSrc");if(hs)hs.innerHTML=srcBars(d.sources,cmap);});}
   function mountCal(hostId){var host=$(hostId);if(!host)return;rest("site_content?site_slug=eq."+SITE+"&field_key=eq.tidycal_url&select=value").then(function(rows){var path=((rows&&rows[0]&&rows[0].value)||"").trim();if(!path){host.innerHTML='<p class="muted">Add your TidyCal link in the Site Editor (Booking) to show your calendar here.</p>';return;}var src=/^https?:\/\//.test(path)?path:("https://tidycal.com/"+path);host.innerHTML='<iframe src="'+attr(src)+'" style="width:100%;min-height:680px;border:1px solid var(--line);border-radius:10px;background:#fff" loading="lazy" title="Booking calendar"></iframe>';}).catch(function(){host.innerHTML='<p class="muted">Could not load your calendar.</p>';});}
   function renderAnalytics(){var v=$("view-analytics");
-    if(v.getAttribute("data-init")!=="1"){v.innerHTML='<div class="dash"><div class="dash-h">Analytics</div><div class="dash-sub">How people find and use your website. Updated live.</div><div class="rangebtns" id="anRange"><button data-r="7">7 days</button><button data-r="30" class="active">30 days</button><button data-r="90">90 days</button></div><div class="customrange"><span style="font-size:12px;color:var(--bone-faint)">or pick dates:</span><input type="date" id="anFrom" class="dateinp"><span style="color:var(--bone-faint);font-size:12px">to</span><input type="date" id="anTo" class="dateinp"><button class="mini" id="anApply">Apply</button></div><div class="kpis" id="anKpis"></div><div class="card"><h3>Traffic over time</h3><div id="anChart"></div></div><div class="card"><h3>Where visitors come from</h3><div id="anSrc"></div></div></div>';v.setAttribute("data-init","1");v.querySelectorAll("#anRange button").forEach(function(b){b.addEventListener("click",function(){v.querySelectorAll("#anRange button").forEach(function(x){x.classList.remove("active");});b.classList.add("active");loadAnalytics(+b.getAttribute("data-r"));});});var ap=v.querySelector("#anApply");if(ap)ap.addEventListener("click",function(){var fr=v.querySelector("#anFrom").value,to=v.querySelector("#anTo").value;if(!fr||!to)return;v.querySelectorAll("#anRange button").forEach(function(x){x.classList.remove("active");});loadAnalytics({from:fr,to:to});});}
+    if(v.getAttribute("data-init")!=="1"){v.innerHTML='<div class="dash"><div class="dash-h">Analytics</div><div class="dash-sub">How people find and use your website. Updated live.</div><div class="rangebtns" id="anRange"><button data-r="7">7 days</button><button data-r="30" class="active">30 days</button><button data-r="90">90 days</button></div><div class="customrange"><span style="font-size:12px;color:var(--bone-faint)">or pick dates:</span><input type="date" id="anFrom" class="dateinp"><span style="color:var(--bone-faint);font-size:12px">to</span><input type="date" id="anTo" class="dateinp"><button class="mini" id="anApply">Apply</button></div><div class="kpis" id="anKpis"></div><div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>Traffic over time</h3><div id="anChart"></div></div><div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>Where visitors come from</h3><div id="anSrc"></div></div></div>';v.setAttribute("data-init","1");v.querySelectorAll("#anRange button").forEach(function(b){b.addEventListener("click",function(){v.querySelectorAll("#anRange button").forEach(function(x){x.classList.remove("active");});b.classList.add("active");loadAnalytics(+b.getAttribute("data-r"));});});var ap=v.querySelector("#anApply");if(ap)ap.addEventListener("click",function(){var fr=v.querySelector("#anFrom").value,to=v.querySelector("#anTo").value;if(!fr||!to)return;v.querySelectorAll("#anRange button").forEach(function(x){x.classList.remove("active");});loadAnalytics({from:fr,to:to});});}
     loadAnalytics(30);}
   function loadAnalytics(params){var k=$("anKpis");if(k)k.innerHTML='<div class="kpi"><div class="k-label">Loading…</div></div>';
     getAnalytics(params,function(d){if(!d||!d.ok){if(k)k.innerHTML='<div class="kpi"><div class="k-label">Not available</div><div class="k-foot">'+esc((d&&d.error)||"Try again")+'</div></div>';return;}var s=d.summary;
@@ -710,8 +716,8 @@ a{color:var(--moss-bright)}
   var BLOG_CATS=[], blogQuill=null;
   function loadBlog(){
     $("view-blog").innerHTML='<div class="cwrap"><div class="dash-h">Blog Posts</div><div class="dash-sub">Write and manage your articles. Drafts stay hidden until Published. Add a cover image or a YouTube video, choose a category, and add tags.</div>'
-      +'<div class="card" style="margin-bottom:18px"><h3>Categories</h3><p class="muted" style="margin:-6px 0 14px">Create the categories you use, then pick one per post.</p><div id="catList"></div><div class="catadd"><input type="text" id="catNew" placeholder="New category name"><button class="btn btn-sm" id="catAddBtn">+ Add category</button></div></div>'
-      +'<div class="blhead"><h3 style="margin:0">Posts</h3><button class="btn btn-sm btn-primary" id="blogNew">+ New post</button></div><div id="postList"></div>'
+      +'<div class="card" style="margin-bottom:18px"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7-7a2 2 0 0 1-.6-1.4V5a2 2 0 0 1 2-2h6.8a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Categories</h3><p class="muted" style="margin:-6px 0 14px">Create the categories you use, then pick one per post.</p><div id="catList"></div><div class="catadd"><input type="text" id="catNew" placeholder="New category name"><button class="btn btn-sm" id="catAddBtn">+ Add category</button></div></div>'
+      +'<div class="blhead"><h3 style="margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Posts</h3><button class="btn btn-sm btn-primary" id="blogNew">+ New post</button></div><div id="postList"></div>'
       +'<div id="blogFormWrap"></div></div>';
     $("blogNew").onclick=function(){openPostForm(null);};
     $("catAddBtn").onclick=function(){var v=$("catNew").value.trim();if(!v)return;rpc("bb_categories_upsert",{p_site:SITE,p_pass:PASS,p_row:{name:v,sort:BLOG_CATS.length}}).then(function(){$("catNew").value="";loadCategories();toast("Category added");});};
