@@ -133,6 +133,7 @@ a{color:var(--moss-bright)}
 .group h2{font-size:18px;letter-spacing:.03em;color:var(--bone);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line-soft);cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Oswald';text-transform:uppercase}
 .group h2 .jump{font-family:'Inter';font-size:10px;letter-spacing:.1em;color:var(--bone-faint);text-transform:none}
 .group h2 .sec-i{width:14px;height:14px;flex:none;color:var(--tan);margin-right:8px;vertical-align:-2px}
+.group h2 .grp-title{display:inline-flex;align-items:center;min-width:0}
 .group.group-pending h2{color:var(--moss-bright)}
 .guide{background:rgba(199,165,123,.08);border:1px solid rgba(199,165,123,.3);border-radius:7px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--bone-dim);line-height:1.55}
 .guide b{color:var(--tan)}
@@ -428,7 +429,7 @@ a{color:var(--moss-bright)}
     // editor view = all non-SEO sections, grouped
     var secs=[];
     rows.filter(function(r){return r.section!==SEO_SECTION;}).forEach(function(r){
-      if(r.section!==cur){if(cur!==null)edHtml+="</div>";var an=anchors[r.section]||"top";secs.push(r.section);edHtml+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+secIcon(r.section)+esc(secLabel(r.section))+'<span class="jump">show ↗</span></h2>';cur=r.section;}
+      if(r.section!==cur){if(cur!==null)edHtml+="</div>";var an=anchors[r.section]||"top";secs.push(r.section);edHtml+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'"><span class="grp-title">'+secIcon(r.section)+esc(secLabel(r.section))+'</span><span class="jump">show ↗</span></h2>';cur=r.section;}
       edHtml+=fieldHTML(r);});
     if(cur!==null)edHtml+="</div>";
     fieldsEl.innerHTML=edHtml;
