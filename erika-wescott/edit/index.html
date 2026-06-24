@@ -91,6 +91,12 @@ a{color:var(--moss-bright)}
 .src-row .sr-bar{flex:1;height:10px;background:var(--line);border-radius:5px;overflow:hidden}
 .src-row .sr-fill{height:100%;background:var(--moss);border-radius:5px}
 .src-row .sr-val{flex:none;width:46px;text-align:right;color:var(--bone-faint);font-weight:600}
+.src-row .sr-dot{flex:none;width:10px;height:10px;border-radius:3px}
+.src-row .sr-pct{flex:none;width:42px;text-align:right;color:var(--bone-faint);font-weight:500;font-size:11.5px}
+.src-balance{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:0 0 18px;background:var(--line)}
+.src-balance .src-seg{height:100%;transition:filter .15s}
+.src-balance .src-seg:hover{filter:brightness(1.18)}
+.src-legend-empty{color:var(--bone-dim);font-size:13px}
 .muted{color:var(--bone-faint);font-size:13.5px;line-height:1.6}
 
 /* top bar (editor view) */
@@ -612,7 +618,14 @@ a{color:var(--moss-bright)}
     else{var n=(typeof params==='number')?params:((params&&params.range)||30);var t=new Date();end=new Date(Date.UTC(t.getUTCFullYear(),t.getUTCMonth(),t.getUTCDate()));start=new Date(end);start.setUTCDate(start.getUTCDate()-(n-1));}
     var out=[],cur=new Date(start),guard=0;while(cur<=end&&guard<400){var k=bbDayKey(cur);out.push({d:k,c:map[k]||0});cur.setUTCDate(cur.getUTCDate()+1);guard++;}return out;}
   function barChart(daily){if(!daily.length)return '<p class="muted">No data yet, this fills in as visitors arrive.</p>';var W=720,H=160,pad=10,n=daily.length,max=Math.max.apply(null,daily.map(function(p){return p.c;}).concat([1]));var slot=(W-2*pad)/n,bw=Math.max(3,Math.min(38,slot*0.62));var bars=daily.map(function(p,i){var h=p.c>0?Math.max(3,(p.c/max)*(H-2*pad)):0;var x=pad+i*slot+(slot-bw)/2,y=H-pad-h;return '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="#84B499"><title>'+esc(fmtDate(p.d))+': '+p.c+'</title></rect>';}).join("");var base='<line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="var(--line)" stroke-width="1"/>';return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="none">'+base+bars+'</svg><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--bone-faint);margin-top:6px"><span>'+esc(fmtDate(daily[0].d))+'</span><span>'+esc(fmtDate(daily[n-1].d))+'</span></div>';}
-  function srcBars(src){if(!src.length)return '<p class="muted">No data yet.</p>';var max=Math.max.apply(null,src.map(function(s){return s.c;}).concat([1]));return src.map(function(s){var nm=(s.ref==="$direct"||!s.ref||s.ref==="Direct")?"Direct / typed":s.ref;return '<div class="src-row"><span class="sr-name">'+esc(nm)+'</span><span class="sr-bar"><span class="sr-fill" style="width:'+Math.round(s.c/max*100)+'%"></span></span><span class="sr-val">'+s.c+'</span></div>';}).join("");}
+  var SRC_COLORS=['#84B499','#C9A86A','#6F9BBF','#B5805C','#9C86C2','#C97B7B','#7CA98E','#D0B36B'];
+  function srcName(s){return (s.ref==="$direct"||!s.ref||s.ref==="Direct")?"Direct / typed":s.ref;}
+  function srcBars(src){if(!src.length)return '<p class="muted">No data yet.</p>';
+    var max=Math.max.apply(null,src.map(function(s){return s.c;}).concat([1]));
+    var total=src.reduce(function(a,s){return a+s.c;},0)||1;
+    var bal=src.map(function(s,i){var w=(s.c/total*100);return '<span class="src-seg" style="width:'+w.toFixed(2)+'%;background:'+SRC_COLORS[i%SRC_COLORS.length]+'" title="'+attr(srcName(s)+': '+s.c+' ('+Math.round(w)+'%)')+'"></span>';}).join("");
+    var rows=src.map(function(s,i){var c=SRC_COLORS[i%SRC_COLORS.length];var pct=Math.round(s.c/total*100);return '<div class="src-row"><span class="sr-dot" style="background:'+c+'"></span><span class="sr-name">'+esc(srcName(s))+'</span><span class="sr-bar"><span class="sr-fill" style="width:'+Math.round(s.c/max*100)+'%;background:'+c+'"></span></span><span class="sr-val">'+s.c+'</span><span class="sr-pct">'+pct+'%</span></div>';}).join("");
+    return '<div class="src-balance">'+bal+'</div>'+rows;}
 
   /* ---- collections ---- */
   function collWrap(view,title,sub,addLabel){return '<div class="cwrap"><div class="dash-h">'+esc(title)+'</div><div class="dash-sub">'+esc(sub)+'</div><div id="'+view+'List"></div><button class="btn btn-sm addrow" id="'+view+'Add">+ '+esc(addLabel)+'</button></div>';}
