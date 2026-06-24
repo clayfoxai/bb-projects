@@ -34,8 +34,11 @@
 
   .intro h1{font-family:'Cinzel',serif;font-size:20px;letter-spacing:.04em;color:var(--navy);margin-bottom:6px;font-weight:600;}
   .intro p{font-size:13.5px;color:#5a6480;max-width:560px;}
-  .group{margin-top:26px;}
-  .group h2{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+  .group{margin-top:0;margin-bottom:20px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 3px rgba(17,42,82,.04);padding:18px 20px 6px;scroll-margin-top:72px;}
+  .secnav{position:sticky;top:0;z-index:6;background:var(--mist);display:flex;flex-wrap:wrap;gap:7px;margin:-28px -26px 18px;padding:14px 26px;border-bottom:1px solid var(--line);}
+  .secnav a{font-family:'Montserrat';font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#5a6480;background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer;white-space:nowrap;}
+  .secnav a:hover{border-color:var(--blue);color:var(--blue);}
+  .group h2{font-family:'Cinzel',serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
   .group h2 .jump{font-family:'Montserrat';font-size:10px;letter-spacing:.1em;color:#9aa3b5;}
   .group.group-pending h2{color:var(--amber);border-color:#ecd9ad;}
   .group.group-pending h2 .jump::before{content:"● draft  ";color:var(--amber);}
@@ -264,6 +267,7 @@
   </div>
   <div class="panes">
     <div class="editor-pane">
+      <div id="secnav" class="secnav"></div>
       <div class="intro">
         <h1>Edit your site</h1>
         <p>Edit a field, then <b>Preview</b> to try it on the right. <b>Save draft</b> keeps it privately (it glows amber until published). Your live website only changes when you click <b>Publish</b> and confirm.</p>
@@ -378,10 +382,10 @@
   // ---- load + render ----
   function load(){ fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,draft_value,label,field_type,section,sort&order=sort.asc",{headers:Hh()}).then(function(r){return r.json();}).then(render); }
   function render(rows){
-    rows.sort(function(a,b){return a.sort-b.sort;}); var html="",cur=null; allKeys=[];
+    rows.sort(function(a,b){return a.sort-b.sort;}); var html="",cur=null,secs=[]; allKeys=[];
     rows.forEach(function(r){
       fType[r.field_key]=r.field_type; fSection[r.field_key]=r.section; fPub[r.field_key]=r.value||""; var dv=(r.draft_value!=null?r.draft_value:r.value)||""; fDraft[r.field_key]=dv; allKeys.push(r.field_key);
-      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; if(r.section==="Search, Sharing & AI")html+='<div class="guide"><b>What is this section?</b> These details control how your site appears in Google, in AI search tools (ChatGPT, Perplexity, and similar), and in the preview people see when your link is shared (LinkedIn, text, email). Search engines and AI read these fields directly, so keep them accurate and in your own words. They update across your site automatically when you press Publish.</div>'; cur=r.section; }
+      if(r.section!==cur){ if(cur!==null)html+="</div>"; var an=anchors[r.section]||"top"; secs.push(r.section); html+='<div class="group" data-section="'+attr(r.section)+'"><h2 data-anchor="'+an+'">'+esc(r.section)+'<span class="jump">show ↗</span></h2>'; if(r.section==="Search, Sharing & AI")html+='<div class="guide"><b>What is this section?</b> These details control how your site appears in Google, in AI search tools (ChatGPT, Perplexity, and similar), and in the preview people see when your link is shared (LinkedIn, text, email). Search engines and AI read these fields directly, so keep them accurate and in your own words. They update across your site automatically when you press Publish.</div>'; cur=r.section; }
       var body, K=r.field_key, lbl='font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a8398;font-weight:600;display:block;margin-bottom:6px;';
       if(r.field_type==="logos"){
         body='<div class="guide"><b>Logo guidelines, please follow exactly:</b>'
@@ -408,7 +412,7 @@
       html+='<div class="field'+(r.field_type==="image"?" field-img":"")+'" id="f_'+r.field_key+'" data-key-id="'+r.field_key+'"><span class="pending-badge">Draft · unpublished</span><label>'+esc(r.label||r.field_key)+'</label>'+body
         +'<div class="rowactions"><button class="mini preview">Preview</button><button class="mini save">Save draft</button><button class="mini revert">Revert</button><span class="fstatus"></span></div></div>';
     });
-    if(cur!==null)html+="</div>"; fieldsEl.innerHTML=html; wire(); allKeys.forEach(refreshField); refreshGroups(); updateNav();
+    if(cur!==null)html+="</div>"; fieldsEl.innerHTML=html; var sn=$("secnav"); if(sn)sn.innerHTML=secs.map(function(x){return '<a data-jump="'+attr(x)+'">'+esc(x)+'</a>';}).join(""); wire(); allKeys.forEach(refreshField); refreshGroups(); updateNav();
   }
   function markDirty(key){ $("f_"+key).classList.add("is-dirty"); updateNav(); }
   function refreshField(key){ var f=$("f_"+key); if(!f)return; if(fDraft[key]!==fPub[key])f.classList.add("is-pending");else f.classList.remove("is-pending"); }
@@ -434,10 +438,11 @@
     fieldsEl.querySelectorAll("[data-logoadd]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-logoadd"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".logo-addstatus"); st.style.color="#5a6480"; st.textContent="Checking & uploading..."; scrollPreview("recognized",true); uploadLogo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Added below. Set its alt text, then Save draft."; var a=logoData(key); a.push({url:url,alt:""}); setLogoData(key,a,true); }); }); });
     fieldsEl.querySelectorAll("[data-vsel]").forEach(function(r){ r.addEventListener("change",function(){ if(!r.checked)return; var key=r.closest("[data-vsrcfor]").getAttribute("data-vsrcfor"),sel=r.getAttribute("data-vsel"); var o=videoData(key); o.mode=(sel==="file")?"file":(/vimeo\.com/i.test(o.linkUrl)?"vimeo":"youtube"); setVideoData(key,o,true); }); });
     fieldsEl.querySelectorAll("[data-vurl]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vurl"),u=inp.value.trim(); var o=videoData(key); o.linkUrl=u; if(o.mode!=="file"||!o.fileUrl){ o.mode=/vimeo\.com/i.test(u)?"vimeo":"youtube"; } setVideoData(key,o,true); }); });
-    fieldsEl.querySelectorAll("[data-vfile]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vfile"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading video..."; uploadVideo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Uploaded. Save draft to apply."; var o=videoData(key); o.fileUrl=url; if(!o.linkUrl)o.mode="file"; setVideoData(key,o,true); }); }); });
+    fieldsEl.querySelectorAll("[data-vfile]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vfile"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Uploading video..."; uploadVideo(f,function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} var o=videoData(key); o.fileUrl=url; if(!o.linkUrl)o.mode="file"; setVideoData(key,o,true); if(!o.thumb){ st.style.color="#5a6480"; st.textContent="Uploaded. Creating thumbnail..."; genThumbFromFile(f,function(e2,turl){ if(!e2&&turl){var o2=videoData(key);o2.thumb=turl;setVideoData(key,o2,true);st.style.color="#2e8b57";st.textContent="Uploaded with thumbnail. Save draft to apply.";}else{st.style.color="#2e8b57";st.textContent="Uploaded. Save draft to apply.";} }); } else { st.style.color="#2e8b57";st.textContent="Uploaded. Save draft to apply."; } }); }); });
     fieldsEl.querySelectorAll("[data-vthumb]").forEach(function(inp){ inp.addEventListener("change",function(){ var key=inp.getAttribute("data-vthumb"),f=inp.files[0]; if(!f)return; var st=$("f_"+key).querySelector('[data-vthstatus="'+key+'"]'); st.style.color="#5a6480"; st.textContent="Optimizing thumbnail…"; uploadImage("video-thumb",f,{minW:1000,minH:560},function(err,url){ inp.value=""; if(err){st.style.color="#c0392b";st.textContent=err;return;} st.style.color="#2e8b57";st.textContent="Thumbnail set. Save draft to apply."; var o=videoData(key);o.thumb=url;setVideoData(key,o,true); }); }); });
     fieldsEl.querySelectorAll("input[data-vurl]").forEach(function(inp){renderVideoEditor(inp.getAttribute("data-vurl"));});
     fieldsEl.querySelectorAll(".group h2").forEach(function(hh){ hh.addEventListener("click",function(){scrollPreview(hh.getAttribute("data-anchor"),true);}); });
+    document.querySelectorAll(".secnav a").forEach(function(a){ a.addEventListener("click",function(){ var g=fieldsEl.querySelector('.group[data-section="'+a.getAttribute("data-jump")+'"]'); if(g)g.scrollIntoView({behavior:"smooth",block:"start"}); var an=anchors[a.getAttribute("data-jump")]; if(an)scrollPreview(an,true); }); });
     fieldsEl.querySelectorAll("[data-imgfor]").forEach(function(inp){
       inp.addEventListener("change",function(){ var key=inp.getAttribute("data-imgfor"),f=inp.files[0]; if(!f)return; var st=inp.parentNode.querySelector(".imgstatus"); st.style.color="#5a6480"; st.textContent="Optimizing image…"; scrollPreview(anchors[fSection[key]]||"top",true);
         uploadImage(key,f,imageSpecs[key]||{minW:600,minH:400},function(error,url){ if(error){st.style.color="#c0392b";st.textContent=error;inp.value="";return;} st.style.color="#2e8b57";st.textContent="Optimized to WebP, uploaded. Preview or Save draft."; var fld=$("f_"+key); fld.querySelector(".thumb").src=url; fld.querySelector('input[type="hidden"]').value=url; markDirty(key); }); });
@@ -556,6 +561,7 @@
     var fs=f.querySelector('[data-vstatus="'+key+'"]'); if(fs){ if(o.fileUrl){fs.style.color="#2e8b57";fs.textContent="A video file is uploaded.";} else {fs.textContent="";} }
   }
   function uploadVideo(file,cb){ if(!/^video\/(mp4|webm)$/.test(file.type))return cb("Use an MP4 or WebM video."); if(file.size>50*1024*1024)return cb("Video must be under 50 MB. For a larger video, use a YouTube link instead."); var ext=file.type.split("/")[1],path=SITE+"/videos/vid-"+Date.now()+"."+ext; fetch(SB+"/storage/v1/object/site-videos/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-videos/"+path);}).catch(function(){cb("Upload failed. Try again.");}); }
+  function genThumbFromFile(file,cb){ var u=URL.createObjectURL(file),v=document.createElement("video"); v.muted=true; v.preload="metadata"; v.src=u; v.addEventListener("loadeddata",function(){ try{v.currentTime=Math.min(1,(v.duration||2)/2);}catch(e){} }); v.addEventListener("seeked",function(){ var cv=document.createElement("canvas"); cv.width=v.videoWidth||1280; cv.height=v.videoHeight||720; try{cv.getContext("2d").drawImage(v,0,0,cv.width,cv.height);}catch(e){URL.revokeObjectURL(u);return cb("frame");} cv.toBlob(function(blb){ URL.revokeObjectURL(u); if(!blb)return cb("frame"); var path=SITE+"/videothumb-"+Date.now()+".webp"; fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"image/webp","x-upsert":"true"},body:blb}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("upload");}); },"image/webp",0.82); }); v.addEventListener("error",function(){URL.revokeObjectURL(u);cb("load");}); v.load(); }
   function resolveImg(v){ return /^https?:\/\//.test(v||"")? v : "../"+(v||""); }
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function attr(s){return esc(s).replace(/"/g,"&quot;");}
