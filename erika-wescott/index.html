@@ -72,6 +72,7 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(14,17,15,.82);backdr
 .btn-ghost:hover{border-color:var(--moss);color:var(--moss-bright)}
 .btn-lg{padding:17px 38px;font-size:15px}
 .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:6px}
+.nav-apply-mobile{display:none}
 .menu-toggle svg{stroke:var(--bone)}
 
 /* ---------- hero (full-bleed background) ---------- */
@@ -346,7 +347,11 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
 @media(max-width:900px){
   .nav-links{position:fixed;inset:70px 0 auto 0;flex-direction:column;background:var(--ink);border-bottom:1px solid var(--line);padding:24px clamp(20px,5vw,40px);gap:18px;align-items:flex-start;transform:translateY(-130%);transition:transform .3s;height:auto}
   .nav-links.open{transform:translateY(0)}
-  .menu-toggle{display:block}
+  .nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+  .menu-toggle{display:flex;align-items:center;grid-column:1;justify-self:start}
+  .brandmark{grid-column:2;justify-self:center}
+  .nav-links .btn-primary{display:none}
+  .nav-apply-mobile{display:inline-flex;align-items:center;grid-column:3;justify-self:end;padding:10px 16px;font-size:12px;letter-spacing:.1em;color:#fff}
   .hero{min-height:clamp(440px,64vh,560px)}
   .hero::after{background:linear-gradient(180deg,rgba(14,17,15,.74) 0%,rgba(14,17,15,.9) 100%)}
   .hero-copy{max-width:100%;padding:48px 0}
@@ -396,6 +401,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <button class="menu-toggle" id="menuToggle" aria-label="Menu">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
+    <a class="btn btn-primary nav-apply-mobile" data-anchor="booking-anchor">Apply</a>
   </div>
 </header>
 
