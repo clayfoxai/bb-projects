@@ -147,6 +147,17 @@ a{color:var(--moss-bright)}
 .btn-danger{border-color:rgba(217,140,140,.4);color:#e0a39c}
 .addrow{margin-top:6px}
 
+.vupload{margin-top:12px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.vthumb video,.vthumb .vph{width:170px;height:120px;border-radius:6px;border:1px solid var(--line);background:#000;display:block;object-fit:cover}
+.vph{display:flex;align-items:center;justify-content:center;color:var(--bone-faint);font-size:12px;background:var(--ink);text-align:center;padding:6px}
+.vactions{flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px}
+.filebtn{position:relative;overflow:hidden;display:inline-block;text-align:center}
+.filebtn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.posterrow{margin-top:4px;padding-top:12px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.posterrow .phint{font-size:12px;color:var(--bone-faint)}
+.pthumb img,.pthumb .vph{width:120px;height:90px;border-radius:6px;border:1px solid var(--line);object-fit:cover;display:block}
+.vstatus{font-size:12px;font-weight:600;min-height:15px;color:var(--bone-dim)}
+.vbtnrow{display:flex;gap:8px;flex-wrap:wrap}
 .listmgr{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
 .litem{display:flex;gap:8px;align-items:flex-start;background:var(--ink);border:1px solid var(--line);border-radius:7px;padding:9px 10px}
 .litem.dragging{opacity:.4}
@@ -522,13 +533,46 @@ a{color:var(--moss-bright)}
       var del=card.querySelector("[data-del]");if(del)del.onclick=function(){if(!confirm("Delete this item? This cannot be undone."))return;rpc(deleteFn,{p_site:SITE,p_pass:PASS,p_id:card.dataset.id}).then(function(){toast("Deleted");reload();}).catch(function(){toast("Delete failed");});};});}
   function pubToggle(on,onLabel,offLabel){return '<span class="pubrow"><button class="toggle '+(on?"on":"")+'" data-pub></button>'+(on?onLabel:offLabel)+'</span>';}
 
+  function uploadVideo(file,cb){ if(!/^video\/(mp4|webm)$/.test(file.type))return cb("Use an MP4 or WebM video."); if(file.size>50*1024*1024)return cb("Video must be under 50 MB."); var ext=file.type.split("/")[1],path=SITE+"/videos/vid-"+Date.now()+"."+ext; fetch(SB+"/storage/v1/object/site-videos/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-videos/"+path);}).catch(function(){cb("Upload failed. Try again.");}); }
+  function genPosterFromFile(file,cb){ var u=URL.createObjectURL(file),v=document.createElement("video"); v.muted=true; v.preload="metadata"; v.src=u; v.addEventListener("loadeddata",function(){ try{v.currentTime=Math.min(1,(v.duration||2)/2);}catch(e){} }); v.addEventListener("seeked",function(){ var cv=document.createElement("canvas"); cv.width=v.videoWidth||720; cv.height=v.videoHeight||1280; try{cv.getContext("2d").drawImage(v,0,0,cv.width,cv.height);}catch(e){URL.revokeObjectURL(u);return cb("frame");} cv.toBlob(function(blb){ URL.revokeObjectURL(u); if(!blb)return cb("frame"); var path=SITE+"/poster-"+Date.now()+".webp"; fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"image/webp","x-upsert":"true"},body:blb}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("upload");}); },"image/webp",0.82); }); v.addEventListener("error",function(){URL.revokeObjectURL(u);cb("load");}); v.load(); }
+  function openVideoLibrary(applyFn){ var g=$("libgrid"); g.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--bone-faint);font-size:13px;padding:30px">Loading your videos...</div>'; $("libbg").classList.add("show");
+    fetch(SB+"/storage/v1/object/list/site-videos",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({prefix:SITE+"/videos/",limit:200,sortBy:{column:"created_at",order:"desc"}})}).then(function(r){return r.json();}).then(function(list){
+      var vids=(Array.isArray(list)?list:[]).filter(function(o){return o.id;}).map(function(o){return SB+"/storage/v1/object/public/site-videos/"+SITE+"/videos/"+encodeURIComponent(o.name);});
+      if(!vids.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--bone-faint);font-size:13px;padding:30px;line-height:1.5">No uploaded videos yet. Upload a video on any testimonial and it is saved here to reuse.</div>';return;}
+      g.innerHTML=vids.map(function(u){return '<button type="button" style="padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;background:#000;aspect-ratio:4/3" data-vurl="'+attr(u)+'"><video src="'+attr(u)+'#t=0.5" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block"></video></button>';}).join("");
+      g.querySelectorAll("[data-vurl]").forEach(function(b){b.onclick=function(){var u=b.getAttribute("data-vurl");$("libbg").classList.remove("show");applyFn(u);};});
+    }).catch(function(){g.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#e0a39c;font-size:13px;padding:30px">Could not load your videos.</div>';}); }
+  function vThumb(vurl,purl){ return vurl?('<video src="'+attr(vurl)+'"'+(purl?(' poster="'+attr(purl)+'"'):'')+' muted preload="metadata" controls playsinline></video>'):'<div class="vph">No video yet.<br>Upload one below.</div>'; }
+  function pThumb(purl){ return purl?('<img src="'+attr(purl)+'" alt="">'):'<div class="vph">Auto-created<br>from your video</div>'; }
+  function vidCardHTML(v){ return '<div class="cl-card" data-id="'+v.id+'"><div class="ch"><span class="t">Video</span><div class="r">'+reordBtns()+pubToggle(v.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div>'
+    +'<div class="row2"><input type="text" data-name value="'+attr(v.name)+'" placeholder="Client name"><input type="text" data-role value="'+attr(v.role)+'" placeholder="Role (optional)"></div>'
+    +'<div class="vupload"><div class="vthumb" data-vthumb>'+vThumb(v.video_url,v.poster_url)+'</div><div class="vactions">'
+    +'<div class="vbtnrow"><label class="mini filebtn">Upload video<input type="file" accept="video/mp4,video/webm" data-vfile></label><button type="button" class="mini" data-vlib>Choose from library</button></div><div class="vstatus" data-vstatus></div>'
+    +'<div class="posterrow"><span class="phint">Poster image (optional - we create one automatically from your video)</span><div class="pthumb" data-pthumb>'+pThumb(v.poster_url)+'</div><div class="vbtnrow"><label class="mini filebtn">Upload poster<input type="file" accept="image/png,image/jpeg,image/webp" data-pfile></label><button type="button" class="mini" data-plib>Choose from library</button></div><div class="vstatus" data-pstatus></div></div>'
+    +'</div></div>'
+    +'<input type="hidden" data-video value="'+attr(v.video_url)+'"><input type="hidden" data-poster value="'+attr(v.poster_url)+'"></div>'; }
+  function wireVideoCards(){
+    document.querySelectorAll('#vidList .cl-card').forEach(function(card){
+      var setV=function(u){card.querySelector('[data-video]').value=u;card.querySelector('[data-vthumb]').innerHTML=vThumb(u,card.querySelector('[data-poster]').value);};
+      var setP=function(u){card.querySelector('[data-poster]').value=u;card.querySelector('[data-pthumb]').innerHTML=pThumb(u);card.querySelector('[data-vthumb]').innerHTML=vThumb(card.querySelector('[data-video]').value,u);};
+      var vf=card.querySelector('[data-vfile]'); if(vf)vf.addEventListener('change',function(){var file=vf.files[0];if(!file)return;var st=card.querySelector('[data-vstatus]');st.style.color='var(--bone-dim)';st.textContent='Uploading video...';
+        uploadVideo(file,function(err,url){if(err){st.style.color='#e0a39c';st.textContent=err;return;}setV(url);st.style.color='var(--moss-bright)';st.textContent='Uploaded.';
+          if(!card.querySelector('[data-poster]').value){var ps=card.querySelector('[data-pstatus]');ps.style.color='var(--bone-dim)';ps.textContent='Creating poster...';genPosterFromFile(file,function(e2,purl){if(e2){ps.textContent='';return;}setP(purl);ps.style.color='var(--moss-bright)';ps.textContent='Poster created. Click Save to apply.';});}
+          st.textContent='Uploaded. Click Save to apply.';});});
+      var vl=card.querySelector('[data-vlib]'); if(vl)vl.onclick=function(){openVideoLibrary(function(u){setV(u);card.querySelector('[data-vstatus]').textContent='Chosen from library. Click Save.';});};
+      var pf=card.querySelector('[data-pfile]'); if(pf)pf.addEventListener('change',function(){var file=pf.files[0];if(!file)return;var ps=card.querySelector('[data-pstatus]');ps.style.color='var(--bone-dim)';ps.textContent='Optimizing poster...';
+        uploadImage('poster',file,function(err,url){if(err){ps.style.color='#e0a39c';ps.textContent=err;return;}setP(url);ps.style.color='var(--moss-bright)';ps.textContent='Poster set. Click Save.';});});
+      var pl=card.querySelector('[data-plib]'); if(pl)pl.onclick=function(){openLibrary(function(u){setP(u);card.querySelector('[data-pstatus]').textContent='Chosen from library. Click Save.';});};
+    });
+  }
   function loadTesti(){if($("view-testimonials").getAttribute("data-init")!=="1"){$("view-testimonials").innerHTML='<div class="cwrap"><div class="dash-h">Testimonials</div><div class="dash-sub">Manage your written and video testimonials. The Visible toggle controls what shows on your site.</div><h3 style="font-size:14px;color:var(--tan);margin:20px 0 12px">Video Testimonials</h3><div id="vidList"></div><button class="btn btn-sm addrow" id="vidAdd" style="margin-bottom:30px">+ Add video</button><h3 style="font-size:14px;color:var(--tan);margin:0 0 12px">Written Testimonials</h3><div id="quoteList"></div><button class="btn btn-sm addrow" id="quoteAdd">+ Add written</button></div>';$("view-testimonials").setAttribute("data-init","1");
       $("vidAdd").onclick=function(){rpc("bb_testimonials_upsert",{p_site:SITE,p_pass:PASS,p_row:{kind:"video",name:"New client",published:false}}).then(loadTesti);};
       $("quoteAdd").onclick=function(){rpc("bb_testimonials_upsert",{p_site:SITE,p_pass:PASS,p_row:{kind:"written",name:"Erika coaching client",published:false}}).then(loadTesti);};}
     rpc("bb_testimonials_all",{p_site:SITE,p_pass:PASS}).then(function(rows){
       var vids=rows.filter(function(r){return r.kind==="video";}),wr=rows.filter(function(r){return r.kind==="written";});
-      $("vidList").innerHTML=vids.map(function(v){return '<div class="cl-card" data-id="'+v.id+'"><div class="ch"><span class="t">Video</span><div class="r">'+reordBtns()+pubToggle(v.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div><div class="row2"><input type="text" data-name value="'+attr(v.name)+'" placeholder="Client name"><input type="text" data-role value="'+attr(v.role)+'" placeholder="Role (optional)"></div><div style="margin-top:12px"><input type="text" data-video value="'+attr(v.video_url)+'" placeholder="assets/videos/name.mp4"><div class="hint">Poster: <input type="text" data-poster value="'+attr(v.poster_url)+'" placeholder="assets/videos/name.webp" style="margin-top:6px"></div></div></div>';}).join("")||'<p class="muted">No video testimonials yet.</p>';
+      $("vidList").innerHTML=vids.map(vidCardHTML).join("")||'<p class="muted">No video testimonials yet.</p>';
       bindCards("vidList",function(c){return {id:c.dataset.id,kind:"video",name:c.querySelector("[data-name]").value,role:c.querySelector("[data-role]").value,video_url:c.querySelector("[data-video]").value,poster_url:c.querySelector("[data-poster]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);
+      wireVideoCards();
       $("quoteList").innerHTML=wr.map(function(q){return '<div class="cl-card" data-id="'+q.id+'"><div class="ch"><span class="t">Quote</span><div class="r">'+reordBtns()+pubToggle(q.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div><textarea data-quote placeholder="Testimonial text">'+esc(q.quote)+'</textarea><div style="margin-top:12px"><input type="text" data-name value="'+attr(q.name)+'" placeholder="Attribution (e.g. Erin M.)"></div></div>';}).join("")||'<p class="muted">No written testimonials yet.</p>';
       bindCards("quoteList",function(c){return {id:c.dataset.id,kind:"written",quote:c.querySelector("[data-quote]").value,name:c.querySelector("[data-name]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);});}
 

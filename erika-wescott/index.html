@@ -684,11 +684,11 @@ function paras(t){return String(t==null?'':t).split(/\n\s*\n/).map(function(x){r
 
 /* ---------- offline fallback content (mirrors live DB seed; page never blank) ---------- */
 let VIDEOS = [
-  {name:'Annie S.', src:'assets/videos/annie.mp4', poster:'assets/videos/annie.webp'},
-  {name:'Ashleigh C.', src:'assets/videos/ashleigh.mp4', poster:'assets/videos/ashleigh.webp'},
-  {name:'Ashley O.', src:'assets/videos/ashley.mp4', poster:'assets/videos/ashley.webp'},
-  {name:'Kayla', src:'assets/videos/kayla.mp4', poster:'assets/videos/kayla.webp'},
-  {name:'Martha B.', src:'assets/videos/martha.mp4', poster:'assets/videos/martha.webp'},
+  {name:'Annie S.', src:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-videos/erika/videos/annie.mp4', poster:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-images/erika/annie-poster.webp'},
+  {name:'Ashleigh C.', src:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-videos/erika/videos/ashleigh.mp4', poster:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-images/erika/ashleigh-poster.webp'},
+  {name:'Ashley O.', src:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-videos/erika/videos/ashley.mp4', poster:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-images/erika/ashley-poster.webp'},
+  {name:'Kayla', src:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-videos/erika/videos/kayla.mp4', poster:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-images/erika/kayla-poster.webp'},
+  {name:'Martha B.', src:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-videos/erika/videos/martha.mp4', poster:'https://ydgqalhjuutlxqvixkoa.supabase.co/storage/v1/object/public/site-images/erika/martha-poster.webp'},
 ];
 let WRITTEN_TESTIMONIALS = [
   {quote:"These months with you have changed me. It's no bullshit. Do the work and it works.", by:"Erin M."},
@@ -713,7 +713,7 @@ let CONTENT = {};
 /* ---------- templates ---------- */
 const imgphVideo = (label,sub)=>`<div class="imgph ratio-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg><span class="lbl">${label}</span><span class="sub">${sub}</span></div>`;
 const playSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
-const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v.src)}" aria-label="Play ${esc(v.name)}'s testimonial"><img class="vposter" src="${esc(v.poster)}" alt="" loading="lazy"><span class="vbtn">${playSvg}</span><span class="vname">${esc(v.name)}</span></button></div>`;
+const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v.src)}" aria-label="Play ${esc(v.name)}'s testimonial">${v.poster?`<img class="vposter" src="${esc(v.poster)}" alt="" loading="lazy">`:`<video class="vposter" src="${esc(v.src)}#t=0.5" muted preload="metadata" playsinline></video>`}<span class="vbtn">${playSvg}</span><span class="vname">${esc(v.name)}</span></button></div>`;
 const faqSvg='<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
 
 function renderContent(){
