@@ -202,6 +202,7 @@ a{color:var(--moss-bright)}
 #pf_body{background:#fff;min-height:200px;color:#1a1a1a;border-radius:0 0 6px 6px}
 .ql-toolbar.ql-snow{background:#f3f3ee;border-color:var(--line)!important;border-radius:6px 6px 0 0}
 .ql-container.ql-snow{border-color:var(--line)!important;font-family:'Inter',sans-serif;font-size:15px}
+.feathome{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--moss);color:#0b1410;padding:13px 20px;border-radius:4px;font-family:'Oswald';text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;z-index:80}
 .toast.show{opacity:1;transform:translateY(0)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:70;padding:20px}
@@ -462,6 +463,7 @@ a{color:var(--moss-bright)}
     if(key==='benefits')return arr.map(function(it){it=it||{};var b=it.b?('<b>'+esc(it.b)+'</b>'):'';var t=it.t?((it.b?' ':'')+esc(it.t)):'';return '<li><span class="ck">'+CK+'</span><span>'+b+t+'</span></li>';}).join('');
     if(key==='credentials_list')return arr.map(function(it){it=it||{};return '<div class="cred'+(it.flag?' flag':'')+'">'+CC+(it.flag?('<b>'+esc(it.text)+'</b>'):esc(it.text))+'</div>';}).join('');
     if(key==='tenets_list')return arr.map(function(t,i){return '<div class="tenet"><span class="n">'+('0'+(i+1)).slice(-2)+'</span><p>'+esc(t)+'</p></div>';}).join('');
+    if(key==='about_nobs')return arr.map(function(t){return '<span>'+esc(t)+'</span>';}).join('');
     return '';
   }
   function wire(){
@@ -561,11 +563,13 @@ a{color:var(--moss-bright)}
   function bindCards(wrapId,collect,upsertFn,deleteFn,reload){
     document.getElementById(wrapId).querySelectorAll(".cl-card").forEach(function(card){
       var tog=card.querySelector("[data-pub]");if(tog)tog.onclick=function(){tog.classList.toggle("on");};
+      var tgf=card.querySelector("[data-feat]");if(tgf)tgf.onclick=function(){tgf.classList.toggle("on");};
       var up=card.querySelector("[data-up]");if(up)up.onclick=function(){reorderCard(wrapId,card.dataset.id,-1,upsertFn,reload);};
       var dn=card.querySelector("[data-down]");if(dn)dn.onclick=function(){reorderCard(wrapId,card.dataset.id,1,upsertFn,reload);};
       var sv=card.querySelector("[data-save]");if(sv)sv.onclick=function(){sv.textContent="Saving…";rpc(upsertFn,{p_site:SITE,p_pass:PASS,p_row:collect(card)}).then(function(){toast("Saved");reload();}).catch(function(){sv.textContent="Save";toast("Save failed");});};
       var del=card.querySelector("[data-del]");if(del)del.onclick=function(){if(!confirm("Delete this item? This cannot be undone."))return;rpc(deleteFn,{p_site:SITE,p_pass:PASS,p_id:card.dataset.id}).then(function(){toast("Deleted");reload();}).catch(function(){toast("Delete failed");});};});}
   function pubToggle(on,onLabel,offLabel){return '<span class="pubrow"><button class="toggle '+(on?"on":"")+'" data-pub></button>'+(on?onLabel:offLabel)+'</span>';}
+  function featToggle(on){return '<span class="pubrow"><button class="toggle '+(on?"on":"")+'" data-feat></button>Show on home page</span>';}
 
   function uploadVideo(file,cb){ if(!/^video\/(mp4|webm)$/.test(file.type))return cb("Use an MP4 or WebM video."); if(file.size>50*1024*1024)return cb("Video must be under 50 MB."); var ext=file.type.split("/")[1],path=SITE+"/videos/vid-"+Date.now()+"."+ext; fetch(SB+"/storage/v1/object/site-videos/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":file.type,"x-upsert":"true"},body:file}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-videos/"+path);}).catch(function(){cb("Upload failed. Try again.");}); }
   function genPosterFromFile(file,cb){ var u=URL.createObjectURL(file),v=document.createElement("video"); v.muted=true; v.preload="metadata"; v.src=u; v.addEventListener("loadeddata",function(){ try{v.currentTime=Math.min(1,(v.duration||2)/2);}catch(e){} }); v.addEventListener("seeked",function(){ var cv=document.createElement("canvas"); cv.width=v.videoWidth||720; cv.height=v.videoHeight||1280; try{cv.getContext("2d").drawImage(v,0,0,cv.width,cv.height);}catch(e){URL.revokeObjectURL(u);return cb("frame");} cv.toBlob(function(blb){ URL.revokeObjectURL(u); if(!blb)return cb("frame"); var path=SITE+"/poster-"+Date.now()+".webp"; fetch(SB+"/storage/v1/object/site-images/"+path,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"image/webp","x-upsert":"true"},body:blb}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(){cb(null,SB+"/storage/v1/object/public/site-images/"+path);}).catch(function(){cb("upload");}); },"image/webp",0.82); }); v.addEventListener("error",function(){URL.revokeObjectURL(u);cb("load");}); v.load(); }
@@ -584,7 +588,7 @@ a{color:var(--moss-bright)}
     +'<div class="vbtnrow"><label class="mini filebtn">Upload video<input type="file" accept="video/mp4,video/webm" data-vfile></label><button type="button" class="mini" data-vlib>Choose from library</button></div><div class="vstatus" data-vstatus></div>'
     +'<div class="posterrow"><span class="phint">Thumbnail image (optional - we create one automatically from your video)</span><div class="pthumb" data-pthumb>'+pThumb(v.poster_url)+'</div><div class="vbtnrow"><label class="mini filebtn">Upload thumbnail<input type="file" accept="image/png,image/jpeg,image/webp" data-pfile></label><button type="button" class="mini" data-plib>Choose from library</button></div><div class="vstatus" data-pstatus></div></div>'
     +'</div></div>'
-    +'<input type="hidden" data-video value="'+attr(v.video_url)+'"><input type="hidden" data-poster value="'+attr(v.poster_url)+'"></div>'; }
+    +'<div class="feathome">'+featToggle(v.featured)+'</div><input type="hidden" data-video value="'+attr(v.video_url)+'"><input type="hidden" data-poster value="'+attr(v.poster_url)+'"></div>'; }
   function wireVideoCards(){
     document.querySelectorAll('#vidList .cl-card').forEach(function(card){
       var setV=function(u){card.querySelector('[data-video]').value=u;card.querySelector('[data-vthumb]').innerHTML=vThumb(u,card.querySelector('[data-poster]').value);};
@@ -599,16 +603,16 @@ a{color:var(--moss-bright)}
       var pl=card.querySelector('[data-plib]'); if(pl)pl.onclick=function(){openLibrary(function(u){setP(u);card.querySelector('[data-pstatus]').textContent='Chosen from library. Click Save.';});};
     });
   }
-  function loadTesti(){if($("view-testimonials").getAttribute("data-init")!=="1"){$("view-testimonials").innerHTML='<div class="cwrap"><div class="dash-h">Testimonials</div><div class="dash-sub">Manage your written and video testimonials. The Visible toggle controls what shows on your site.</div><h3 style="font-size:14px;color:var(--tan);margin:20px 0 12px">Video Testimonials</h3><div id="vidList"></div><button class="btn btn-sm addrow" id="vidAdd" style="margin-bottom:30px">+ Add video</button><h3 style="font-size:14px;color:var(--tan);margin:0 0 12px">Written Testimonials</h3><div id="quoteList"></div><button class="btn btn-sm addrow" id="quoteAdd">+ Add written</button></div>';$("view-testimonials").setAttribute("data-init","1");
+  function loadTesti(){if($("view-testimonials").getAttribute("data-init")!=="1"){$("view-testimonials").innerHTML='<div class="cwrap"><div class="dash-h">Testimonials</div><div class="dash-sub">Manage your written and video testimonials. <b>Visible</b> controls whether it appears on your site at all. <b>Show on home page</b> features it in the proof section on your home page. Everything shows on the Testimonials page, so you never have to enter anything twice.</div><h3 style="font-size:14px;color:var(--tan);margin:20px 0 12px">Video Testimonials</h3><div id="vidList"></div><button class="btn btn-sm addrow" id="vidAdd" style="margin-bottom:30px">+ Add video</button><h3 style="font-size:14px;color:var(--tan);margin:0 0 12px">Written Testimonials</h3><div id="quoteList"></div><button class="btn btn-sm addrow" id="quoteAdd">+ Add written</button></div>';$("view-testimonials").setAttribute("data-init","1");
       $("vidAdd").onclick=function(){rpc("bb_testimonials_upsert",{p_site:SITE,p_pass:PASS,p_row:{kind:"video",name:"New client",published:false}}).then(loadTesti);};
       $("quoteAdd").onclick=function(){rpc("bb_testimonials_upsert",{p_site:SITE,p_pass:PASS,p_row:{kind:"written",name:"Erika coaching client",published:false}}).then(loadTesti);};}
     rpc("bb_testimonials_all",{p_site:SITE,p_pass:PASS}).then(function(rows){
       var vids=rows.filter(function(r){return r.kind==="video";}),wr=rows.filter(function(r){return r.kind==="written";});
       $("vidList").innerHTML=vids.map(vidCardHTML).join("")||'<p class="muted">No video testimonials yet.</p>';
-      bindCards("vidList",function(c){return {id:c.dataset.id,kind:"video",name:c.querySelector("[data-name]").value,video_url:c.querySelector("[data-video]").value,poster_url:c.querySelector("[data-poster]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);
+      bindCards("vidList",function(c){return {id:c.dataset.id,kind:"video",name:c.querySelector("[data-name]").value,video_url:c.querySelector("[data-video]").value,poster_url:c.querySelector("[data-poster]").value,published:c.querySelector("[data-pub]").classList.contains("on"),featured:c.querySelector("[data-feat]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);
       wireVideoCards();
-      $("quoteList").innerHTML=wr.map(function(q){return '<div class="cl-card" data-id="'+q.id+'"><div class="ch"><span class="t">Quote</span><div class="r">'+reordBtns()+pubToggle(q.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div><textarea data-quote placeholder="Testimonial text">'+esc(q.quote)+'</textarea><div style="margin-top:12px"><input type="text" data-name value="'+attr(q.name)+'" placeholder="Attribution (e.g. Erin M.)"></div></div>';}).join("")||'<p class="muted">No written testimonials yet.</p>';
-      bindCards("quoteList",function(c){return {id:c.dataset.id,kind:"written",quote:c.querySelector("[data-quote]").value,name:c.querySelector("[data-name]").value,published:c.querySelector("[data-pub]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);});}
+      $("quoteList").innerHTML=wr.map(function(q){return '<div class="cl-card" data-id="'+q.id+'"><div class="ch"><span class="t">Quote</span><div class="r">'+reordBtns()+pubToggle(q.published,"Visible","Hidden")+'<button class="mini" data-save>Save</button><button class="btn btn-sm btn-danger" data-del>Remove</button></div></div><textarea data-quote placeholder="Testimonial text">'+esc(q.quote)+'</textarea><div style="margin-top:12px"><input type="text" data-name value="'+attr(q.name)+'" placeholder="Attribution (e.g. Erin M.)"></div><div class="feathome">'+featToggle(q.featured)+'</div></div>';}).join("")||'<p class="muted">No written testimonials yet.</p>';
+      bindCards("quoteList",function(c){return {id:c.dataset.id,kind:"written",quote:c.querySelector("[data-quote]").value,name:c.querySelector("[data-name]").value,published:c.querySelector("[data-pub]").classList.contains("on"),featured:c.querySelector("[data-feat]").classList.contains("on")};},"bb_testimonials_upsert","bb_testimonials_delete",loadTesti);});}
 
   var BLOG_CATS=[], blogQuill=null;
   function loadBlog(){

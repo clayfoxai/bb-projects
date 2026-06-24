@@ -448,8 +448,8 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <!-- HERO -->
   <section class="hero" id="top">
     <picture>
-      <source media="(max-width:600px)" srcset="assets/hero-mobile.webp" />
-      <img class="hero-bg" src="assets/hero-desktop.webp" alt="Erika Wescott mid-deadlift" loading="eager" fetchpriority="high" />
+      <source media="(max-width:600px)" srcset="assets/hero-mobile.webp" data-edit-srcset="hero_image" />
+      <img class="hero-bg" data-edit-img="hero_image" src="assets/hero-desktop.webp" alt="Erika Wescott mid-deadlift" loading="eager" fetchpriority="high" />
     </picture>
     <div class="wrap">
       <div class="hero-copy">
@@ -481,13 +481,13 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
           <p>It's about building a stronger body, better routines, higher standards, and a lifestyle that actually works in real life.</p>
         </div>
       </div>
-      <img class="sec-img ratio-portrait" src="assets/intro.webp" alt="Erika training with a kettlebell" loading="lazy" />
+      <img class="sec-img ratio-portrait" data-edit-img="intro_image" src="assets/intro.webp" alt="Erika training with a kettlebell" loading="lazy" />
     </div>
   </section>
 
   <!-- APPROACH -->
   <section id="approach-anchor" class="section imgbg approach-bg">
-    <img class="sec-bg" src="assets/why-it-works-bg.webp" alt="" />
+    <img class="sec-bg" data-edit-img="why_bg" src="assets/why-it-works-bg.webp" alt="" />
     <div class="wrap">
       <p class="eyebrow reveal" data-edit="why_eyebrow">Why It Works</p>
       <h2 class="sec-title reveal" style="text-transform:none;font-weight:600;max-width:18em" data-edit="why_heading">Structure, accountability, and honesty. That's the mechanism.</h2>
@@ -516,7 +516,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
         <p class="eyebrow reveal" data-edit="wyg_eyebrow">What You Get</p>
         <h2 class="reveal" style="margin-top:18px;font-size:clamp(30px,4vw,46px)">Coaching built for<br/>real life.</h2>
         <p class="muted" style="margin-top:20px;max-width:24em" data-edit="wyg_sub">No extremes. No fake wellness culture. Just the structure, strength, and honesty that actually move you forward.</p>
-        <img class="sec-img ratio-wide wyg-img" src="assets/what-you-get.webp" alt="Strength training" loading="lazy" />
+        <img class="sec-img ratio-wide wyg-img" data-edit-img="wyg_image" src="assets/what-you-get.webp" alt="Strength training" loading="lazy" />
       </div>
       <ul class="benefits reveal-stagger" data-edit-list="benefits">
         <li><span class="ck"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>Consistency without obsession.</b></span></li>
@@ -536,11 +536,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <div class="wrap">
       <p class="eyebrow center reveal" data-edit="proof_eyebrow">Proof</p>
       <h2 class="sec-title center reveal" data-edit="proof_heading">What clients say.</h2>
-      <div class="proof-grid reveal-stagger">
-        <div class="quote"><p>"These months with you have changed me. It's no bullshit. Do the work and it works."</p><div class="by">Erin M.</div></div>
-        <div class="quote"><p>"I feel ready to take care of myself in ways I could never have imagined before we began working together."</p><div class="by">Chassee H.</div></div>
-        <div class="quote"><p>"Thank you for taking my mind off the hamster wheel and making me stronger mentally."</p><div class="by">Alexander</div></div>
-      </div>
+      <div class="proof-grid reveal-stagger" id="homeQuotes"></div>
       <h3 class="center" style="margin-top:66px;font-size:20px;color:var(--tan);text-transform:uppercase;letter-spacing:.12em;font-family:'Oswald',sans-serif" data-edit="proof_videohead">See it in their words</h3>
       <div class="vcar">
         <button class="vnav prev" data-track="homeVtrack" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
@@ -554,7 +550,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <!-- ABOUT -->
   <section class="section bg-forest" id="about-anchor">
     <div class="wrap about-grid">
-      <img class="sec-img ratio-portrait" src="assets/about.webp" alt="Erika Wescott in the gym" loading="lazy" />
+      <img class="sec-img ratio-portrait" data-edit-img="about_image" src="assets/about.webp" alt="Erika Wescott in the gym" loading="lazy" />
       <div>
         <p class="eyebrow reveal" data-edit="about_eyebrow">About Erika</p>
         <h2 class="sec-title reveal" style="margin-bottom:20px" data-edit="about_lead">I've actually lived it.</h2>
@@ -563,7 +559,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
           <p>I understand what it feels like to be ambitious, capable, and disciplined, while needing to manage consistency, energy, and everything in between.</p>
           <p>My coaching combines fitness, nutrition, accountability, and practical lifestyle strategy for people who want to feel better physically and mentally without turning their lives upside down.</p>
         </div>
-        <div class="nobs reveal-stagger">
+        <div class="nobs reveal-stagger" data-edit-list="about_nobs">
           <span>No extremes</span><span>No fake wellness culture</span><span>No bullshit</span>
         </div>
       </div>
@@ -640,7 +636,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <!-- FINAL CTA -->
   <section class="section final" id="final-cta">
     <!-- Alex: to add a closing background photo, replace the slot below with <img class="hero-bg" src="cta.jpg" alt=""> -->
-    <img class="sec-bg" src="assets/final-bg.webp" alt="" />
+    <img class="sec-bg" data-edit-img="final_bg" src="assets/final-bg.webp" alt="" />
     <div class="wrap">
       <h2 class="reveal" data-edit="final_heading">You need better systems, stronger habits, and accountability that actually works.</h2>
       <p data-edit="final_sub">Stop starting over every Monday. Let's build something that holds.</p>
@@ -736,10 +732,12 @@ const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v
 const faqSvg='<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
 
 function renderContent(){
-  document.getElementById('homeVtrack').innerHTML = VIDEOS.map(videoCard).join('');
+  var _hf=function(x){return x.featured!==false;};
+  var _qt=function(t){return `<div class="quote"><p>"${esc(t.quote)}"</p><div class="by">${esc(t.by)}</div></div>`;};
+  document.getElementById('homeVtrack').innerHTML = VIDEOS.filter(_hf).map(videoCard).join('');
   document.getElementById('tvidGrid').innerHTML = VIDEOS.map(videoCard).join('');
-  document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(t=>`
-    <div class="quote"><p>"${esc(t.quote)}"</p><div class="by">${esc(t.by)}</div></div>`).join('');
+  var _hq=document.getElementById('homeQuotes'); if(_hq)_hq.innerHTML = WRITTEN_TESTIMONIALS.filter(_hf).map(_qt).join('');
+  document.getElementById('quoteGrid').innerHTML = WRITTEN_TESTIMONIALS.map(_qt).join('');
   var _bl=document.getElementById('blogList');
   if(!BLOG_POSTS.length){ _bl.innerHTML='<div class="blog-soon"><h3>Coming soon</h3><p>New articles on training, nutrition, and building a life that actually holds are on the way. Check back soon.</p></div>'; }
   else { _bl.innerHTML = BLOG_POSTS.map((p,i)=>`
@@ -760,8 +758,10 @@ function renderList(key,arr){
   if(key==='benefits')return arr.map(function(it){it=it||{};var b=it.b?('<b>'+esc(it.b)+'</b>'):'';var t=it.t?((it.b?' ':'')+esc(it.t)):'';return '<li><span class="ck">'+_CK+'</span><span>'+b+t+'</span></li>';}).join('');
   if(key==='credentials_list')return arr.map(function(it){it=it||{};return '<div class="cred'+(it.flag?' flag':'')+'">'+_CREDCK+(it.flag?('<b>'+esc(it.text)+'</b>'):esc(it.text))+'</div>';}).join('');
   if(key==='tenets_list')return arr.map(function(t,i){return '<div class="tenet"><span class="n">'+('0'+(i+1)).slice(-2)+'</span><p>'+esc(t)+'</p></div>';}).join('');
+  if(key==='about_nobs')return arr.map(function(t){return '<span>'+esc(t)+'</span>';}).join('');
   return '';
 }
+function hydrateImages(){ document.querySelectorAll("[data-edit-img]").forEach(function(el){ var v=CONTENT[el.getAttribute("data-edit-img")]; if(v!=null&&String(v).trim()!=="") el.setAttribute("src",v); }); document.querySelectorAll("[data-edit-srcset]").forEach(function(el){ var v=CONTENT[el.getAttribute("data-edit-srcset")]; if(v!=null&&String(v).trim()!=="") el.setAttribute("srcset",v); }); }
 function hydrateLists(){
   document.querySelectorAll('[data-edit-list]').forEach(function(el){
     var key=el.getAttribute('data-edit-list'); var v=CONTENT[key]; if(v==null||String(v).trim()==='')return;
@@ -905,7 +905,7 @@ function initFaq(){
 /* ---------------- boot: render + hydrate + init (after DB load, fallback-safe) ---------------- */
 let booted=false;
 function boot(){ if(booted)return; booted=true;
-  renderContent(); hydrateStatic(); hydrateSeo(); hydrateLists();
+  renderContent(); hydrateStatic(); hydrateSeo(); hydrateLists(); hydrateImages();
   document.getElementById('blogList').addEventListener('click',e=>{const c=e.target.closest('[data-post]');if(c)openPost(+c.dataset.post);});
   initCarousel(); initFaq();
   // reveal any freshly-rendered content already in view
@@ -913,8 +913,8 @@ function boot(){ if(booted)return; booted=true;
 }
 function mapData(r){
   if(r.testi&&r.testi.length){
-    var vids=r.testi.filter(t=>t.kind==='video').sort((a,b)=>a.sort-b.sort).map(t=>({name:t.name,src:t.video_url,poster:t.poster_url}));
-    var wr=r.testi.filter(t=>t.kind==='written').sort((a,b)=>a.sort-b.sort).map(t=>({quote:t.quote,by:t.name}));
+    var vids=r.testi.filter(t=>t.kind==='video').sort((a,b)=>a.sort-b.sort).map(t=>({name:t.name,src:t.video_url,poster:t.poster_url,featured:t.featured}));
+    var wr=r.testi.filter(t=>t.kind==='written').sort((a,b)=>a.sort-b.sort).map(t=>({quote:t.quote,by:t.name,featured:t.featured}));
     if(vids.length)VIDEOS=vids; if(wr.length)WRITTEN_TESTIMONIALS=wr;
   }
   if(r.blog){ BLOG_POSTS=r.blog.sort((a,b)=>a.sort-b.sort).map(p=>({tag:p.tag,title:p.title,date:p.post_date,excerpt:p.excerpt,body:p.body,cover:p.cover_url,video:p.video_url,tags:(function(){try{return Array.isArray(p.tags)?p.tags:JSON.parse(p.tags||'[]');}catch(e){return [];}})()})); }
