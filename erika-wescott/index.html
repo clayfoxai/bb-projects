@@ -445,12 +445,12 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   </section>
 
   <!-- INTRO -->
-  <section class="section bg-forest">
+  <section class="section bg-forest" id="intro">
     <div class="wrap intro-grid">
       <div>
-        <p class="eyebrow reveal">The Real Problem</p>
-        <p class="lead reveal" style="margin-top:24px">Most people do not need more information. They need <span class="em">structure</span>.</p>
-        <div class="prose reveal" style="margin-top:10px">
+        <p class="eyebrow reveal" data-edit="problem_eyebrow">The Real Problem</p>
+        <p class="lead reveal" style="margin-top:24px" data-edit="problem_lead">Most people do not need more information. They need <span class="em">structure</span>.</p>
+        <div class="prose reveal" style="margin-top:10px" data-edit-rich="problem_body">
           <p class="strong">They need accountability. They need someone honest enough to tell them what's actually getting in their way.</p>
           <p>I work with ambitious people who are tired of starting over every Monday, skipping workouts when work gets busy, under-eating all day and overeating at night, relying on motivation, and constantly feeling "off" physically and mentally.</p>
           <p>This is not about perfection. And it's definitely not about cutting gluten and pretending stress doesn't exist.</p>
@@ -465,9 +465,9 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <section id="approach-anchor" class="section imgbg approach-bg">
     <img class="sec-bg" src="assets/why-it-works-bg.webp" alt="" />
     <div class="wrap">
-      <p class="eyebrow reveal">Why It Works</p>
-      <h2 class="sec-title reveal" style="text-transform:none;font-weight:600;max-width:18em">Structure, accountability, and honesty. That's the mechanism.</h2>
-      <p class="muted" style="margin-top:20px;max-width:36em">It's why this sticks when motivation and willpower didn't. I'm not interested in making fitness your entire personality. I want you to:</p>
+      <p class="eyebrow reveal" data-edit="why_eyebrow">Why It Works</p>
+      <h2 class="sec-title reveal" style="text-transform:none;font-weight:600;max-width:18em" data-edit="why_heading">Structure, accountability, and honesty. That's the mechanism.</h2>
+      <p class="muted" style="margin-top:20px;max-width:36em" data-edit="why_intro">It's why this sticks when motivation and willpower didn't. I'm not interested in making fitness your entire personality. I want you to:</p>
       <ul class="approach-list reveal-stagger">
         <li><span class="dot"></span>feel strong and capable</li>
         <li><span class="dot"></span>have more energy throughout the day</li>
@@ -476,7 +476,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
         <li><span class="dot"></span>look athletic and healthy</li>
         <li><span class="dot"></span>feel more confident in your choices</li>
       </ul>
-      <div class="mantra reveal-stagger">
+      <div class="mantra reveal-stagger" data-edit-rich="why_mantra">
         <p>We lift weights.</p>
         <p>We eat real food.</p>
         <p>We stop overcomplicating things.</p>
@@ -486,12 +486,12 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   </section>
 
   <!-- WHAT YOU GET -->
-  <section class="section">
+  <section class="section" id="what-you-get">
     <div class="wrap two-col">
       <div>
-        <p class="eyebrow reveal">What You Get</p>
+        <p class="eyebrow reveal" data-edit="wyg_eyebrow">What You Get</p>
         <h2 class="reveal" style="margin-top:18px;font-size:clamp(30px,4vw,46px)">Coaching built for<br/>real life.</h2>
-        <p class="muted" style="margin-top:20px;max-width:24em">No extremes. No fake wellness culture. Just the structure, strength, and honesty that actually move you forward.</p>
+        <p class="muted" style="margin-top:20px;max-width:24em" data-edit="wyg_sub">No extremes. No fake wellness culture. Just the structure, strength, and honesty that actually move you forward.</p>
         <img class="sec-img ratio-wide wyg-img" src="assets/what-you-get.webp" alt="Strength training" loading="lazy" />
       </div>
       <ul class="benefits reveal-stagger">
@@ -508,16 +508,16 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   </section>
 
   <!-- SOCIAL PROOF STRIP -->
-  <section class="section">
+  <section class="section" id="proof">
     <div class="wrap">
-      <p class="eyebrow center reveal">Proof</p>
-      <h2 class="sec-title center reveal">What clients say.</h2>
+      <p class="eyebrow center reveal" data-edit="proof_eyebrow">Proof</p>
+      <h2 class="sec-title center reveal" data-edit="proof_heading">What clients say.</h2>
       <div class="proof-grid reveal-stagger">
         <div class="quote"><p>"These months with you have changed me. It's no bullshit. Do the work and it works."</p><div class="by">Erin M.</div></div>
         <div class="quote"><p>"I feel ready to take care of myself in ways I could never have imagined before we began working together."</p><div class="by">Chassee H.</div></div>
         <div class="quote"><p>"Thank you for taking my mind off the hamster wheel and making me stronger mentally."</p><div class="by">Alexander</div></div>
       </div>
-      <h3 class="center" style="margin-top:66px;font-size:20px;color:var(--tan);text-transform:uppercase;letter-spacing:.12em;font-family:'Oswald',sans-serif">See it in their words</h3>
+      <h3 class="center" style="margin-top:66px;font-size:20px;color:var(--tan);text-transform:uppercase;letter-spacing:.12em;font-family:'Oswald',sans-serif" data-edit="proof_videohead">See it in their words</h3>
       <div class="vcar">
         <button class="vnav prev" data-track="homeVtrack" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
         <div class="vtrack reveal-stagger" id="homeVtrack"></div>
@@ -532,7 +532,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
     <div class="wrap about-grid">
       <img class="sec-img ratio-portrait" src="assets/about.webp" alt="Erika Wescott in the gym" loading="lazy" />
       <div>
-        <p class="eyebrow reveal">About Erika</p>
+        <p class="eyebrow reveal" data-edit="about_eyebrow">About Erika</p>
         <h2 class="sec-title reveal" style="margin-bottom:20px" data-edit="about_lead">I've actually lived it.</h2>
         <div class="prose reveal" style="margin-top:18px" data-edit-rich="about_body">
           <p class="strong">I've spent 14 years working in demanding corporate and entrepreneurial environments while balancing fitness, travel, performance pressure, business, stress, and real life.</p>
@@ -547,10 +547,10 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   </section>
 
   <!-- CREDENTIALS -->
-  <section class="section tight">
+  <section class="section tight" id="credentials">
     <div class="wrap center">
-      <p class="eyebrow reveal">Credentials</p>
-      <h2 class="sec-title center reveal">The receipts.</h2>
+      <p class="eyebrow reveal" data-edit="cred_eyebrow">Credentials</p>
+      <h2 class="sec-title center reveal" data-edit="cred_heading">The receipts.</h2>
       <div class="creds reveal-stagger">
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Precision Nutrition L1</div>
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>ACE Fitness Nutrition Specialist</div>
@@ -558,15 +558,15 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
         <div class="cred"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>CrossFit Level 1</div>
         <div class="cred flag"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><b>Certified Public Accountant</b></div>
       </div>
-      <p class="cred-note">Yes, the CPA matters. <span class="serif">It means the plan is built on real numbers and the honest truth, not hype.</span></p>
+      <p class="cred-note" data-edit="cred_note">Yes, the CPA matters. <span class="serif">It means the plan is built on real numbers and the honest truth, not hype.</span></p>
     </div>
   </section>
 
   <!-- TENETS -->
-  <section class="section">
+  <section class="section" id="tenets">
     <div class="wrap">
-      <p class="eyebrow center reveal">What I Believe</p>
-      <h2 class="sec-title center reveal">My health &amp; performance tenets.</h2>
+      <p class="eyebrow center reveal" data-edit="tenet_eyebrow">What I Believe</p>
+      <h2 class="sec-title center reveal" data-edit="tenet_heading">My health &amp; performance tenets.</h2>
       <div class="tenets reveal-stagger" style="margin-top:40px">
         <div class="tenet"><span class="n">01</span><p>Weekends matter</p></div>
         <div class="tenet"><span class="n">02</span><p>You can and should eat dessert</p></div>
@@ -589,9 +589,9 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   <!-- BOOKING (TidyCal embed) -->
   <section id="booking-anchor" class="section">
     <div class="wrap">
-      <p class="eyebrow center reveal">Apply for Coaching</p>
-      <h2 class="center" style="margin-top:16px;font-size:clamp(28px,3.6vw,42px)">Book your discovery call.</h2>
-      <p class="center muted" style="margin-top:14px;max-width:30em;margin-left:auto;margin-right:auto">You do not need another reset. Let's find out if we're a fit.</p>
+      <p class="eyebrow center reveal" data-edit="booking_eyebrow">Apply for Coaching</p>
+      <h2 class="center" style="margin-top:16px;font-size:clamp(28px,3.6vw,42px)" data-edit="booking_heading">Book your discovery call.</h2>
+      <p class="center muted" style="margin-top:14px;max-width:30em;margin-left:auto;margin-right:auto" data-edit="booking_sub">You do not need another reset. Let's find out if we're a fit.</p>
       <div class="booking-card" style="margin-top:42px">
         <div class="booking-info">
           <div class="who">
@@ -614,13 +614,13 @@ footer{border-top:1px solid var(--line);padding:48px 0 56px}
   </section>
 
   <!-- FINAL CTA -->
-  <section class="section final">
+  <section class="section final" id="final-cta">
     <!-- Alex: to add a closing background photo, replace the slot below with <img class="hero-bg" src="cta.jpg" alt=""> -->
     <img class="sec-bg" src="assets/final-bg.webp" alt="" />
     <div class="wrap">
-      <h2 class="reveal">You need better systems, stronger habits, and accountability that actually works.</h2>
-      <p>Stop starting over every Monday. Let's build something that holds.</p>
-      <div style="margin-top:36px"><a class="btn btn-primary btn-lg" data-anchor="booking-anchor">Apply to Work With Me</a></div>
+      <h2 class="reveal" data-edit="final_heading">You need better systems, stronger habits, and accountability that actually works.</h2>
+      <p data-edit="final_sub">Stop starting over every Monday. Let's build something that holds.</p>
+      <div style="margin-top:36px"><a class="btn btn-primary btn-lg" data-anchor="booking-anchor" data-edit="final_cta">Apply to Work With Me</a></div>
     </div>
   </section>
 </main>
@@ -738,8 +738,8 @@ function hydrateSeo(){
   var img=CONTENT['seo_share_image']; if(img&&img.trim()){ setMeta('meta[property="og:image"]','content',img); setMeta('meta[name="twitter:image"]','content',img); setMeta('meta[name="twitter:card"]','content','summary_large_image'); }
 }
 function hydrateStatic(){
-  document.querySelectorAll('[data-edit]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit')]; if(v!=null && String(v).trim()!=='') el.textContent=v; });
-  document.querySelectorAll('[data-edit-rich]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-rich')]; if(v!=null && String(v).trim()!==''){ var hadStrong=!!el.querySelector('.strong'); el.innerHTML=paras(v).map(function(p,i){return '<p'+(i===0&&hadStrong?' class="strong"':'')+'>'+esc(p)+'</p>';}).join(''); } });
+  document.querySelectorAll('[data-edit]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit')]; if(v!=null && String(v).trim()!=='' && String(v).trim()!==el.textContent.trim()) el.textContent=v; });
+  document.querySelectorAll('[data-edit-rich]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-rich')]; if(v!=null && String(v).trim()!=='' && paras(v).join('\n')!==paras(el.innerText||'').join('\n')){ var hadStrong=!!el.querySelector('.strong'); el.innerHTML=paras(v).map(function(p,i){return '<p'+(i===0&&hadStrong?' class="strong"':'')+'>'+esc(p)+'</p>';}).join(''); } });
   document.querySelectorAll('[data-edit-src]').forEach(function(el){ var v=CONTENT[el.getAttribute('data-edit-src')]; if(v!=null && String(v).trim()!=='') el.setAttribute('src',v); });
 }
 
