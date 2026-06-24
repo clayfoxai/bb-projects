@@ -9,6 +9,16 @@
 <meta property="og:title" content="Erika Wescott | Performance &amp; Nutrition Coaching" />
 <meta property="og:description" content="Lift heavy. Eat real food. Feel GOOD AF." />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://erikawescott.com/" />
+<meta property="og:image" content="https://erikawescott.com/assets/hero-desktop.webp" />
+<meta property="og:site_name" content="Erika Wescott" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Erika Wescott | Performance &amp; Nutrition Coaching" />
+<meta name="twitter:description" content="Lift heavy. Eat real food. Feel GOOD AF." />
+<meta name="theme-color" content="#0E110F" />
+<link rel="canonical" href="https://erikawescott.com/" />
+<link rel="preload" as="image" href="assets/hero-desktop.webp" fetchpriority="high" />
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://erikawescott.com/#website","url":"https://erikawescott.com/","name":"Erika Wescott","description":"No-bullshit performance and nutrition coaching.","publisher":{"@id":"https://erikawescott.com/#erika"}},{"@type":"Person","@id":"https://erikawescott.com/#erika","name":"Erika Wescott","jobTitle":"Performance & Nutrition Coach","url":"https://erikawescott.com/","image":"https://erikawescott.com/assets/hero-desktop.webp","description":"Performance and nutrition coach helping ambitious professionals build strength, energy and sustainable habits.","knowsAbout":["Strength training","Nutrition coaching","Habit change","Performance coaching","Fat loss"]},{"@type":"Service","@id":"https://erikawescott.com/#coaching","name":"1:1 Performance & Nutrition Coaching","serviceType":"Health and fitness coaching","provider":{"@id":"https://erikawescott.com/#erika"},"areaServed":{"@type":"Place","name":"Worldwide (online)"},"audience":{"@type":"Audience","audienceType":"Ambitious professionals"},"url":"https://erikawescott.com/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet" />
@@ -724,7 +734,7 @@ let CONTENT = {};
 /* ---------- templates ---------- */
 const imgphVideo = (label,sub)=>`<div class="imgph ratio-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg><span class="lbl">${label}</span><span class="sub">${sub}</span></div>`;
 const playSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
-const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v.src)}" aria-label="Play ${esc(v.name)}'s testimonial">${v.poster?`<img class="vposter" src="${esc(v.poster)}" alt="" loading="lazy">`:`<video class="vposter" src="${esc(v.src)}#t=0.5" muted preload="metadata" playsinline></video>`}<span class="vbtn">${playSvg}</span><span class="vname">${esc(v.name)}</span></button></div>`;
+const videoCard = v=>`<div class="vcard"><button class="vplay" data-src="${esc(v.src)}" aria-label="Play ${esc(v.name)}'s testimonial">${v.poster?`<img class="vposter" src="${esc(v.poster)}" alt="${esc(v.name)} client testimonial" loading="lazy">`:`<video class="vposter" src="${esc(v.src)}#t=0.5" muted preload="metadata" playsinline></video>`}<span class="vbtn">${playSvg}</span><span class="vname">${esc(v.name)}</span></button></div>`;
 const faqSvg='<span class="pm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
 
 function renderContent(){
@@ -738,7 +748,7 @@ function renderContent(){
   if(!BLOG_POSTS.length){ _bl.innerHTML='<div class="blog-soon"><h3>Coming soon</h3><p>New articles on training, nutrition, and building a life that actually holds are on the way. Check back soon.</p></div>'; }
   else { _bl.innerHTML = BLOG_POSTS.map((p,i)=>`
     <div class="post-card" data-post="${i}">
-      <div class="pc-cover${p.cover?'':' pc-nocover'}">${p.cover?`<img src="${esc(p.cover)}" alt="" loading="lazy">`:''}${p.video?`<span class="pc-vbadge">${playSvg}</span>`:''}</div>
+      <div class="pc-cover${p.cover?'':' pc-nocover'}">${p.cover?`<img src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">`:''}${p.video?`<span class="pc-vbadge">${playSvg}</span>`:''}</div>
       <div class="pc-body">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}<h3>${esc(p.title)}</h3><p class="ex">${esc(p.excerpt)}</p><div class="dt">${esc(p.date)}</div>${(p.tags&&p.tags.length)?`<div class="pc-tags">${p.tags.map(t=>`<span class="tchip">${esc(t)}</span>`).join('')}</div>`:''}</div>
     </div>`).join(''); }
   var fl=document.getElementById('faqList');
@@ -786,8 +796,8 @@ function openPost(i){
   el.style.display='block';
   const yt = p.video ? ytId(p.video) : '';
   const hero = yt
-    ? `<div class="post-video" data-yt="${yt}"><img src="https://i.ytimg.com/vi/${yt}/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${yt}/hqdefault.jpg'"><button class="pv-play" aria-label="Play video">${playSvg}</button></div>`
-    : (p.cover ? `<div class="post-cover"><img src="${esc(p.cover)}" alt=""></div>` : '');
+    ? `<div class="post-video" data-yt="${yt}"><img src="https://i.ytimg.com/vi/${yt}/maxresdefault.jpg" alt="${esc(p.title)} video" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${yt}/hqdefault.jpg'"><button class="pv-play" aria-label="Play video">${playSvg}</button></div>`
+    : (p.cover ? `<div class="post-cover"><img src="${esc(p.cover)}" alt="${esc(p.title)}"></div>` : '');
   el.innerHTML = `<span class="back" id="backBtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>All posts</span>
     ${p.tag?`<span class="tag" style="color:var(--tan);font-family:Oswald;letter-spacing:.14em;text-transform:uppercase;font-size:12px">${esc(p.tag)}</span>`:''}
     <h1 style="margin-top:12px">${esc(p.title)}</h1><div class="meta">${esc(p.date)} · Erika Wescott</div>
