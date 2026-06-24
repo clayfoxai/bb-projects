@@ -621,10 +621,12 @@ a{color:var(--moss-bright)}
   var SRC_COLORS=['#84B499','#C9A86A','#6F9BBF','#B5805C','#9C86C2','#C97B7B','#7CA98E','#D0B36B'];
   function srcName(s){return (s.ref==="$direct"||!s.ref||s.ref==="Direct")?"Direct / typed":s.ref;}
   function srcBars(src){if(!src.length)return '<p class="muted">No data yet.</p>';
-    var max=Math.max.apply(null,src.map(function(s){return s.c;}).concat([1]));
-    var total=src.reduce(function(a,s){return a+s.c;},0)||1;
-    var bal=src.map(function(s,i){var w=(s.c/total*100);return '<span class="src-seg" style="width:'+w.toFixed(2)+'%;background:'+SRC_COLORS[i%SRC_COLORS.length]+'" title="'+attr(srcName(s)+': '+s.c+' ('+Math.round(w)+'%)')+'"></span>';}).join("");
-    var rows=src.map(function(s,i){var c=SRC_COLORS[i%SRC_COLORS.length];var pct=Math.round(s.c/total*100);return '<div class="src-row"><span class="sr-dot" style="background:'+c+'"></span><span class="sr-name">'+esc(srcName(s))+'</span><span class="sr-bar"><span class="sr-fill" style="width:'+Math.round(s.c/max*100)+'%;background:'+c+'"></span></span><span class="sr-val">'+s.c+'</span><span class="sr-pct">'+pct+'%</span></div>';}).join("");
+    var agg={},order=[];src.forEach(function(s){var n=srcName(s);if(!(n in agg)){agg[n]=0;order.push(n);}agg[n]+=s.c;});
+    var merged=order.map(function(n){return {name:n,c:agg[n]};}).sort(function(a,b){return b.c-a.c;});
+    var max=Math.max.apply(null,merged.map(function(s){return s.c;}).concat([1]));
+    var total=merged.reduce(function(a,s){return a+s.c;},0)||1;
+    var bal=merged.map(function(s,i){var w=(s.c/total*100);return '<span class="src-seg" style="width:'+w.toFixed(2)+'%;background:'+SRC_COLORS[i%SRC_COLORS.length]+'" title="'+attr(s.name+': '+s.c+' ('+Math.round(w)+'%)')+'"></span>';}).join("");
+    var rows=merged.map(function(s,i){var c=SRC_COLORS[i%SRC_COLORS.length];var pct=Math.round(s.c/total*100);return '<div class="src-row"><span class="sr-dot" style="background:'+c+'"></span><span class="sr-name">'+esc(s.name)+'</span><span class="sr-bar"><span class="sr-fill" style="width:'+Math.round(s.c/max*100)+'%;background:'+c+'"></span></span><span class="sr-val">'+s.c+'</span><span class="sr-pct">'+pct+'%</span></div>';}).join("");
     return '<div class="src-balance">'+bal+'</div>'+rows;}
 
   /* ---- collections ---- */
