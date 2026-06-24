@@ -199,6 +199,7 @@ a{color:var(--moss-bright)}
     </nav>
     <div class="side-foot">
       <a class="side-mini" href="../" target="_blank">Open live site &#8599;</a>
+      <button class="side-mini" id="howto2">How to use</button>
       <button class="side-mini" id="signout">Sign out</button>
     </div>
   </aside>
@@ -245,6 +246,20 @@ a{color:var(--moss-bright)}
   </div>
 </div>
 
+<div class="modal-bg" id="tutbg">
+  <div class="modal" style="max-width:560px;text-align:left;padding:0;overflow:hidden">
+    <div style="background:var(--forest-2);padding:22px 28px;border-bottom:1px solid var(--line)"><h3 style="margin:0 0 4px">Welcome to your dashboard</h3><p style="margin:0;color:var(--bone-dim);font-size:13px">A quick tour of everything you can do here. About a minute.</p></div>
+    <div style="padding:22px 28px 8px;max-height:54vh;overflow-y:auto">
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Your menu (left).</b> Move between <b>Home</b>, <b>Site Editor</b>, <b>Search &amp; Sharing</b>, <b>Analytics</b>, <b>Testimonials</b>, <b>Blog</b>, and <b>FAQs</b>. On a phone it sits across the top.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Home.</b> Your at-a-glance view — visits, apply clicks, and your live booking calendar.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Site Editor.</b> Click any field, then <b>Preview</b> to try it on the right. Or click an element in the preview to jump straight to it. <b>Save draft</b> keeps it private; <b>Publish</b> is the only step that updates your live site. <b>Revert</b> undoes a change.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Search &amp; Sharing.</b> Controls how your site looks in Google, AI search, and link previews (LinkedIn, text). Includes your share image.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Analytics.</b> How many people visit, where they come from, and how many take action — updated live.</p>
+      <p style="font-size:14px;color:var(--bone-dim);margin-bottom:14px;line-height:1.6"><b style="color:var(--tan)">Testimonials, Blog &amp; FAQs.</b> Add, edit, delete, and reorder with the &#8593;/&#8595; arrows. The <b>Visible</b> toggle controls what shows on your site.</p>
+    </div>
+    <div style="padding:16px 28px 22px;display:flex;justify-content:flex-end;border-top:1px solid var(--line)"><button class="btn btn-go" id="tutDone">Got it</button></div>
+  </div>
+</div>
 <div class="modal-bg" id="libbg">
   <div class="modal" style="max-width:720px;text-align:left;padding:0;overflow:hidden">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:20px 24px 14px;border-bottom:1px solid var(--line)">
@@ -261,6 +276,15 @@ a{color:var(--moss-bright)}
       KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
       SITE="erika", PASS="";
   var SEO_SECTION="Search, Sharing & AI";
+  var MYREV=null, pollTimer=null;
+  function getRev(cb){ rest("editor_state?site_slug=eq."+SITE+"&select=rev,last_action").then(function(rows){ if(rows&&rows[0])cb(Number(rows[0].rev),rows[0].last_action); }).catch(function(){}); }
+  function syncRev(cb){ getRev(function(rev){ MYREV=rev; if(cb)cb(); }); }
+  function startPoll(){ if(pollTimer)clearInterval(pollTimer); pollTimer=setInterval(function(){ if(window._conflict)return; getRev(function(rev){ if(MYREV===null){MYREV=rev;return;} if(rev!==MYREV){ setTimeout(function(){ getRev(function(rev2,act2){ if(MYREV!==null&&rev2!==MYREV)showConflict(act2); }); },2000); } }); },10000); }
+  function showConflict(action){ if(window._conflict)return; window._conflict=true; if(pollTimer){clearInterval(pollTimer);pollTimer=null;} var a=(action==="published")?"published new changes to the live site":"saved new changes"; var o=document.createElement("div"); o.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(14,17,15,.94);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,sans-serif"; o.innerHTML='<div style="max-width:440px;background:var(--charcoal);border:1px solid var(--line);border-radius:14px;padding:32px 28px;text-align:center"><div style="font-family:Oswald;text-transform:uppercase;letter-spacing:.04em;font-size:20px;color:var(--bone);margin-bottom:12px">Updated somewhere else</div><p style="font-size:14px;color:var(--bone-dim);line-height:1.6;margin:0 0 22px">This dashboard was just '+a+' in another window. Refresh to load the latest version before you continue, so nothing gets overwritten.</p><button id="bbcr" style="background:var(--moss);color:#0b1410;border:0;border-radius:4px;padding:13px 26px;font:600 12px/1 Oswald,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Refresh now</button></div>'; document.body.appendChild(o); document.getElementById("bbcr").onclick=function(){location.reload();}; }
+  var TUTKEY="bb_tut_seen_"+SITE;
+  function openTutorial(){ document.getElementById("tutbg").classList.add("show"); }
+  function closeTutorial(){ document.getElementById("tutbg").classList.remove("show"); try{localStorage.setItem(TUTKEY,"1");}catch(e){} }
+  function maybeTutorial(){ var seen=false; try{seen=localStorage.getItem(TUTKEY)==="1";}catch(e){} if(!seen)openTutorial(); }
   var anchors={"hero":"top","about":"about-anchor","booking":"booking-anchor"};
   var idToSection={"top":"hero","hero":"hero","about-anchor":"about","booking-anchor":"booking"};
   var fType={}, fSection={}, fPub={}, fDraft={}, allKeys=[];
@@ -272,15 +296,16 @@ a{color:var(--moss-bright)}
   function paras(t){return String(t==null?"":t).split(/\n\s*\n/).map(function(x){return x.trim();}).filter(Boolean);}
   function resolveImg(v){return /^https?:\/\//.test(v||"")?v:"../"+(v||"");}
   function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1600);}
-  function rpc(name,body){return fetch(SB+"/rest/v1/rpc/"+name,{method:"POST",headers:Hh(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error(name);return r.json();});}
+  function rpc(name,body){return fetch(SB+"/rest/v1/rpc/"+name,{method:"POST",headers:Hh(),body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error(name);return r.json();}).then(function(res){if(/save_draft|publish_all|revert_all|_upsert|_delete/.test(name)){syncRev();}return res;});}
   function rest(p){return fetch(SB+"/rest/v1/"+p,{headers:Hh()}).then(function(r){if(!r.ok)throw 0;return r.json();});}
   function postFn(url,body,cb){fetch(url,{method:"POST",headers:Hh(),body:JSON.stringify(body)}).then(function(r){return r.json();}).then(cb).catch(function(){cb({ok:false,error:"network"});});}
 
   /* ---- gate ---- */
   function enter(){var p=$("pw").value;if(!p){$("gateErr").textContent="Enter your password.";return;}$("gateErr").textContent="Checking…";
-    rpc("bb_login",{p_site:SITE,p_pass:p}).then(function(canon){if(canon){PASS=canon;gate.classList.add("hide");app.classList.remove("hide");load();showView("home");}else $("gateErr").textContent="Incorrect password.";}).catch(function(){$("gateErr").textContent="Connection error. Try again.";});}
+    rpc("bb_login",{p_site:SITE,p_pass:p}).then(function(canon){if(canon){PASS=canon;gate.classList.add("hide");app.classList.remove("hide");load();showView("home");maybeTutorial();syncRev(function(){startPoll();});}else $("gateErr").textContent="Incorrect password.";}).catch(function(){$("gateErr").textContent="Connection error. Try again.";});}
   $("enterBtn").onclick=enter; $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
   $("signout").onclick=function(){location.reload();};
+  if($("howto2"))$("howto2").onclick=openTutorial; if($("tutDone"))$("tutDone").onclick=closeTutorial; if($("tutbg"))$("tutbg").addEventListener("click",function(e){if(e.target===$("tutbg"))closeTutorial();});
 
   /* ---- preview iframe injection ---- */
   function frameDoc(){try{return frame.contentDocument||frame.contentWindow.document;}catch(e){return null;}}
