@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RegenX | Upgrade Your Body. Extend Your Prime.</title>
+<meta name="description" content="U.S.-licensed regenerative medicine for high performers. Recover faster, move without pain, and get your body back, without surgery or a flight overseas.">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root{
+    --navy:#1F2C47;
+    --navy-deep:#172136;
+    --slate:#5C6B8A;
+    --sky:#A5C7E9;
+    --sky-tint:#EEF2F6;
+    --off-white:#F8FAFB;
+    --white:#FFFFFF;
+    --on-navy:#F7FAFD;
+    --border:#DEE6ED;
+    --gutter:clamp(20px,5vw,40px);
+    --section-y:clamp(56px,9vw,120px);
+    --maxw:1140px;
+    --radius-lg:16px;
+    --radius-xl:24px;
+    --radius-pill:999px;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--off-white);color:var(--navy-deep);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);}
+  section{padding:var(--section-y) 0;}
+  h1,h2,h3,h4{font-weight:700;letter-spacing:-0.01em;margin:0 0 .5em;color:var(--navy);text-wrap:balance;}
+  h1{font-size:clamp(2.25rem,4vw + 1.2rem,4.5rem);line-height:1.08;letter-spacing:-0.02em;}
+  h2{font-size:clamp(1.9rem,2.2vw + 1.1rem,3rem);line-height:1.15;}
+  h3{font-size:clamp(1.5rem,.8vw + 1.2rem,1.75rem);line-height:1.25;}
+  p{font-size:1.2rem;line-height:1.6;color:var(--navy-deep);margin:0 0 1em;text-wrap:pretty;}
+  .lede{font-size:clamp(1.2rem,.6vw + 1rem,1.4rem);color:var(--slate);line-height:1.55;text-wrap:pretty;}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5em;font-size:1rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);background:var(--white);border:1px solid var(--border);padding:.4em 1em;border-radius:var(--radius-pill);margin-bottom:1.25em;text-wrap:pretty;box-shadow:0 1px 2px rgba(31,44,71,.04);}
+  .center{text-align:center;}
+  .mobile-only{display:inline;}
+  @media(min-width:900px){.mobile-only{display:none;}}
+  .section-head{max-width:760px;margin:0 auto clamp(32px,4vw,56px);}
+  .section-head.left{margin:0 0 clamp(32px,4vw,56px);}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;font-size:1.1rem;font-weight:600;
+    padding:1em 1.9em;border-radius:var(--radius-pill);border:none;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;white-space:nowrap;}
+  .btn-primary{background:var(--navy);color:var(--on-navy);box-shadow:0 8px 24px -8px rgba(31,44,71,.45);}
+  .btn-primary:hover{background:#16223a;transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(31,44,71,.55);}
+  .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--navy);}
+  .btn-block{width:100%;}
+  .btn-sm{padding:.7em 1.4em;font-size:1rem;}
+  /* Light-on-dark button: used any time a CTA sits on a navy/dark section background.
+     .btn-primary is navy-on-navy there and disappears (same failure mode as the eyebrow-pill
+     contrast bug) — this is the standing fix. See Web Build Standards for the rule. */
+  .btn-light{background:var(--white);color:var(--navy);box-shadow:0 8px 24px -8px rgba(0,0,0,.35);}
+  .btn-light:hover{background:var(--sky-tint);transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(0,0,0,.4);}
+
+  /* Header */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(248,250,251,.85);backdrop-filter:blur(10px) saturate(1.1);border-bottom:1px solid transparent;transition:border-color .2s ease, background .2s ease;}
+  header.scrolled{border-color:var(--border);background:rgba(248,250,251,.97);}
+  .nav-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.5rem;padding-block:14px;position:relative;}
+  .logo{display:flex;align-items:center;gap:.6em;text-decoration:none;min-width:0;justify-self:center;}
+  .logo img{height:38px;width:auto;flex:none;}
+  @media(max-width:420px){.logo img{height:30px;}}
+  .nav-row .btn{padding:.7em 1.3em;font-size:1rem;flex:none;}
+  .nav-links{display:none;}
+  .nav-cta{display:flex;flex-direction:column;align-items:flex-end;gap:.35em;}
+  .nav-sub{display:none;}
+
+  /* Mobile hamburger + drawer (Web Build Standards §3 pattern: hamburger far-left, logo
+     centered, primary CTA always-visible far-right; dropdown holds the section links) */
+  .nav-hamburger{display:flex;align-items:center;justify-content:center;width:40px;height:40px;
+    border-radius:10px;border:1.5px solid var(--border);background:var(--white);color:var(--navy);
+    cursor:pointer;flex:none;padding:0;}
+  .nav-hamburger svg{width:20px;height:20px;}
+  .nav-hamburger .icon-close{display:none;}
+  .nav-hamburger[aria-expanded="true"] .icon-menu{display:none;}
+  .nav-hamburger[aria-expanded="true"] .icon-close{display:block;}
+  .mobile-drawer{position:absolute;top:100%;left:var(--gutter);right:var(--gutter);margin-top:10px;
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+    box-shadow:0 24px 48px -16px rgba(31,44,71,.25);padding:10px;z-index:55;
+    opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s ease, transform .18s ease;}
+  .mobile-drawer.open{opacity:1;pointer-events:auto;transform:translateY(0);}
+  .mobile-drawer-links{display:flex;flex-direction:column;}
+  .mobile-drawer-links a{padding:.9em 1em;font-weight:600;font-size:1.05rem;color:var(--navy);
+    text-decoration:none;border-radius:10px;}
+  .mobile-drawer-links a:hover{background:var(--sky-tint);}
+  .mobile-drawer-footer{margin-top:.35em;padding:.9em 1em 0;border-top:1px solid var(--border);
+    font-size:1rem;font-weight:600;color:var(--slate);text-align:center;}
+  /* z-index kept BELOW header's (50) on purpose: .mobile-drawer is a child of header, so its
+     own z-index:55 only ranks within header's stacking context, not the root one. If this
+     backdrop's z-index were higher than header's, it would paint over the entire header
+     (drawer included) and swallow clicks on the drawer's own links. */
+  .mobile-drawer-backdrop{position:fixed;inset:0;background:rgba(15,20,32,.35);z-index:45;}
+  @media(min-width:900px){
+    .nav-row{grid-template-columns:auto minmax(0,1fr) auto;}
+    .logo{justify-self:start;}
+    .nav-hamburger,.mobile-drawer,.mobile-drawer-backdrop{display:none;}
+    .nav-links{display:flex;gap:clamp(1.25rem,2vw,2rem);justify-content:center;}
+    .nav-links a{font-weight:600;font-size:1rem;color:var(--navy);text-decoration:none;white-space:nowrap;transition:color .15s ease;}
+    .nav-links a:hover{color:var(--slate);}
+    /* Kept at the 1rem typography floor (Web Build Standards §4b, non-negotiable) — made
+       visually smaller by constraining width so it wraps to two short lines under the CTA,
+       roughly matching the button's width, instead of shrinking below the floor. */
+    .nav-sub{display:block;color:var(--slate);font-weight:600;font-size:1rem;line-height:1.3;
+      text-align:right;max-width:180px;white-space:normal;}
+    .nav-sub br{content:"";}
+  }
+  section[id]{scroll-margin-top:92px;}
+
+  /* Hero */
+  .hero{position:relative;padding-top:calc(80px + clamp(20px,3vw,36px));padding-bottom:clamp(48px,6vw,80px);
+    overflow:hidden;background:linear-gradient(to bottom right, rgba(165,199,233,.2), var(--off-white) 55%, var(--off-white));}
+  .hero::before{content:"";position:absolute;top:-24px;right:-24px;width:220px;height:220px;border-radius:50%;
+    background:rgba(165,199,233,.35);filter:blur(70px);z-index:0;}
+  .hero::after{content:"";position:absolute;bottom:-40px;left:-40px;width:280px;height:280px;border-radius:50%;
+    background:rgba(31,44,71,.10);filter:blur(70px);z-index:0;}
+  .hero .wrap{position:relative;z-index:1;}
+  .hero-grid{display:grid;gap:clamp(32px,5vw,64px);align-items:center;}
+  @media(min-width:960px){.hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);}}
+  /* Now sits BELOW the hero-grid (headline/lede/CTA + image), so the divider reads as a rule
+     ABOVE the trust badges, not below — flipped from the original above-the-fold placement. */
+  .trust-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.6em 2em;margin-top:clamp(28px,4vw,44px);
+    padding-top:clamp(20px,3vw,28px);border-top:1px solid var(--border);color:var(--slate);font-size:1rem;font-weight:600;width:100%;}
+  .trust-row span{display:inline-flex;align-items:center;gap:.5em;}
+  .trust-row svg{width:16px;height:16px;flex:none;color:var(--navy);}
+  @media(max-width:640px){.trust-row{justify-content:flex-start;}}
+  .hero-cta-row{display:flex;flex-wrap:wrap;gap:1em;align-items:center;margin-top:2em;}
+  .hero-sub-cta{color:var(--slate);font-size:1rem;}
+  .hero-visual{position:relative;border-radius:28px;overflow:hidden;min-height:clamp(320px,42vw,460px);
+    background:linear-gradient(155deg,var(--navy) 0%, #2c3e63 55%, var(--sky) 130%);}
+  .hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .hero-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(23,33,54,.55), rgba(23,33,54,0) 45%);}
+
+  /* VSL */
+  .vsl-wrap{background:var(--navy);color:var(--on-navy);}
+  .vsl-wrap h2, .vsl-wrap .eyebrow{color:var(--on-navy);}
+  .vsl-wrap .eyebrow{background:rgba(255,255,255,.12);}
+  .vsl-wrap .lede{color:rgba(247,250,253,.75);}
+  .video-frame{position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;background:#000;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);}
+  .video-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+  .video-frame:hover img{transform:scale(1.03);}
+  .video-frame::after{content:"";position:absolute;inset:0;background:rgba(15,20,32,.22);}
+  .video-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;
+    border-radius:50%;background:rgba(23,33,54,.85);border:2px solid rgba(255,255,255,.7);display:flex;
+    align-items:center;justify-content:center;color:#fff;z-index:1;transition:background .2s ease, transform .2s ease;}
+  .video-frame:hover .video-play{background:var(--navy);transform:translate(-50%,-50%) scale(1.06);}
+  .video-play svg{width:26px;height:26px;margin-left:3px;}
+  .video-trigger{cursor:pointer;border:none;background:none;padding:0;width:100%;text-align:left;font:inherit;}
+
+  /* Video lightbox modal (shared: VSL + testimonial carousel) */
+  .video-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    padding:clamp(16px,4vw,40px);background:rgba(10,14,24,.86);backdrop-filter:blur(6px);}
+  .video-modal.open{display:flex;}
+  .video-modal-inner{position:relative;width:100%;max-width:960px;}
+  .video-modal-inner.is-vertical{max-width:420px;}
+  .video-modal-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius-lg);
+    overflow:hidden;box-shadow:0 40px 80px -20px rgba(0,0,0,.6);}
+  .video-modal-inner.is-vertical .video-modal-frame{aspect-ratio:9/16;}
+  .video-modal-frame video,.video-modal-frame img,.video-modal-frame iframe{position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;border:none;background:#000;}
+  .video-modal-close{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;border:none;
+    background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:background .15s ease;}
+  .video-modal-close:hover{background:rgba(255,255,255,.24);}
+  .video-modal-close svg{width:20px;height:20px;}
+  @media(max-width:600px){.video-modal-close{top:-44px;right:0;}}
+
+  /* Agitation / Us vs Them intro */
+  .agitate{background:var(--white);}
+  .agitate-grid{display:grid;gap:clamp(24px,3vw,48px);}
+  @media(min-width:860px){.agitate-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;}}
+  .path-card{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:clamp(24px,3vw,32px);
+    display:flex;flex-direction:column;height:100%;}
+  .path-card.bad{background:var(--sky-tint);}
+  .path-card.good{background:var(--navy);color:var(--on-navy);border-color:var(--navy);}
+  .path-card.good h3, .path-card.good .path-label{color:var(--on-navy);}
+  .path-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75em;}
+  .path-card li{display:flex;align-items:flex-start;gap:.65em;font-size:1.1rem;}
+  .path-card li svg{flex:none;width:20px;height:20px;margin-top:.15em;}
+  .path-card.bad li svg{color:#DC2626;}
+  .path-card.good li{color:rgba(247,250,253,.92);}
+  .path-card.good li svg{color:#34D399;}
+  .path-label{display:block;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--slate);margin-bottom:.5em;}
+
+  /* Avatars */
+  .avatar-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:minmax(0,1fr);}
+  @media(min-width:640px){.avatar-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media(min-width:1040px){.avatar-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
+  .avatar-card{background:rgba(238,242,246,.5);border:1.5px solid transparent;border-radius:var(--radius-lg);
+    padding:clamp(22px,2.5vw,28px);transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;}
+  .avatar-card:hover{border-color:var(--sky);background:var(--white);box-shadow:0 16px 32px -16px rgba(31,44,71,.18);}
+  .avatar-card .icon{width:48px;height:48px;border-radius:14px;background:var(--sky-tint);display:flex;align-items:center;justify-content:center;margin-bottom:1em;color:var(--navy);}
+  .avatar-card h3{font-size:1.3rem;margin-bottom:.4em;}
+  .avatar-card p{font-size:1.05rem;color:var(--slate);margin:0;}
+
+  /* How it works */
+  .steps{background:var(--sky-tint);}
+  .steps-layout{display:grid;gap:clamp(32px,4vw,56px);align-items:start;}
+  @media(min-width:980px){.steps-layout{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);}}
+  .steps-visual{position:relative;border-radius:var(--radius-xl);overflow:hidden;min-height:260px;}
+  .steps-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  @media(min-width:980px){.steps-visual{min-height:100%;}}
+
+  /* Clinic gallery */
+  .gallery{background:var(--white);}
+  .gallery-grid{display:grid;gap:clamp(12px,1.8vw,20px);grid-template-columns:repeat(2,minmax(0,1fr));margin-top:clamp(28px,3vw,40px);}
+  @media(min-width:640px){.gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  .gallery-item{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/3;background:var(--sky-tint);}
+  .gallery-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+  .gallery-item:hover img{transform:scale(1.04);}
+  .step-grid{display:grid;gap:clamp(24px,3vw,32px);grid-template-columns:minmax(0,1fr);position:relative;}
+  @media(min-width:640px){.step-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .step{position:relative;}
+  .step .num{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:16px;
+    background:var(--navy);color:var(--on-navy);font-weight:800;font-size:1.3rem;margin-bottom:1em;}
+  .step h3{font-size:1.25rem;}
+  .step p{font-size:1.05rem;color:var(--slate);}
+
+  /* Services */
+  .service-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:minmax(0,1fr);}
+  @media(min-width:860px){.service-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  .service-card{display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);
+    overflow:hidden;height:100%;}
+  .service-card .thumb{position:relative;width:100%;aspect-ratio:16/10;background:var(--sky-tint);flex:none;}
+  .service-card .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .service-card .card-body{display:flex;flex-direction:column;flex:1;padding:clamp(24px,2.5vw,30px);}
+  .service-card .badge{align-self:flex-start;font-size:1rem;font-weight:700;color:var(--navy);background:var(--sky-tint);
+    padding:.35em .9em;border-radius:var(--radius-pill);margin-bottom:1em;}
+  .service-card h3{font-size:1.35rem;}
+  .service-card .fit{margin-top:auto;padding-top:1em;border-top:1px solid var(--border);font-size:1rem;color:var(--slate);}
+  .service-card .fit strong{color:var(--navy);}
+  .service-card .btn{margin-top:1.25em;}
+
+  /* Dream outcome */
+  .dream{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden;}
+  .dream::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 400px at 90% 10%, rgba(165,199,233,.25), transparent 60%);}
+  .dream .wrap{position:relative;}
+  .dream h2{color:var(--on-navy);}
+  .dream .eyebrow{color:var(--on-navy);background:rgba(255,255,255,.16);}
+  .dream .lede{color:rgba(247,250,253,.85);}
+  .dream-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:1fr;margin-top:clamp(28px,3vw,40px);}
+  @media(min-width:760px){.dream-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .dream-item{display:flex;gap:1em;align-items:flex-start;}
+  .dream-item svg{flex:none;width:26px;height:26px;color:var(--sky);margin-top:.15em;}
+  .dream-item p{color:rgba(247,250,253,.9);margin:0;font-size:1.15rem;}
+
+  /* Video testimonial carousel */
+  .vt-carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 4px 20px;margin:0 -4px;-webkit-overflow-scrolling:touch;}
+  .vt-carousel::-webkit-scrollbar{height:8px;}
+  .vt-carousel::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+  .vt-card{scroll-snap-align:start;flex:none;width:min(230px,68vw);aspect-ratio:9/16;border-radius:18px;overflow:hidden;
+    position:relative;background:linear-gradient(160deg,var(--navy),#2c3e63);display:flex;align-items:flex-end;
+    border:none;padding:0;cursor:pointer;font:inherit;transition:transform .15s ease;}
+  .vt-card:hover{transform:translateY(-2px);}
+  .vt-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .vt-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(15,20,32,.75), rgba(15,20,32,.05) 55%);}
+  .vt-card .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;
+    background:rgba(255,255,255,.16);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1;}
+  .vt-card .play svg{width:20px;height:20px;color:#fff;margin-left:3px;}
+  .vt-card .meta{position:relative;padding:16px;color:#fff;z-index:1;text-align:left;}
+  .vt-card .meta .name{font-weight:700;font-size:1rem;}
+  .vt-card .meta .note{font-size:1rem;color:rgba(255,255,255,.7);}
+  .vt-card .slot-tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.16);color:#fff;font-size:1rem;
+    font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:.3em .7em;border-radius:var(--radius-pill);}
+
+  /* Written testimonials: swipable row on mobile, 3-wide grid (wraps to 3x3 as more are added) from tablet up */
+  .tmb-grid{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 4px 16px;margin:0 -4px;-webkit-overflow-scrolling:touch;}
+  .tmb-grid::-webkit-scrollbar{height:8px;}
+  .tmb-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+  .tmb-card{flex:none;width:min(320px,82vw);scroll-snap-align:start;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:clamp(22px,2.5vw,26px);
+    display:flex;flex-direction:column;gap:1em;}
+  @media(min-width:700px){.tmb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;padding:0;margin:0;} .tmb-card{width:auto;}}
+  @media(min-width:1080px){.tmb-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  .stars{color:#F5A623;font-size:1.1rem;letter-spacing:.15em;}
+  .tmb-card p{font-size:1.1rem;margin:0;color:var(--navy-deep);}
+  .tmb-card .who{font-weight:700;color:var(--navy);font-size:1rem;}
+  .tmb-more{border:1.5px dashed var(--border);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:clamp(22px,2.5vw,26px);color:var(--slate);font-size:1.05rem;}
+
+  /* Credentials */
+  .cred-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:minmax(0,1fr);}
+  @media(min-width:760px){.cred-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  .cred-card{padding:clamp(20px,2.2vw,26px);}
+  .cred-card .icon{width:44px;height:44px;border-radius:12px;background:var(--sky-tint);display:flex;align-items:center;
+    justify-content:center;color:var(--navy);margin-bottom:1em;}
+  .cred-card h3{font-size:1.2rem;}
+  .cred-card p{font-size:1.05rem;color:var(--slate);}
+  .partner-strip{margin-top:clamp(32px,3vw,44px);border-top:1px solid var(--border);padding-top:clamp(28px,3vw,36px);
+    display:flex;flex-wrap:wrap;gap:1.5em;align-items:center;justify-content:space-between;}
+  .partner-strip .who{font-weight:700;color:var(--navy);font-size:1.15rem;}
+  .partner-strip p{margin:.25em 0 0;font-size:1.05rem;color:var(--slate);max-width:520px;}
+
+  /* Comparison table */
+  .compare-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1.5px solid var(--border);}
+  table.compare{width:100%;border-collapse:collapse;min-width:640px;background:var(--white);}
+  table.compare th,table.compare td{padding:18px 20px;text-align:left;font-size:1.05rem;border-bottom:1px solid var(--border);}
+  table.compare thead th{background:var(--sky-tint);font-size:1rem;text-transform:uppercase;letter-spacing:.03em;color:var(--navy);}
+  table.compare tbody th{font-weight:700;color:var(--navy);white-space:nowrap;}
+  table.compare td.win{color:var(--navy);font-weight:700;}
+  table.compare tr:last-child td, table.compare tr:last-child th{border-bottom:none;}
+  .col-regenx{background:rgba(165,199,233,.12);}
+
+  /* FAQ */
+  .faq-list{max-width:820px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1em;background:none;border:none;
+    text-align:left;padding:1.4em 0;font-size:1.2rem;font-weight:700;color:var(--navy);cursor:pointer;}
+  .faq-q .plus{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);display:flex;
+    align-items:center;justify-content:center;transition:transform .2s ease;}
+  .faq-item[open] .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{padding:0 0 1.6em;font-size:1.1rem;color:var(--slate);max-width:700px;}
+
+  /* Founder */
+  .founder{background:var(--white);}
+  .founder-grid{display:grid;gap:clamp(28px,4vw,56px);align-items:center;}
+  @media(min-width:900px){.founder-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);}}
+  .founder-photo{border-radius:var(--radius-lg);aspect-ratio:4/5;background:linear-gradient(160deg,var(--sky-tint),var(--sky));
+    position:relative;overflow:hidden;}
+  .founder-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .founder-quote{font-size:1.3rem;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:1em;}
+  .founder-name{font-weight:700;color:var(--navy);}
+  .founder-role{color:var(--slate);font-size:1rem;}
+
+  /* Final CTA / quiz */
+  .final-cta{background:linear-gradient(160deg,var(--navy),#101a2e);color:var(--on-navy);text-align:center;}
+  .final-cta h2{color:var(--on-navy);}
+  .final-cta .lede{color:rgba(247,250,253,.75);}
+  /* Quiz widget */
+  .quiz{max-width:560px;margin:clamp(32px,4vw,48px) auto 0;border-radius:var(--radius-xl);
+    padding:clamp(28px,3.5vw,40px);background:var(--white);box-shadow:0 30px 60px -24px rgba(0,0,0,.5);text-align:left;}
+  .quiz-progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6em;
+    font-size:1rem;font-weight:700;letter-spacing:.03em;color:var(--slate);}
+  .quiz-bar{height:6px;border-radius:var(--radius-pill);background:var(--sky-tint);overflow:hidden;margin-bottom:clamp(24px,3vw,32px);}
+  .quiz-bar-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--sky));border-radius:var(--radius-pill);
+    transition:width .35s ease;}
+  .quiz-body{min-height:148px;}
+  .quiz-slide h3{color:var(--navy);font-size:1.4rem;margin-bottom:.6em;}
+  .quiz-input{width:100%;font:inherit;font-size:1.1rem;padding:.85em 1em;border:1.5px solid var(--border);
+    border-radius:12px;background:var(--off-white);color:var(--navy-deep);resize:vertical;}
+  .quiz-input:focus{outline:none;border-color:var(--navy);background:var(--white);}
+  .quiz-nav{display:flex;justify-content:space-between;align-items:center;gap:1em;margin-top:clamp(24px,3vw,32px);}
+  .quiz-back{background:none;border:none;color:var(--slate);font-weight:600;font-size:1rem;cursor:pointer;
+    padding:.6em .2em;}
+  .quiz-back:disabled{visibility:hidden;}
+  .quiz-back:hover:not(:disabled){color:var(--navy);}
+  .quiz-nav .btn{padding:.85em 2.2em;}
+  .quiz-trust{display:flex;align-items:center;justify-content:center;gap:.5em;margin-top:clamp(20px,2.5vw,28px);
+    color:var(--slate);font-size:1rem;font-weight:600;}
+  .quiz-trust svg{width:16px;height:16px;flex:none;}
+  .quiz-done{text-align:center;}
+  .quiz-done-icon{width:56px;height:56px;border-radius:50%;background:var(--sky-tint);color:var(--navy);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 1em;}
+  .quiz-done-icon svg{width:28px;height:28px;}
+  .quiz-done p{color:var(--slate);font-size:1.1rem;margin:0;}
+
+  /* Footer (matches live site: light bg, dark navy text, not a dark-mode footer) */
+  footer{background:var(--sky-tint);color:var(--slate);padding:clamp(40px,5vw,56px) 0 24px;font-size:1rem;
+    border-top:1px solid var(--border);}
+  footer .flogo{margin-bottom:.75em;}
+  footer .flogo img{height:32px;width:auto;}
+  footer .flinks{display:flex;flex-wrap:wrap;gap:1.5em;margin:1.5em 0;}
+  footer .flinks a{text-decoration:none;color:var(--slate);font-size:1rem;}
+  footer .flinks a:hover{color:var(--navy);}
+  footer .disclaimer{border-top:1px solid var(--border);margin-top:1.5em;padding-top:1.5em;font-size:1rem;
+    color:var(--slate);max-width:820px;}
+
+  /* Sticky mobile CTA */
+  .mobile-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px var(--gutter);
+    background:rgba(248,250,251,.96);backdrop-filter:blur(10px);border-top:1px solid var(--border);
+    display:flex;}
+  .mobile-cta .btn{flex:1;}
+  @media(min-width:760px){.mobile-cta{display:none;}}
+  body{padding-bottom:76px;}
+  @media(min-width:760px){body{padding-bottom:0;}}
+
+  /* Reveal animation, gated */
+  .reveal{opacity:1;transform:none;}
+  html.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease-out, transform .7s ease-out;}
+  html.js .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    html.js .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  .badge-row{display:flex;flex-wrap:wrap;gap:.6em;margin-top:1em;}
+  .badge{font-size:1rem;font-weight:600;color:var(--navy);background:var(--sky-tint);padding:.4em 1em;border-radius:var(--radius-pill);}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="site-header">
+  <div class="wrap nav-row">
+    <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-expanded="false" aria-controls="mobileDrawer" aria-label="Open menu">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <a href="#top" class="logo"><img src="assets/logo.webp" alt="Upgraded Human RegenX"></a>
+    <nav class="nav-links" aria-label="Section navigation">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#who-is-this-for">Who Is This For?</a>
+      <a href="#faq">FAQs</a>
+      <a href="#services">Services</a>
+      <a href="#testimonials">Testimonials</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#final-cta" class="btn btn-primary btn-sm">Start My Assessment</a>
+      <span class="nav-sub">Addison, TX<br>U.S.-Licensed Clinic</span>
+    </div>
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <nav class="mobile-drawer-links" aria-label="Section navigation (mobile)">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#who-is-this-for">Who Is This For?</a>
+        <a href="#faq">FAQs</a>
+        <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
+      </nav>
+      <div class="mobile-drawer-footer">Addison, TX &middot; U.S.-Licensed Clinic</div>
+    </div>
+  </div>
+</header>
+<div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" hidden></div>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal">
+        <h1>Get Your Body Back. No Surgery, No Flight Overseas.</h1>
+        <p class="lede">RegenX is a U.S.-licensed clinic for people who refuse to slow down: former athletes, executives, and anyone who's already tried the conventional route and is done waiting on it. Same regenerative protocols people used to fly out of the country for, now available fifteen minutes from Dallas Love Field.</p>
+        <div class="hero-cta-row">
+          <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+          <span class="hero-sub-cta">Takes about 3 minutes</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="hero-visual">
+          <img src="assets/hero-clientphoto.webp" alt="Steve Kuclo with a RegenX client at the Addison, TX clinic" loading="lazy">
+        </div>
+      </div>
+    </div>
+    <div class="trust-row reveal">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> U.S.-Licensed Clinic</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Board-Certified Physician Oversight</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Addison, TX</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VSL ================= -->
+<section class="vsl-wrap">
+  <div class="wrap center reveal">
+    <span class="eyebrow">Hear It From The Founder</span>
+    <h2>Steve Walks a Client Through the RegenX Process</h2>
+    <p class="lede" style="max-width:680px;margin:0 auto 2em;">Founder Steve Kuclo sits down with a friend and client to walk through what actually happens at RegenX, from the questions people ask before booking to what the protocol itself looks like.</p>
+    <button type="button" class="video-frame video-trigger" style="max-width:820px;margin:0 auto;" data-video-type="video" data-video-src="assets/vsl-clip.mp4" aria-label="Watch Steve walk a client through the RegenX process">
+      <img src="assets/vsl-poster.webp" alt="Steve Kuclo walking a RegenX client through the treatment process" loading="lazy">
+      <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+    </button>
+  </div>
+</section>
+
+<!-- ================= ASSESSMENT (moved here, directly after VSL) ================= -->
+<section class="assessment-wrap" id="final-cta">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <h2>Ready to Get Your Body Back?</h2>
+      <p class="lede" style="max-width:600px;margin:0 auto;">Tell us about your goals. We'll build a protocol designed around you, not a template.</p>
+    </div>
+    <div class="quiz" id="quiz">
+      <div class="quiz-progress">
+        <div class="quiz-progress-top">
+          <span class="quiz-step-label">STEP <span id="quizStepNum">1</span> OF 6</span>
+          <span class="quiz-pct" id="quizPct">17% Complete</span>
+        </div>
+        <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill" style="width:17%"></div></div>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-slide" data-step="1">
+          <h3>First, what's your full name?</h3>
+          <input type="text" class="quiz-input" placeholder="Enter your name..." id="q1" autocomplete="name">
+        </div>
+        <div class="quiz-slide" data-step="2" hidden>
+          <h3>What are your primary hormonal and longevity goals?</h3>
+          <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, weight loss, longevity..." id="q2"></textarea>
+        </div>
+        <div class="quiz-slide" data-step="3" hidden>
+          <h3>How did you learn about RegenX? Did someone refer you to us?</h3>
+          <input type="text" class="quiz-input" placeholder="Social media, friend, search..." id="q3">
+        </div>
+        <div class="quiz-slide" data-step="4" hidden>
+          <h3>Is there anything else you'd like to add or share with us?</h3>
+          <textarea class="quiz-input" rows="3" placeholder="Optional..." id="q4"></textarea>
+        </div>
+        <div class="quiz-slide" data-step="5" hidden>
+          <h3>What's the best email address to reach you at?</h3>
+          <input type="email" class="quiz-input" placeholder="email@example.com" id="q5" autocomplete="email">
+        </div>
+        <div class="quiz-slide" data-step="6" hidden>
+          <h3>And finally, what's your phone number?</h3>
+          <input type="tel" class="quiz-input" placeholder="(555) 000-0000" id="q6" autocomplete="tel">
+        </div>
+        <div class="quiz-slide quiz-done" data-step="7" hidden>
+          <div class="quiz-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <h3>You're All Set<span id="quizDoneName"></span></h3>
+          <p>Thanks for sharing that with us. Our team will reach out shortly to get your assessment on the calendar.</p>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button type="button" class="quiz-back" id="quizBack" disabled>&larr; Back</button>
+        <button type="button" class="btn btn-primary" id="quizNext">Next</button>
+      </div>
+      <div class="quiz-trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 118 0v3"/></svg>
+        Secure, practitioner-led evaluation
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE REAL ALTERNATIVE (agitation / us vs them opens) ================= -->
+<section class="agitate">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Real Choice</span>
+      <h2>You've Been Told There Are Only Two Options</h2>
+      <p class="lede">Live with it, or go under the knife. Surgery. Months of recovery. Time away from work, from your family, from the life you actually want to be living. Or you fly overseas and hope the clinic you found online is really what it claims to be. Most people never hear about the third option until they wish they'd found it sooner.</p>
+    </div>
+    <div class="agitate-grid reveal">
+      <div class="path-card bad">
+        <span class="path-label">The Old Method</span>
+        <h3>Surgery, Downtime, and Hoping for the Best</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg> Weeks or months of recovery before you're back to normal</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg> Time off work, off the golf course, off the floor with your kids</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg> A single procedure with a long, uncertain recovery</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg> Or: flying to a clinic overseas with no way to verify who's actually treating you</li>
+        </ul>
+      </div>
+      <div class="path-card good">
+        <span class="path-label" style="color:rgba(247,250,253,.7);">The RegenX Path</span>
+        <h3>A Same-Day Protocol, Built Around You</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> In-clinic, same-day treatment under board-certified physician oversight</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> No flights, no recovery travel, no language barriers</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> A protocol built from your own bloodwork and goals, not a one-size-fits-all stack</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> Fifteen minutes from Dallas Love Field and DFW</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO IS THIS FOR ================= -->
+<section class="who" id="who-is-this-for">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Who This Is For</span>
+      <h2>Does This Sound Like You?</h2>
+      <p class="lede">RegenX clients come from a lot of different backgrounds. The thread that connects them: they refuse to accept slowing down as the price of getting older.</p>
+    </div>
+    <div class="avatar-grid reveal">
+      <div class="avatar-card">
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+        <h3>The Executive Who Won't Slow Down</h3>
+        <p>Running a business or a team doesn't leave room for a long recovery. You need to feel like yourself, on your schedule, not the surgeon's.</p>
+      </div>
+      <div class="avatar-card">
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/></svg></div>
+        <h3>The Former Athlete Still Chasing the Feeling</h3>
+        <p>You spent years pushing your body harder than most people ever will. It's collecting the bill now, and you're not ready to just accept that.</p>
+      </div>
+      <div class="avatar-card">
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a5 5 0 019-3 5 5 0 019 3c0 6.5-8 11-8 11z"/></svg></div>
+        <h3>The One Who Refuses to Sit Out</h3>
+        <p>Whether it's the golf course, the grandkids on the floor, or a weekend on your feet, you'd rather fix the problem than plan your life around it.</p>
+      </div>
+      <div class="avatar-card">
+        <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+        <h3>The Person Who's Already Tried Everything Else</h3>
+        <p>You've done the physical therapy, the medication, the rest. You're not looking to be talked into another round of the same thing.</p>
+      </div>
+    </div>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="steps" id="how-it-works">
+  <div class="wrap">
+    <div class="steps-layout">
+      <div>
+        <div class="section-head reveal">
+          <span class="eyebrow">How It Works</span>
+          <h2>From First Call to Feeling It</h2>
+          <p class="lede">No guesswork, no cookie-cutter stacks, no wondering what happens next. Here's the whole process.</p>
+        </div>
+        <div class="step-grid reveal">
+          <div class="step">
+            <div class="num">1</div>
+            <h3>Book Your Assessment</h3>
+            <p>Tell us about your goals. We'll ask a few questions to understand where you're starting from.</p>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <h3>Get Your Protocol</h3>
+            <p>Bloodwork and a consultation with a licensed practitioner build a protocol around your actual results, not a template.</p>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <h3>Come In for Treatment</h3>
+            <p>In-clinic, same day, walked through every step. No surprises, no recovery travel.</p>
+          </div>
+          <div class="step">
+            <div class="num">4</div>
+            <h3>Ongoing Support</h3>
+            <p>Your practitioner stays in the loop after treatment. Protocols get adjusted as you go, not set and forgotten.</p>
+          </div>
+        </div>
+      </div>
+      <div class="steps-visual reveal">
+        <img src="assets/service-people.webp" alt="A RegenX client at the Addison, TX clinic" loading="lazy" style="object-position:50% 20%;">
+      </div>
+    </div>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLINIC GALLERY ================= -->
+<section class="gallery">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Inside RegenX</span>
+      <h2>A Look Inside the Clinic</h2>
+      <p class="lede">Real clients, real treatment, on-site in Addison.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item"><img src="assets/howitworks-lounge.webp" alt="Clients receiving IV therapy in the RegenX treatment lounge" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-oxygen.webp" alt="RegenX clients during a nebulized exosome breathing treatment" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-iv-setup.webp" alt="A RegenX practitioner setting up an IV infusion" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-fluoro.webp" alt="Fluoroscopy-guided injection at the RegenX clinic" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-nurse-lisa.webp" alt="A RegenX practitioner preparing a client for treatment" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-vials.webp" alt="RegenX stem cell and exosome vials, ready for infusion" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What We Offer</span>
+      <h2>What You're Actually Getting</h2>
+      <p class="lede">No jargon walls, no biology lecture. Here's what each protocol does for you, in plain English.</p>
+    </div>
+    <div class="service-grid reveal">
+      <div class="service-card">
+        <div class="thumb"><img src="assets/gallery-iv-setup.webp" alt="A RegenX practitioner setting up an IV infusion" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge">Flagship Protocol</span>
+          <h3>Full-Body Recovery, Rebuilt From the Inside Out</h3>
+          <p>A single in-clinic IV session designed to help your body repair and recover faster than it can on its own. Think of it as giving your body's own repair systems a serious head start.</p>
+          <div class="fit"><strong>Especially good if:</strong> you're carrying years of wear and tear and want to address it broadly, not just one joint at a time.</div>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Ask About This Protocol</a>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="assets/service-people.webp" alt="A RegenX client at the Addison, TX clinic" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge">Look As Good As You Feel</span>
+          <h3>Fountain of Youth Microneedling</h3>
+          <p>A skin rejuvenation treatment that uses the same regenerative approach on the outside that our other protocols use on the inside. Refreshed, more even skin without a surgical procedure.</p>
+          <div class="fit"><strong>Especially good if:</strong> you want a visible result to go with how you're feeling on the inside.</div>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Ask About This Protocol</a>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="assets/gallery-fluoro.webp" alt="Dr. Johnny East performing a fluoroscopy-guided injection" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge">With Dr. Johnny East</span>
+          <h3>Targeted Relief for Joints and Back</h3>
+          <p>Precision, image-guided injections for the specific joint or spine issue that's actually been slowing you down. Delivered in partnership with Dr. Johnny East of BioInfinity Regenerative Medicine.</p>
+          <div class="fit"><strong>Especially good if:</strong> you have one specific problem area you want addressed directly. Every case is scoped individually with Dr. East.</div>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Book a Consult</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DREAM OUTCOME ================= -->
+<section class="dream">
+  <div class="wrap">
+    <div class="section-head left reveal">
+      <span class="eyebrow" style="background:rgba(255,255,255,.12);">The Life You Get Back</span>
+      <h2>This Isn't About Living Longer. It's About Staying In Your Prime.</h2>
+      <p class="lede">Picture the version of you that shows up fully, every time.</p>
+    </div>
+    <div class="dream-grid reveal">
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Waking up without the usual stiffness, ready for the day instead of easing into it.</p></div>
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Getting down on the floor with your kids or grandkids and getting back up without thinking about it.</p></div>
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Eighteen holes, a long flight, a full workday, without paying for it the next morning.</p></div>
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Sleeping through the night and actually feeling rested when you get up.</p></div>
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Showing up sharp for the meeting, the workout, the conversation that actually matters.</p></div>
+      <div class="dream-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><p>Feeling like the person you were a decade ago, not a slower version of them.</p></div>
+    </div>
+    <div class="reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-light">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VIDEO TESTIMONIAL CAROUSEL ================= -->
+<section class="vt-section" id="testimonials">
+  <div class="wrap">
+    <div class="section-head left reveal">
+      <span class="eyebrow">Real Clients</span>
+      <h2>Hear It From People Who've Done This</h2>
+      <p class="lede">Short clips, straight from clients.<span class="mobile-only"> Swipe to see more.</span></p>
+    </div>
+    <div class="vt-carousel reveal" role="list" aria-label="Client video testimonials">
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-1.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
+        <img src="assets/vt-1-poster.webp" alt="RegenX client testimonial" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
+      </button>
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-3-opt.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
+        <img src="assets/vt-3-poster.webp" alt="RegenX client testimonial" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
+      </button>
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-4-opt.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
+        <img src="assets/vt-4-poster.webp" alt="RegenX client testimonial" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
+      </button>
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="image" data-video-src="assets/vt-2-poster.webp" aria-label="View client result">
+        <img src="assets/vt-2-poster.webp" alt="RegenX client result" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client result</div></div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WRITTEN TESTIMONIALS ================= -->
+<section class="written-tmb" style="background:var(--white);">
+  <div class="wrap">
+    <div class="section-head left reveal">
+      <span class="eyebrow">In Their Words</span>
+      <h2>What Clients Actually Say</h2>
+    </div>
+    <div class="tmb-grid reveal">
+      <div class="tmb-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"Steve and the REGENX team changed how I approach my health. Two months in, my recovery, sleep, and energy are night and day better."</p>
+        <div class="who">David R.</div>
+      </div>
+      <div class="tmb-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"Best protocol I've ever been on. They actually listen, adjust, and deliver."</p>
+        <div class="who">Sarah M.</div>
+      </div>
+      <div class="tmb-card">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"I've worked with a lot of clinics. REGENX is in a different tier. Knowledgeable, science-driven, and they treat you like a person."</p>
+        <div class="who">Jason L.</div>
+      </div>
+    </div>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY REGENX / CREDENTIALS ================= -->
+<section class="credentials" style="background:var(--sky-tint);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why RegenX</span>
+      <h2>What We Refuse to Compromise On</h2>
+      <p class="lede">This is the part most clinics don't talk about. We do, because it's where the real difference is.</p>
+    </div>
+    <div class="cred-grid reveal">
+      <div class="cred-card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+        <h3>GMP-Certified, FDA-Registered Sourcing</h3>
+        <p>Every biologic comes from manufacturers held to GMP certification and FDA registration standards, with third-party batch testing behind it.</p>
+      </div>
+      <div class="cred-card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Screening Most Clinics Skip</h3>
+        <p>Strict donor screening standards, with the majority of potential donors turned away before tissue is ever accepted.</p>
+      </div>
+      <div class="cred-card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21a8 8 0 10-16 0"/><circle cx="12" cy="8" r="5"/></svg></div>
+        <h3>Board-Certified Physician Oversight</h3>
+        <p>Every protocol is prescribed and overseen by a licensed practitioner, with a real consultation before anything is decided.</p>
+      </div>
+    </div>
+    <div class="partner-strip reveal">
+      <div>
+        <div class="who">Official Partnership: Dr. Johnny East, BioInfinity Regenerative Medicine</div>
+        <p>For spine, orthopedic, musculoskeletal, and sports-related injuries, RegenX works directly with Dr. East's team to combine advanced biologic therapies with clinical expertise under one roof.</p>
+      </div>
+    </div>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= US VS THEM COMPARISON ================= -->
+<section class="compare">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Side By Side</span>
+      <h2>RegenX vs. the Traditional Route</h2>
+      <p class="lede">Here's the honest comparison, on the things that actually matter when you're deciding.</p>
+    </div>
+    <div class="compare-wrap reveal">
+      <table class="compare">
+        <thead>
+          <tr><th></th><th class="col-regenx">RegenX Protocol</th><th>Traditional Surgery</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Recovery time</th><td class="win col-regenx">Same day to a few days</td><td>Weeks to months</td></tr>
+          <tr><th scope="row">Time away from work/family</th><td class="win col-regenx">Minimal</td><td>Significant</td></tr>
+          <tr><th scope="row">Where you recover</th><td class="win col-regenx">At home, normal routine</td><td>Often hospital, then restricted activity</td></tr>
+          <tr><th scope="row">Invasiveness</th><td class="win col-regenx">In-clinic procedure</td><td>Surgical</td></tr>
+          <tr><th scope="row">Travel required</th><td class="win col-regenx">None, one U.S. clinic</td><td>Varies, sometimes referred out</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--slate);font-size:1rem;margin-top:1em;">Every case is different. This reflects the typical experience of each path and isn't a guarantee of any specific outcome or timeline for a given individual.</p>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="faq" id="faq" style="background:var(--white);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Any Last Questions?</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item" open>
+        <summary class="faq-q">What actually happens during a visit? <span class="plus">+</span></summary>
+        <div class="faq-a">It starts with a consultation and bloodwork so your protocol is built around your actual results, not a generic stack. Treatment itself happens in-clinic, same day, and your practitioner walks you through every step.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How soon will I notice a difference? <span class="plus">+</span></summary>
+        <div class="faq-a">It varies by person and protocol. Some clients notice changes in the first few weeks, but a full response can take several months as your body does the actual work of repairing itself. We'll set clear expectations for your specific protocol during your consultation.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Is this safe? <span class="plus">+</span></summary>
+        <div class="faq-a">Every protocol is delivered under board-certified physician oversight, with sourcing held to GMP certification and FDA registration standards. As with any medical decision, your practitioner will walk you through the details and answer every question during your consultation before anything is decided.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How is this different from the HRT clinic near me? <span class="plus">+</span></summary>
+        <div class="faq-a">Most HRT storefronts offer a single service. RegenX combines diagnostics, regenerative therapy, and orthopedic care (through our partnership with Dr. Johnny East) under one roof, with one point of contact managing your whole protocol.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Why not just fly overseas, it's cheaper? <span class="plus">+</span></summary>
+        <div class="faq-a">Overseas clinics can look cheaper up front, but you're trading U.S. licensing, oversight, and accountability for it, on top of the flight and recovery travel itself. RegenX gives you the same caliber of protocol fifteen minutes from Dallas Love Field, with a U.S.-licensed clinic behind it.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What does a protocol cost, and is financing available? <span class="plus">+</span></summary>
+        <div class="faq-a">Investment varies by protocol and is confirmed during your consultation, since it's built around your specific goals. Ask about payment options when you book your assessment.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What if I don't notice a difference? <span class="plus">+</span></summary>
+        <div class="faq-a">Your practitioner stays involved after treatment and will adjust your protocol as needed. Bring any concerns to your follow-up so we can address them directly.</div>
+      </details>
+    </div>
+    <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
+      <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEET STEVE ================= -->
+<section class="founder" style="background:var(--sky-tint);">
+  <div class="wrap founder-grid">
+    <div class="reveal">
+      <div class="founder-photo">
+        <img src="assets/founder-team.webp" alt="Steve Kuclo and the RegenX team" loading="lazy">
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Meet the Founder</span>
+      <p class="founder-quote">"I would never promote something I don't trust in. I'm not going to do something just to make a dollar."</p>
+      <p>Steve Kuclo spent twenty years as a competitive bodybuilder and a decade as a paramedic in Dallas, seeing firsthand how often people wait too long to deal with their health. He founded RegenX to build the clinic he wished existed: U.S.-licensed, rigorously sourced, and built around real protocols instead of one-size-fits-all stacks. He partners directly with Dr. Johnny East of BioInfinity Regenerative Medicine for the orthopedic and spine side of care.</p>
+      <div class="founder-name">Steve Kuclo</div>
+      <div class="founder-role">Founder, Upgraded Human RegenX</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="final-cta">
+  <div class="wrap reveal center">
+    <h2>Your Body Isn't Done Yet</h2>
+    <p class="lede" style="max-width:600px;margin:0 auto 1.75em;">Book your assessment and find out what protocol actually fits your goals.</p>
+    <a href="#final-cta" class="btn btn-light">Start My Assessment</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="flogo"><img src="assets/logo.webp" alt="Upgraded Human RegenX"></div>
+    <p style="margin:0;max-width:480px;">U.S.-licensed regenerative medicine and longevity clinic. Addison, Texas.</p>
+    <div class="flinks">
+      <a href="#top">Home</a>
+      <a href="#services">Services</a>
+      <a href="#final-cta">Book an Assessment</a>
+    </div>
+    <div class="disclaimer">
+      Consultation required. All therapies are delivered in-clinic under physician oversight. Individual results vary and are not guaranteed. This page describes services provided by a licensed medical clinic and is not intended to diagnose, treat, cure, or prevent any disease. &copy; 2026 Upgraded Human RegenX. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA -->
+<div class="mobile-cta">
+  <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
+</div>
+
+<!-- Shared video lightbox modal (VSL + testimonial carousel) -->
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="video-modal-inner" id="videoModalInner">
+    <button type="button" class="video-modal-close" id="videoModalClose" aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="video-modal-frame" id="videoModalFrame"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // header scroll state
+  var header = document.getElementById('site-header');
+  function onScroll(){
+    if(window.scrollY > 8){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // mobile nav drawer
+  var hamburgerBtn = document.getElementById('navHamburgerBtn');
+  var mobileDrawer = document.getElementById('mobileDrawer');
+  var mobileDrawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+  if(hamburgerBtn && mobileDrawer && mobileDrawerBackdrop){
+    function openDrawer(){
+      mobileDrawer.classList.add('open');
+      mobileDrawer.setAttribute('aria-hidden','false');
+      mobileDrawerBackdrop.hidden = false;
+      hamburgerBtn.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      mobileDrawer.classList.remove('open');
+      mobileDrawer.setAttribute('aria-hidden','true');
+      mobileDrawerBackdrop.hidden = true;
+      hamburgerBtn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+    hamburgerBtn.addEventListener('click', function(){
+      if(mobileDrawer.classList.contains('open')){ closeDrawer(); } else { openDrawer(); }
+    });
+    mobileDrawerBackdrop.addEventListener('click', closeDrawer);
+    mobileDrawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && mobileDrawer.classList.contains('open')){ closeDrawer(); }
+    });
+    window.addEventListener('resize', function(){
+      if(window.innerWidth >= 900 && mobileDrawer.classList.contains('open')){ closeDrawer(); }
+    });
+  }
+
+  // reveal on scroll (IntersectionObserver), no-JS/failsafe handled by html.js gate + this
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+  // failsafe: never leave content stuck hidden
+  window.addEventListener('load', function(){
+    setTimeout(function(){ revealEls.forEach(function(el){ el.classList.add('in'); }); }, 2500);
+  });
+
+  // intake quiz
+  var quiz = document.getElementById('quiz');
+  if(quiz){
+    var TOTAL_STEPS = 6;
+    var current = 1;
+    var slides = Array.prototype.slice.call(quiz.querySelectorAll('.quiz-slide'));
+    var backBtn = document.getElementById('quizBack');
+    var nextBtn = document.getElementById('quizNext');
+    var stepNum = document.getElementById('quizStepNum');
+    var pctLabel = document.getElementById('quizPct');
+    var barFill = document.getElementById('quizBarFill');
+    var doneNameEl = document.getElementById('quizDoneName');
+
+    function slideFor(step){
+      return slides.filter(function(s){ return parseInt(s.getAttribute('data-step'), 10) === step; })[0];
+    }
+    function currentInput(){
+      var s = slideFor(current);
+      return s ? s.querySelector('.quiz-input') : null;
+    }
+    function render(autoFocus){
+      slides.forEach(function(s){ s.hidden = parseInt(s.getAttribute('data-step'), 10) !== current; });
+      var pct = Math.round((current / TOTAL_STEPS) * 100);
+      if(current <= TOTAL_STEPS){
+        stepNum.textContent = current;
+        pctLabel.textContent = pct + '% Complete';
+        barFill.style.width = pct + '%';
+      }
+      backBtn.disabled = (current === 1);
+      nextBtn.textContent = (current === TOTAL_STEPS) ? 'Finish' : 'Next';
+      // Only auto-focus on Next/Back navigation, never on the page's initial render — focusing
+      // an off-screen input on load force-scrolls the whole page down to the quiz, skipping the
+      // hero entirely. Real bug, caught while checking the hero's above-the-fold reorder.
+      if(autoFocus){
+        var input = currentInput();
+        if(input){ setTimeout(function(){ input.focus(); }, 50); }
+      }
+    }
+    function isRequired(step){
+      return step !== 4; // "anything else" is optional
+    }
+    function advance(){
+      var input = currentInput();
+      if(input && isRequired(current) && !input.value.trim()){
+        input.focus();
+        input.style.borderColor = '#DC2626';
+        input.addEventListener('input', function reset(){ input.style.borderColor=''; input.removeEventListener('input', reset); });
+        return;
+      }
+      if(current === TOTAL_STEPS){
+        var nameEl = document.getElementById('q1');
+        var first = nameEl && nameEl.value.trim() ? ', ' + nameEl.value.trim().split(' ')[0] : '';
+        doneNameEl.textContent = first;
+        current = TOTAL_STEPS + 1;
+        render(true);
+        return;
+      }
+      current++;
+      render(true);
+    }
+    function goBack(){
+      if(current === 1) return;
+      current--;
+      render(true);
+    }
+    nextBtn.addEventListener('click', advance);
+    backBtn.addEventListener('click', goBack);
+    quiz.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' && current <= TOTAL_STEPS){
+        var tag = (e.target.tagName || '').toLowerCase();
+        if(tag !== 'textarea'){ e.preventDefault(); advance(); }
+      }
+    });
+    render();
+  }
+
+  // Shared video lightbox modal
+  var videoModal = document.getElementById('videoModal');
+  var videoModalInner = document.getElementById('videoModalInner');
+  var videoModalFrame = document.getElementById('videoModalFrame');
+  var videoModalClose = document.getElementById('videoModalClose');
+  var lastTrigger = null;
+
+  function closeVideoModal(){
+    videoModal.classList.remove('open');
+    videoModalFrame.innerHTML = '';
+    videoModalInner.classList.remove('is-vertical');
+    document.body.style.overflow = '';
+    if(lastTrigger){ lastTrigger.focus(); }
+  }
+
+  function openVideoModal(trigger){
+    var type = trigger.getAttribute('data-video-type');
+    var vertical = trigger.getAttribute('data-video-vertical') === 'true';
+    videoModalFrame.innerHTML = '';
+    videoModalInner.classList.toggle('is-vertical', vertical);
+
+    if(type === 'youtube'){
+      var id = trigger.getAttribute('data-video-id');
+      var iframe = document.createElement('iframe');
+      // muted autoplay (mute=1) is required for the browser to allow autoplay at all;
+      // YouTube's own control bar (left default) lets the visitor unmute with one click.
+      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
+      iframe.title = 'Video player';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.frameBorder = '0';
+      videoModalFrame.appendChild(iframe);
+    } else if(type === 'video'){
+      var video = document.createElement('video');
+      video.src = trigger.getAttribute('data-video-src');
+      video.controls = true;
+      video.muted = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      videoModalFrame.appendChild(video);
+      // Browsers block unmuted autoplay; call play() explicitly (muted, so it's allowed)
+      // and swallow any rejection rather than leaving an unhandled promise error.
+      var playPromise = video.play();
+      if(playPromise && playPromise.catch){ playPromise.catch(function(){}); }
+    } else if(type === 'image'){
+      var img = document.createElement('img');
+      img.src = trigger.getAttribute('data-video-src');
+      img.alt = trigger.getAttribute('aria-label') || '';
+      videoModalFrame.appendChild(img);
+    }
+
+    lastTrigger = trigger;
+    videoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    videoModalClose.focus();
+  }
+
+  document.querySelectorAll('.video-trigger').forEach(function(btn){
+    btn.addEventListener('click', function(){ openVideoModal(btn); });
+  });
+  videoModalClose.addEventListener('click', closeVideoModal);
+  videoModal.addEventListener('click', function(e){
+    if(e.target === videoModal){ closeVideoModal(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && videoModal.classList.contains('open')){ closeVideoModal(); }
+  });
+})();
+</script>
+
+</body>
+</html>
