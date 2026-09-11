@@ -247,6 +247,14 @@
 
   /* Video testimonial carousel */
   .vt-carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 4px 20px;margin:0 -4px;-webkit-overflow-scrolling:touch;}
+  /* With only 3 cards (4th removed — no real 4th video exists), a fixed-width flex row left-aligns
+     and leaves a large empty gap on wide screens once all 3 fit without scrolling. Center them
+     once there's room (3 cards + gaps ≈726px, comfortably clears the .wrap content width from
+     ~820px up); left-aligned + scrollable stays correct below that, where they still don't fit.
+     Matches the existing 900px mobile/desktop cutoff used elsewhere (nav, .mobile-only) rather
+     than introducing a third breakpoint — the "Swipe to see more" mobile-only hint disappears at
+     the same width the cards stop needing a swipe. */
+  @media(min-width:900px){.vt-carousel{justify-content:center;}}
   .vt-carousel::-webkit-scrollbar{height:8px;}
   .vt-carousel::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
   .vt-card{scroll-snap-align:start;flex:none;width:min(230px,68vw);aspect-ratio:9/16;border-radius:18px;overflow:hidden;
@@ -667,7 +675,7 @@
           <h3>Full-Body Recovery, Rebuilt From the Inside Out</h3>
           <p>A single in-clinic IV session designed to help your body repair and recover faster than it can on its own. Think of it as giving your body's own repair systems a serious head start.</p>
           <div class="fit"><strong>Especially good if:</strong> you're carrying years of wear and tear and want to address it broadly, not just one joint at a time.</div>
-          <a href="#final-cta" class="btn btn-ghost btn-block">Ask About This Protocol</a>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Get Started</a>
         </div>
       </div>
       <div class="service-card">
@@ -677,7 +685,7 @@
           <h3>Fountain of Youth Microneedling</h3>
           <p>A skin rejuvenation treatment that uses the same regenerative approach on the outside that our other protocols use on the inside. Refreshed, more even skin without a surgical procedure.</p>
           <div class="fit"><strong>Especially good if:</strong> you want a visible result to go with how you're feeling on the inside.</div>
-          <a href="#final-cta" class="btn btn-ghost btn-block">Ask About This Protocol</a>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Get Started</a>
         </div>
       </div>
       <div class="service-card">
@@ -687,7 +695,7 @@
           <h3>Targeted Relief for Joints and Back</h3>
           <p>Precision, image-guided injections for the specific joint or spine issue that's actually been slowing you down. Delivered in partnership with Dr. Johnny East of BioInfinity Regenerative Medicine.</p>
           <div class="fit"><strong>Especially good if:</strong> you have one specific problem area you want addressed directly. Every case is scoped individually with Dr. East.</div>
-          <a href="#final-cta" class="btn btn-ghost btn-block">Book a Consult</a>
+          <a href="#final-cta" class="btn btn-ghost btn-block">Get Started</a>
         </div>
       </div>
     </div>
@@ -721,8 +729,8 @@
   <div class="wrap">
     <div class="section-head left reveal">
       <span class="eyebrow">Real Clients</span>
-      <h2>Hear It From People Who've Done This</h2>
-      <p class="lede">Short clips, straight from clients.<span class="mobile-only"> Swipe to see more.</span></p>
+      <h2>What Our Clients Are Saying</h2>
+      <p class="lede">Real patients. Real results.<span class="mobile-only"> Swipe to see more.</span></p>
     </div>
     <div class="vt-carousel reveal" role="list" aria-label="Client video testimonials">
       <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-1.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
@@ -739,11 +747,6 @@
         <img src="assets/vt-4-poster.webp" alt="RegenX client testimonial" loading="lazy">
         <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
-      </button>
-      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="image" data-video-src="assets/vt-2-poster.webp" aria-label="View client result">
-        <img src="assets/vt-2-poster.webp" alt="RegenX client result" loading="lazy">
-        <span class="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
-        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client result</div></div>
       </button>
     </div>
   </div>
