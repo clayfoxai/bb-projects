@@ -289,15 +289,21 @@
   /* Credentials */
   .cred-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:minmax(0,1fr);}
   @media(min-width:760px){.cred-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
-  .cred-card{padding:clamp(20px,2.2vw,26px);}
-  .cred-card .icon{width:44px;height:44px;border-radius:12px;background:var(--sky-tint);display:flex;align-items:center;
-    justify-content:center;color:var(--navy);margin-bottom:1em;}
+  .cred-card{padding:clamp(20px,2.2vw,26px);text-align:center;}
+  .cred-card .icon{width:64px;height:64px;border-radius:50%;background:var(--white);display:inline-flex;align-items:center;
+    justify-content:center;color:var(--navy);margin:0 auto clamp(14px,1.6vw,18px);box-shadow:0 6px 18px rgba(15,35,65,.10);
+    position:relative;overflow:hidden;}
+  .cred-card .icon svg{width:30px;height:30px;position:relative;z-index:1;}
+  .cred-card .icon::after{content:"";position:absolute;top:0;left:-150%;width:55%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.9),transparent);transform:skewX(-20deg);
+    transition:left .65s ease;}
+  .cred-card:hover .icon::after{left:150%;}
   .cred-card h3{font-size:1.2rem;}
   .cred-card p{font-size:1.05rem;color:var(--slate);}
   .partner-strip{margin-top:clamp(32px,3vw,44px);border-top:1px solid var(--border);padding-top:clamp(28px,3vw,36px);
-    display:flex;flex-wrap:wrap;gap:1.5em;align-items:center;justify-content:space-between;}
+    display:flex;flex-wrap:wrap;gap:1.5em;align-items:center;justify-content:center;text-align:center;}
   .partner-strip .who{font-weight:700;color:var(--navy);font-size:1.15rem;}
-  .partner-strip p{margin:.25em 0 0;font-size:1.05rem;color:var(--slate);max-width:520px;}
+  .partner-strip p{margin:.25em auto 0;font-size:1.05rem;color:var(--slate);max-width:520px;}
 
   /* Comparison table */
   .compare-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1.5px solid var(--border);}
@@ -782,17 +788,17 @@
     </div>
     <div class="cred-grid reveal">
       <div class="cred-card">
-        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
         <h3>GMP-Certified, FDA-Registered Sourcing</h3>
         <p>Every biologic comes from manufacturers held to GMP certification and FDA registration standards, with third-party batch testing behind it.</p>
       </div>
       <div class="cred-card">
-        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
         <h3>Screening Most Clinics Skip</h3>
         <p>Strict donor screening standards, with the majority of potential donors turned away before tissue is ever accepted.</p>
       </div>
       <div class="cred-card">
-        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21a8 8 0 10-16 0"/><circle cx="12" cy="8" r="5"/></svg></div>
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
         <h3>Board-Certified Physician Oversight</h3>
         <p>Every protocol is prescribed and overseen by a licensed practitioner, with a real consultation before anything is decided.</p>
       </div>
