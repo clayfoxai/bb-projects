@@ -1134,14 +1134,25 @@
       var video = document.createElement('video');
       video.src = trigger.getAttribute('data-video-src');
       video.controls = true;
-      video.muted = true;
       video.autoplay = true;
       video.playsInline = true;
       videoModalFrame.appendChild(video);
-      // Browsers block unmuted autoplay; call play() explicitly (muted, so it's allowed)
-      // and swallow any rejection rather than leaving an unhandled promise error.
+      // openVideoModal() runs synchronously inside the trigger's click handler, so this
+      // play() call still carries the user-gesture that click generated — browsers allow
+      // unmuted autoplay in that case (unlike autoplay on page load, which they block),
+      // so visitors hear audio immediately with no separate unmute step and no missed
+      // first few seconds. Muted is only a fallback: if a browser's autoplay heuristics
+      // still refuse unmuted playback (rare, mostly older Safari), mute and retry once so
+      // the video at least starts moving instead of sitting frozen on frame one.
+      video.muted = false;
       var playPromise = video.play();
-      if(playPromise && playPromise.catch){ playPromise.catch(function(){}); }
+      if(playPromise && playPromise.catch){
+        playPromise.catch(function(){
+          video.muted = true;
+          var retryPromise = video.play();
+          if(retryPromise && retryPromise.catch){ retryPromise.catch(function(){}); }
+        });
+      }
     } else if(type === 'image'){
       var img = document.createElement('img');
       img.src = trigger.getAttribute('data-video-src');
