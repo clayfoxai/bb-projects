@@ -248,14 +248,11 @@
 
   /* Video testimonial carousel */
   .vt-carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 4px 20px;margin:0 -4px;-webkit-overflow-scrolling:touch;}
-  /* With only 3 cards (4th removed — no real 4th video exists), a fixed-width flex row left-aligns
-     and leaves a large empty gap on wide screens once all 3 fit without scrolling. Center them
-     once there's room (3 cards + gaps ≈726px, comfortably clears the .wrap content width from
-     ~820px up); left-aligned + scrollable stays correct below that, where they still don't fit.
-     Matches the existing 900px mobile/desktop cutoff used elsewhere (nav, .mobile-only) rather
-     than introducing a third breakpoint — the "Swipe to see more" mobile-only hint disappears at
-     the same width the cards stop needing a swipe. */
-  @media(min-width:900px){.vt-carousel{justify-content:center;}}
+  /* 5 cards (230px + 18px gap each) run ~1222px wide, which exceeds the section's max content
+     width (~1060px) at every breakpoint — so unlike the earlier 3-card set, this row never fits
+     on one screen and should stay left-aligned + horizontally scrollable everywhere. The "Swipe
+     to see more" hint now stays visible at all widths (see .swipe-hint below) instead of hiding
+     past 900px, since desktop also requires a scroll here. */
   .vt-carousel::-webkit-scrollbar{height:8px;}
   .vt-carousel::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
   .vt-card{scroll-snap-align:start;flex:none;width:min(230px,68vw);aspect-ratio:9/16;border-radius:18px;overflow:hidden;
@@ -272,6 +269,7 @@
   .vt-card .meta .note{font-size:1rem;color:rgba(255,255,255,.7);}
   .vt-card .slot-tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.16);color:#fff;font-size:1rem;
     font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:.3em .7em;border-radius:var(--radius-pill);}
+  .swipe-hint{color:var(--slate);font-weight:600;}
 
   /* Written testimonials: swipable row on mobile, 3-wide grid (wraps to 3x3 as more are added) from tablet up */
   .tmb-grid{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 4px 16px;margin:0 -4px;-webkit-overflow-scrolling:touch;}
@@ -740,7 +738,7 @@
     <div class="section-head center reveal">
       <span class="eyebrow">Real Clients</span>
       <h2>Client Testimonials</h2>
-      <p class="lede">Real patients. Real results.<span class="mobile-only"> Swipe to see more.</span></p>
+      <p class="lede">Real patients. Real results. <span class="swipe-hint">Swipe to see more.</span></p>
     </div>
     <div class="vt-carousel reveal" role="list" aria-label="Client video testimonials">
       <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-1.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
@@ -755,6 +753,16 @@
       </button>
       <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-4-opt.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
         <img src="assets/vt-4-poster.webp" alt="RegenX client testimonial" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
+      </button>
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-5.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
+        <img src="assets/vt-5-poster.webp" alt="RegenX client testimonial" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
+      </button>
+      <button type="button" class="vt-card video-trigger" role="listitem" data-video-type="video" data-video-src="assets/vt-6.mp4" data-video-vertical="true" aria-label="Play client testimonial video">
+        <img src="assets/vt-6-poster.webp" alt="RegenX client testimonial" loading="lazy">
         <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         <div class="meta"><div class="name">RegenX Client</div><div class="note">Client testimonial</div></div>
       </button>
