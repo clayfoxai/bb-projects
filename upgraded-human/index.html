@@ -124,6 +124,7 @@
   .trust-row span{display:inline-flex;align-items:center;gap:.5em;}
   .trust-row svg{width:16px;height:16px;flex:none;color:var(--navy);}
   @media(max-width:640px){.trust-row{justify-content:flex-start;}}
+  .hero-tagline{font-size:clamp(1.15rem,.4vw + 1rem,1.35rem);font-weight:700;color:var(--navy);margin:.4em 0 .9em;letter-spacing:-0.01em;}
   .hero-cta-row{display:flex;flex-wrap:wrap;gap:1em;align-items:center;margin-top:2em;}
   .hero-sub-cta{color:var(--slate);font-size:1rem;}
   .hero-visual{position:relative;border-radius:28px;overflow:hidden;min-height:clamp(320px,42vw,460px);
@@ -285,6 +286,8 @@
   .tmb-card .who{font-weight:700;color:var(--navy);font-size:1rem;}
   .tmb-more{border:1.5px dashed var(--border);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;
     text-align:center;padding:clamp(22px,2.5vw,26px);color:var(--slate);font-size:1.05rem;}
+  .testimonial-disclaimer{margin:clamp(20px,2.5vw,28px) auto 0;max-width:640px;text-align:center;font-size:1rem;
+    color:var(--slate);line-height:1.5;}
 
   /* Credentials */
   .cred-grid{display:grid;gap:clamp(20px,2.5vw,28px);grid-template-columns:minmax(0,1fr);}
@@ -442,8 +445,9 @@
   <div class="wrap">
     <div class="hero-grid">
       <div class="reveal">
-        <h1>Get Your Body Back. No Surgery, No Flight Overseas.</h1>
-        <p class="lede">RegenX is a U.S.-licensed clinic for people who refuse to slow down: former athletes, executives, and anyone who's already tried the conventional route and is done waiting on it. Same regenerative protocols people used to fly out of the country for, now available fifteen minutes from Dallas Love Field.</p>
+        <h1>Upgrade Your Health and Body. No Surgery. No Flights Overseas.</h1>
+        <p class="hero-tagline">Extend Your Prime.</p>
+        <p class="lede">RegenX is a U.S.-licensed clinic for people who refuse to slow down: former athletes, executives, and anyone who's already tried the conventional route and is done waiting on it. Same regenerative protocols people used to fly out of the country for, now available fifteen minutes from Dallas Love Field and twenty minutes from DFW Airport.</p>
         <div class="hero-cta-row">
           <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
           <span class="hero-sub-cta">Takes about 3 minutes</span>
@@ -457,7 +461,7 @@
     </div>
     <div class="trust-row reveal">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> U.S.-Licensed Clinic</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Board-Certified Physician Oversight</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Physician-Led Medical Oversight</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Addison, TX</span>
     </div>
   </div>
@@ -656,11 +660,11 @@
     </div>
     <div class="gallery-grid reveal">
       <div class="gallery-item"><img src="assets/howitworks-lounge.webp" alt="Clients receiving IV therapy in the RegenX treatment lounge" loading="lazy"></div>
-      <div class="gallery-item"><img src="assets/gallery-oxygen.webp" alt="RegenX clients during a nebulized exosome breathing treatment" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-oxygen.webp" alt="RegenX clients during a nebulized breathing treatment" loading="lazy"></div>
       <div class="gallery-item"><img src="assets/gallery-iv-setup.webp" alt="A RegenX practitioner setting up an IV infusion" loading="lazy"></div>
       <div class="gallery-item"><img src="assets/gallery-fluoro.webp" alt="Fluoroscopy-guided injection at the RegenX clinic" loading="lazy"></div>
       <div class="gallery-item"><img src="assets/gallery-nurse-lisa.webp" alt="A RegenX practitioner preparing a client for treatment" loading="lazy"></div>
-      <div class="gallery-item"><img src="assets/gallery-vials.webp" alt="RegenX stem cell and exosome vials, ready for infusion" loading="lazy"></div>
+      <div class="gallery-item"><img src="assets/gallery-vials.webp" alt="Regenerative biologics prepared in-clinic" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -678,8 +682,8 @@
         <div class="thumb"><img src="assets/gallery-iv-setup.webp" alt="A RegenX practitioner setting up an IV infusion" loading="lazy"></div>
         <div class="card-body">
           <span class="badge">Flagship Protocol</span>
-          <h3>Full-Body Recovery, Rebuilt From the Inside Out</h3>
-          <p>A single in-clinic IV session designed to help your body repair and recover faster than it can on its own. Think of it as giving your body's own repair systems a serious head start.</p>
+          <h3>Elite Cellular Restoration Protocol</h3>
+          <p>A single in-clinic IV session designed to support your body's natural repair and recovery processes.</p>
           <div class="fit"><strong>Especially good if:</strong> you're carrying years of wear and tear and want to address it broadly, not just one joint at a time.</div>
           <a href="#final-cta" class="btn btn-ghost btn-block">Get Started</a>
         </div>
@@ -699,7 +703,7 @@
         <div class="card-body">
           <span class="badge">With Dr. Johnny East</span>
           <h3>Targeted Relief for Joints and Back</h3>
-          <p>Precision, image-guided injections for the specific joint or spine issue that's actually been slowing you down. Delivered in partnership with Dr. Johnny East of BioInfinity Regenerative Medicine.</p>
+          <p>Precision, image-guided injections for the specific joint or spine issue that's actually been slowing you down. Delivered in partnership with Dr. Johnny East of Addison Pain.</p>
           <div class="fit"><strong>Especially good if:</strong> you have one specific problem area you want addressed directly. Every case is scoped individually with Dr. East.</div>
           <a href="#final-cta" class="btn btn-ghost btn-block">Get Started</a>
         </div>
@@ -772,6 +776,7 @@
         <div class="who">Jason L.</div>
       </div>
     </div>
+    <p class="testimonial-disclaimer reveal">Testimonials reflect individual experiences. Results vary and are not guaranteed. Compensation was not provided in exchange for these statements.</p>
     <div class="center reveal" style="margin-top:clamp(28px,3vw,40px);">
       <a href="#final-cta" class="btn btn-primary">Start My Assessment</a>
     </div>
@@ -789,8 +794,8 @@
     <div class="cred-grid reveal">
       <div class="cred-card">
         <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <h3>GMP-Certified, FDA-Registered Sourcing</h3>
-        <p>Every biologic comes from manufacturers held to GMP certification and FDA registration standards, with third-party batch testing behind it.</p>
+        <h3>Rigorously Sourced Biologics</h3>
+        <p>Every biologic comes from manufacturers operating under current Good Manufacturing Practice (cGMP) standards, with third-party batch testing on every lot.</p>
       </div>
       <div class="cred-card">
         <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
@@ -799,13 +804,13 @@
       </div>
       <div class="cred-card">
         <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <h3>Board-Certified Physician Oversight</h3>
-        <p>Every protocol is prescribed and overseen by a licensed practitioner, with a real consultation before anything is decided.</p>
+        <h3>Physician-Led Medical Oversight</h3>
+        <p>Every protocol is reviewed and overseen by our Medical Director, Dr. Johnny East, with a real consultation before any treatment is decided.</p>
       </div>
     </div>
     <div class="partner-strip reveal">
       <div>
-        <div class="who">Official Partnership: Dr. Johnny East, BioInfinity Regenerative Medicine</div>
+        <div class="who">Official Partnership: Dr. Johnny East, Addison Pain</div>
         <p>For spine, orthopedic, musculoskeletal, and sports-related injuries, RegenX works directly with Dr. East's team to combine advanced biologic therapies with clinical expertise under one roof.</p>
       </div>
     </div>
@@ -862,7 +867,7 @@
       </details>
       <details class="faq-item">
         <summary class="faq-q">Is this safe? <span class="plus">+</span></summary>
-        <div class="faq-a">Every protocol is delivered under board-certified physician oversight, with sourcing held to GMP certification and FDA registration standards. As with any medical decision, your practitioner will walk you through the details and answer every question during your consultation before anything is decided.</div>
+        <div class="faq-a">Every protocol is delivered under physician-led medical oversight, with sourcing held to current Good Manufacturing Practice (cGMP) standards and third-party batch testing. As with any medical decision, your practitioner will walk you through the details and answer every question during your consultation before anything is decided.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">How is this different from the HRT clinic near me? <span class="plus">+</span></summary>
@@ -870,7 +875,7 @@
       </details>
       <details class="faq-item">
         <summary class="faq-q">Why not just fly overseas, it's cheaper? <span class="plus">+</span></summary>
-        <div class="faq-a">Overseas clinics can look cheaper up front, but you're trading U.S. licensing, oversight, and accountability for it, on top of the flight and recovery travel itself. RegenX gives you the same caliber of protocol fifteen minutes from Dallas Love Field, with a U.S.-licensed clinic behind it.</div>
+        <div class="faq-a">Overseas clinics can look cheaper up front, but you're trading U.S. licensing, oversight, and accountability for it, on top of the flight and recovery travel itself. RegenX gives you the same caliber of protocol fifteen minutes from Dallas Love Field and twenty minutes from DFW Airport, with a U.S.-licensed clinic behind it.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">What does a protocol cost, and is financing available? <span class="plus">+</span></summary>
@@ -898,7 +903,7 @@
     <div class="reveal">
       <span class="eyebrow">Meet the Founder</span>
       <p class="founder-quote">"I would never promote something I don't trust in. I'm not going to do something just to make a dollar."</p>
-      <p>Steve Kuclo spent twenty years as a competitive bodybuilder and a decade as a paramedic in Dallas, seeing firsthand how often people wait too long to deal with their health. He founded RegenX to build the clinic he wished existed: U.S.-licensed, rigorously sourced, and built around real protocols instead of one-size-fits-all stacks. He partners directly with Dr. Johnny East of BioInfinity Regenerative Medicine for the orthopedic and spine side of care.</p>
+      <p>Steve Kuclo spent twenty years as a professional competitive bodybuilder and a decade as a firefighter paramedic in Dallas, seeing firsthand how often people wait too long to deal with their health. He founded Upgraded Human RegenX to build the clinic he wished existed: U.S.-licensed, rigorously sourced, and built around real protocols instead of one-size-fits-all stacks. He partners with his Medical Director, Dr. Johnny East of Addison Pain, for the orthopedic and spine side of care.</p>
       <div class="founder-name">Steve Kuclo</div>
       <div class="founder-role">Founder, Upgraded Human RegenX</div>
     </div>
@@ -927,7 +932,7 @@
       <a href="#final-cta">Book an Assessment</a>
     </div>
     <div class="disclaimer">
-      Consultation required. All therapies are delivered in-clinic under physician oversight. Individual results vary and are not guaranteed. This page describes services provided by a licensed medical clinic and is not intended to diagnose, treat, cure, or prevent any disease. &copy; 2026 Upgraded Human RegenX. All rights reserved.
+      DISCLAIMER: Consultation required. Upgraded Human RegenX therapies are not intended to diagnose, treat, cure, or prevent any disease. Individual responses vary. All services are provided in a licensed medical clinic under physician direction. This website is for educational purposes only and is not for advertising. Nanovesicles are not FDA-approved to prevent or treat any disease and anecdotes are not scientific proof of efficacy. All patients were treated in the context of a fully informed and legally-protected patient physician relationship. &copy; 2026 Upgraded Human RegenX. All rights reserved.
     </div>
   </div>
 </footer>
