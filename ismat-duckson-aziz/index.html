@@ -861,7 +861,7 @@ Ismat serves on the Dean’s Advisory Board at the Rotman School of Management w
   window.bbPickCols=function(n,m){if(n<=1)return 1;var b=Math.min(n,m);for(var c=Math.min(n,m);c>=2;c--){var r=n%c;if(r===0||r>=2){b=c;break;}}return b;};
   window.bbLayoutLogos=function(c){var n=c.children.length;if(!n)return;var w=window.innerWidth,cols;if(w<=880){cols=(n%2!==1)?2:(n%3!==1?3:2);}else if(w<=1080){cols=window.bbPickCols(n,Math.min(n,3));}else{cols=window.bbPickCols(n,Math.min(n,6));}c.style.gridTemplateColumns="repeat("+cols+",1fr)";};
   if(!window.bbLogoResize){window.bbLogoResize=1;window.addEventListener("resize",function(){document.querySelectorAll('[data-edit-logos]').forEach(function(c){window.bbLayoutLogos(c);});});}
-  fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,field_type",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
+  fetch(SB+"/rest/v1/site_content?site_slug=eq."+SITE+"&select=field_key,value,field_type",{headers:{apikey:KEY,Authorization:"Bearer "+KEY,"X-Site-Slug":SITE}})
    .then(function(r){return r.json();}).then(function(rows){
      if(!Array.isArray(rows))return;
      rows.forEach(function(row){ if(row.value==null)return;
@@ -1076,7 +1076,7 @@ function bbLoad(src,glob,cb){if(window[glob]){cb();return;}if(bbLoaded[src]){var
   var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function esc(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
   function pd(d){ if(!d)return null; var p=String(d).split("-"); return new Date(+p[0],(+p[1])-1,+p[2]); }
-  fetch(SB+"/rest/v1/site_events?site_slug=eq.ismat&published=eq.true&select=*&order=event_date.asc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
+  fetch(SB+"/rest/v1/site_events?site_slug=eq.ismat&published=eq.true&select=*&order=event_date.asc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY,"X-Site-Slug":"ismat"}})
    .then(function(r){return r.json();}).then(function(rows){
      if(!Array.isArray(rows))return;
      var t=new Date(); t.setHours(0,0,0,0);
