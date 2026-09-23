@@ -394,7 +394,7 @@ a{color:var(--moss-bright)}
   var fType={}, fSection={}, fPub={}, fDraft={}, allKeys=[];
   var $=function(id){return document.getElementById(id);};
   var gate=$("gate"),app=$("app"),fieldsEl=$("fields"),statusEl=$("status"),frame=$("frame");
-  function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+  function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json","X-Site-Slug":SITE};}
   function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function attr(s){return esc(s).replace(/"/g,"&quot;");}
   function paras(t){return String(t==null?"":t).split(/\n\s*\n/).map(function(x){return x.trim();}).filter(Boolean);}
