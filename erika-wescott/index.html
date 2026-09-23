@@ -815,7 +815,7 @@ posthog.register({site:'erika'});
 var SB="https://ydgqalhjuutlxqvixkoa.supabase.co",
     KEY="sb_publishable_xivnouxfehURUJG5dmBtSQ_Hhtq018J",
     SITE="erika";
-var HH={apikey:KEY,Authorization:"Bearer "+KEY};
+var HH={apikey:KEY,Authorization:"Bearer "+KEY,"X-Site-Slug":SITE};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function paras(t){return String(t==null?'':t).split(/\n\s*\n/).map(function(x){return x.trim();}).filter(Boolean);}
 
