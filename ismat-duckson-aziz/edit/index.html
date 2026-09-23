@@ -331,7 +331,7 @@
   var fType={}, fSection={}, fPub={}, fDraft={}, allKeys=[];
   var $=function(id){return document.getElementById(id);};
   var gate=$("gate"),app=$("app"),err=$("err"),fieldsEl=$("fields"),statusEl=$("status"),frame=$("frame");
-  function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"};}
+  function Hh(){return {apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json","X-Site-Slug":SITE};}
   function getRev(cb){ fetch(SB+"/rest/v1/editor_state?site_slug=eq."+SITE+"&select=rev,last_action",{headers:Hh()}).then(function(r){return r.json();}).then(function(rows){ if(rows&&rows[0])cb(Number(rows[0].rev),rows[0].last_action); }).catch(function(){}); }
   function syncRev(cb){ getRev(function(rev){ MYREV=rev; if(cb)cb(); }); }
   function startPoll(){ if(pollTimer)clearInterval(pollTimer); pollTimer=setInterval(function(){ if(window._conflict)return; getRev(function(rev){ if(MYREV===null){MYREV=rev;return;} if(rev!==MYREV){ setTimeout(function(){ getRev(function(rev2,act2){ if(MYREV!==null&&rev2!==MYREV)showConflict(act2); }); },2000); } }); },10000); }
