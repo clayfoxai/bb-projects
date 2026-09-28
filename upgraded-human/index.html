@@ -1291,6 +1291,15 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
             fbq('init','2160151605383103', am);
             fbq('track','Lead',{},{eventID:eventId});
           }
+          // Hand contact details to the service intake pages (same tab only) so they are never re-asked.
+          try{
+            var np = payload.name.split(/\s+/).filter(Boolean);
+            sessionStorage.setItem('uh_lead', JSON.stringify({
+              firstName: np[0] || '', lastName: np.length > 1 ? np[np.length - 1] : '',
+              email: payload.email, phone: payload.phone, interest: payload.interest,
+              goals: payload.goals, referral: payload.referral
+            }));
+          }catch(e){}
           var first = payload.name ? ', ' + payload.name.split(' ')[0] : '';
           doneNameEl.textContent = first;
           current = TOTAL_STEPS + 1;
