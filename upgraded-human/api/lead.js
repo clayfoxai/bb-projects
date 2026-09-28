@@ -10,16 +10,8 @@
 // answers, health terms, or free text to the Meta payload.
 
 const crypto = require('crypto');
+const { sha256, clean, browserUserData, sendToMeta } = require('./_meta');
 
-const DATASET_ID = '2160151605383103';
-const GRAPH_VERSION = 'v21.0';
-
-function sha256(v) {
-  return crypto.createHash('sha256').update(v).digest('hex');
-}
-function clean(v, max) {
-  return String(v == null ? '' : v).trim().slice(0, max || 500);
-}
 function normEmail(e) {
   return clean(e, 254).toLowerCase();
 }
@@ -36,12 +28,6 @@ function splitName(full) {
   // First token = first name, final token = last name (middle names/initials dropped).
   return { first: parts[0] || '', last: parts.length > 1 ? parts[parts.length - 1] : '' };
 }
-function clientIp(req) {
-  const xff = req.headers['x-forwarded-for'];
-  if (xff) return String(xff).split(',')[0].trim();
-  return req.headers['x-real-ip'] || '';
-}
-
 async function sendToGhl(payload) {
   const url = process.env.UH_GHL_WEBHOOK;
   if (!url) return { ok: false, reason: 'not_configured' };
@@ -51,20 +37,6 @@ async function sendToGhl(payload) {
     body: JSON.stringify(payload),
   });
   return { ok: r.ok, status: r.status };
-}
-
-async function sendToMeta(evt) {
-  const token = process.env.UH_META_CAPI_TOKEN;
-  if (!token) return { ok: false, reason: 'not_configured' };
-  const body = { data: [evt] };
-  if (process.env.UH_META_TEST_EVENT_CODE) body.test_event_code = process.env.UH_META_TEST_EVENT_CODE;
-  const r = await fetch(
-    `https://graph.facebook.com/${GRAPH_VERSION}/${DATASET_ID}/events?access_token=${encodeURIComponent(token)}`,
-    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-  );
-  let detail = null;
-  try { detail = await r.json(); } catch (_) {}
-  return { ok: r.ok, status: r.status, detail };
 }
 
 module.exports = async function handler(req, res) {
@@ -118,14 +90,10 @@ module.exports = async function handler(req, res) {
     submitted_at: new Date().toISOString(),
   };
 
-  const userData = {
+  const userData = Object.assign(browserUserData(req, b), {
     em: [sha256(email)],
     ph: [sha256(phone)],
-    client_ip_address: clientIp(req) || undefined,
-    client_user_agent: clean(req.headers['user-agent'], 500) || undefined,
-    fbp: clean(b.fbp, 200) || undefined,
-    fbc: clean(b.fbc, 500) || undefined,
-  };
+  });
   if (normName(first)) userData.fn = [sha256(normName(first))];
   if (normName(last)) userData.ln = [sha256(normName(last))];
 
