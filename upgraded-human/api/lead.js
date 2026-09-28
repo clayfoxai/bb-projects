@@ -94,6 +94,11 @@ module.exports = async function handler(req, res) {
   const utm = b.utm && typeof b.utm === 'object' ? b.utm : {};
 
   const ghlPayload = {
+    // Same keys the live homepage "Start Your Journey" webhook already uses (name, goals, referral,
+    // additional, email, phone), so a duplicate of that workflow maps with zero re-mapping.
+    name: fullName,
+    referral: clean(b.referral, 500),
+    additional: clean(b.notes, 2000),
     first_name: first,
     last_name: last,
     full_name: fullName,
