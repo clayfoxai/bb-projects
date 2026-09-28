@@ -33,11 +33,12 @@ function browserUserData(req, b) {
   return ud;
 }
 
-async function sendToMeta(evt) {
+async function sendToMeta(evt, testCode) {
   const token = process.env.UH_META_CAPI_TOKEN;
   if (!token) return { ok: false, reason: 'not_configured' };
   const body = { data: [evt] };
-  if (process.env.UH_META_TEST_EVENT_CODE) body.test_event_code = process.env.UH_META_TEST_EVENT_CODE;
+  const code = testCode || process.env.UH_META_TEST_EVENT_CODE;
+  if (code) body.test_event_code = code;
   const r = await fetch(
     `https://graph.facebook.com/${GRAPH_VERSION}/${DATASET_ID}/events?access_token=${encodeURIComponent(token)}`,
     { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
