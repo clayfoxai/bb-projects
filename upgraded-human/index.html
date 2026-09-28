@@ -373,6 +373,19 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
   .quiz-input{width:100%;font:inherit;font-size:1.1rem;padding:.85em 1em;border:1.5px solid var(--border);
     border-radius:12px;background:var(--off-white);color:var(--navy-deep);resize:vertical;}
   .quiz-input:focus{outline:none;border-color:var(--navy);background:var(--white);}
+  .quiz-options{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;}
+  @media(max-width:420px){.quiz-options{grid-template-columns:minmax(0,1fr);}}
+  .quiz-option{font:inherit;font-size:1rem;font-weight:600;min-height:52px;padding:.8em 1em;text-align:left;cursor:pointer;
+    border:1.5px solid var(--border);border-radius:12px;background:var(--off-white);color:var(--navy-deep);
+    transition:border-color .15s ease,background .15s ease;}
+  .quiz-option:hover{border-color:var(--slate);}
+  .quiz-option:focus-visible{outline:2px solid var(--navy);outline-offset:2px;}
+  .quiz-option[aria-checked="true"]{border-color:var(--navy);background:var(--white);box-shadow:inset 0 0 0 1px var(--navy);}
+  .quiz-options.is-error .quiz-option{border-color:#DC2626;}
+  .quiz-detail{width:100%;font:inherit;font-size:1.1rem;padding:.85em 1em;margin-top:12px;border:1.5px solid var(--border);
+    border-radius:12px;background:var(--off-white);color:var(--navy-deep);}
+  .quiz-detail:focus{outline:none;border-color:var(--navy);background:var(--white);}
+  .quiz-detail[hidden]{display:none;}
   .quiz-nav{display:flex;justify-content:space-between;align-items:center;gap:1em;margin-top:clamp(24px,3vw,32px);}
   .quiz-back{background:none;border:none;color:var(--slate);font-weight:600;font-size:1rem;cursor:pointer;
     padding:.6em .2em;}
@@ -527,8 +540,15 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
           <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, weight loss, longevity..." id="q2"></textarea>
         </div>
         <div class="quiz-slide" data-step="3" hidden>
-          <h3>How did you learn about RegenX? Did someone refer you to us?</h3>
-          <input type="text" class="quiz-input" placeholder="Social media, friend, search..." id="q3">
+          <h3>How did you hear about RegenX?</h3>
+          <input type="hidden" class="quiz-input" id="q3">
+          <div class="quiz-options" id="q3options" role="radiogroup" aria-label="How did you hear about RegenX?">
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Facebook / Instagram">Facebook / Instagram</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Google search">Google search</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Referred by someone" data-detail="Who referred you? (optional)">Referred by someone</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Other" data-detail="Where did you hear about us? (optional)">Other</button>
+          </div>
+          <input type="text" class="quiz-detail" id="q3detail" hidden>
         </div>
         <div class="quiz-slide" data-step="4" hidden>
           <h3>Is there anything else you'd like to add or share with us?</h3>
@@ -1086,14 +1106,52 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
       // hero entirely. Real bug, caught while checking the hero's above-the-fold reorder.
       if(autoFocus){
         var input = currentInput();
-        if(input){ setTimeout(function(){ input.focus(); }, 50); }
+        if(input && input.type === 'hidden'){
+          // Choice step: focus the selected option, or the first one.
+          var opts = slideFor(current).querySelectorAll('.quiz-option');
+          var sel = slideFor(current).querySelector('.quiz-option[aria-checked="true"]') || opts[0];
+          if(sel){ setTimeout(function(){ sel.focus(); }, 50); }
+        } else if(input){ setTimeout(function(){ input.focus(); }, 50); }
       }
+    }
+    // "How did you hear about us" choice buttons (step 3)
+    var q3 = document.getElementById('q3');
+    var q3options = document.getElementById('q3options');
+    var q3detail = document.getElementById('q3detail');
+    if(q3options){
+      q3options.addEventListener('click', function(e){
+        var btn = e.target.closest('.quiz-option');
+        if(!btn) return;
+        q3options.querySelectorAll('.quiz-option').forEach(function(b){ b.setAttribute('aria-checked', b === btn ? 'true' : 'false'); });
+        q3.value = btn.getAttribute('data-value');
+        q3options.classList.remove('is-error');
+        var detail = btn.getAttribute('data-detail');
+        if(detail){
+          q3detail.placeholder = detail;
+          q3detail.setAttribute('aria-label', detail);
+          q3detail.hidden = false;
+          q3detail.focus();
+        } else {
+          q3detail.hidden = true;
+          q3detail.value = '';
+        }
+      });
+    }
+    function referralValue(){
+      var v = q3 ? q3.value : '';
+      var d = (q3detail && !q3detail.hidden) ? q3detail.value.trim() : '';
+      return d ? v + ': ' + d : v;
     }
     function isRequired(step){
       return step !== 4; // "anything else" is optional
     }
     function advance(){
       var input = currentInput();
+      if(input && input.type === 'hidden' && isRequired(current) && !input.value.trim()){
+        var group = slideFor(current).querySelector('.quiz-options');
+        if(group){ group.classList.add('is-error'); var first = group.querySelector('.quiz-option'); if(first){ first.focus(); } }
+        return;
+      }
       if(input && isRequired(current) && !input.value.trim()){
         input.focus();
         input.style.borderColor = '#DC2626';
@@ -1153,7 +1211,7 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
         var v = landingParams.get(k); if(v) utm[k] = v;
       });
       var payload = {
-        name: val('q1'), goals: val('q2'), referral: val('q3'), notes: val('q4'),
+        name: val('q1'), goals: val('q2'), referral: referralValue(), notes: val('q4'),
         email: val('q5'), phone: val('q6'), company: val('qCompany'),
         eventId: eventId, pageUrl: window.location.href.split('#')[0],
         fbp: readCookie('_fbp'), fbc: fbcValue(), utm: utm
@@ -1193,6 +1251,7 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
     quiz.addEventListener('keydown', function(e){
       if(e.key === 'Enter' && current <= TOTAL_STEPS){
         var tag = (e.target.tagName || '').toLowerCase();
+        if(e.target.classList && e.target.classList.contains('quiz-option')) return; // Enter selects the option
         if(tag !== 'textarea'){ e.preventDefault(); advance(); }
       }
     });
