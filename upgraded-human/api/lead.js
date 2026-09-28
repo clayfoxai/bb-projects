@@ -76,6 +76,7 @@ module.exports = async function handler(req, res) {
     full_name: fullName,
     email,
     phone: phoneRaw,
+    service_interest: clean(b.interest, 100), // GHL only; never sent to Meta (health category)
     goals: clean(b.goals, 2000),
     referral_source: clean(b.referral, 500),
     notes: clean(b.notes, 2000),
