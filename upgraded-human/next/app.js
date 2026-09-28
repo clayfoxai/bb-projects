@@ -9,16 +9,17 @@
 
   var lead = {};
   try { lead = JSON.parse(sessionStorage.getItem('uh_lead') || '{}') || {}; } catch(e){ lead = {}; }
-  var knownContact = !!(lead.email && lead.phone && (lead.firstName || lead.name));
+  // Links sent from the CRM (e.g. reminder texts) carry only the opaque CRM contact ID, never personal details.
+  var contactId = '';
+  try { var cq = new URLSearchParams(location.search).get('c') || ''; if(/^[A-Za-z0-9]{10,40}$/.test(cq)) contactId = cq; } catch(e){}
+  var knownContact = !!(lead.email || contactId);
 
   var answers = {};              // field id -> value (string or array)
   var steps = S.steps.slice();
   if(!knownContact){
-    steps.unshift({ title: 'First, your contact details', sub: 'So our team can reach you about your consultation.', fields: [
-      { id:'firstName', label:'First name', type:'text', required:true, autocomplete:'given-name', half:true },
-      { id:'lastName',  label:'Last name',  type:'text', required:true, autocomplete:'family-name', half:true },
-      { id:'email', label:'Email', type:'email', required:true, autocomplete:'email' },
-      { id:'phone', label:'Phone', type:'tel', required:true, autocomplete:'tel' }
+    // Rare case (new device or tab, no CRM link): ask only for the email they already gave, so we can match their record.
+    steps.unshift({ title: 'Confirm your email', sub: 'Use the same email from your request so we can match your answers to it.', fields: [
+      { id:'email', label:'Email', type:'email', required:true, autocomplete:'email' }
     ]});
   }
   // Pre-fill answers the lead already gave on the landing page (editable, never re-asked from scratch)
@@ -47,15 +48,8 @@
 
   // ---------- layout ----------
   var shell = el('div', {'class':'ik-form'});
-  if(knownContact){
-    var nm = lead.firstName ? (lead.firstName + ' ' + (lead.lastName || '')).trim() : lead.name;
-    var known = el('div', {'class':'ik-known'});
-    known.appendChild(el('span', null, 'Continuing as <strong>' + esc(nm) + '</strong> &middot; ' + esc(lead.email)));
-    var notYou = el('button', {type:'button'}, 'Not you?');
-    notYou.addEventListener('click', function(){ try{ sessionStorage.removeItem('uh_lead'); }catch(e){} location.reload(); });
-    known.appendChild(notYou);
-    shell.appendChild(known);
-  }
+  var firstSlot = document.querySelector('[data-first]');
+  if(firstSlot && lead.firstName){ firstSlot.textContent = ', ' + lead.firstName; }
   var progTop = el('div', {'class':'ik-progress-top'});
   var stepLabel = el('span'); var pctLabel = el('span');
   progTop.appendChild(stepLabel); progTop.appendChild(pctLabel);
@@ -206,9 +200,10 @@
     submitting = true;
     submitErr.hidden = true;
     nextBtn.disabled = true; backBtn.disabled = true; nextBtn.textContent = 'Sending...';
-    var contact = knownContact ? {
-      firstName: lead.firstName || '', lastName: lead.lastName || '', email: lead.email, phone: lead.phone
-    } : { firstName: answers.firstName, lastName: answers.lastName, email: answers.email, phone: answers.phone };
+    var contact = {
+      firstName: lead.firstName || '', lastName: lead.lastName || '',
+      email: lead.email || answers.email || '', phone: lead.phone || '', contactId: contactId
+    };
     var clean = {};
     S.steps.forEach(function(st){ st.fields.forEach(function(f){
       if(f.type === 'embed' || !visible(f)) return;
