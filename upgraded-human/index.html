@@ -21,6 +21,7 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 window.UH_newEventId=function(p){return p+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);};
+fbq.disablePushState = true; // in-page anchor jumps (#final-cta etc.) must not fire extra PageViews
 fbq('set','autoConfig',false,'2160151605383103');
 fbq('init','2160151605383103');
 fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
