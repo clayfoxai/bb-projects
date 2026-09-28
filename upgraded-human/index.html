@@ -5,7 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RegenX | Upgrade Your Body. Extend Your Prime.</title>
 <meta name="description" content="U.S.-licensed regenerative medicine for high performers. Recover faster, move without pain, and get your body back, without surgery or a flight overseas.">
+<link rel="canonical" href="https://learn.upgradedhuman.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://learn.upgradedhuman.com/">
+<meta property="og:title" content="RegenX | Upgrade Your Body. Extend Your Prime.">
+<meta property="og:description" content="U.S.-licensed regenerative medicine for high performers in Addison, TX. No surgery. No flights overseas.">
+<meta property="og:image" content="https://learn.upgradedhuman.com/assets/hero-clientphoto.webp">
 <script>document.documentElement.classList.add('js');</script>
+<!-- Meta Pixel (dataset 2160151605383103). autoConfig off: no automatic button/form scraping on a health page.
+     PageView and Lead carry an eventID; Lead is also sent server-side (api/lead.js) with the same ID for dedup. -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+window.UH_newEventId=function(p){return p+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);};
+fbq('set','autoConfig',false,'2160151605383103');
+fbq('init','2160151605383103');
+fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
+</script>
 <style>
   :root{
     --navy:#1F2C47;
@@ -363,6 +382,11 @@
   .quiz-trust{display:flex;align-items:center;justify-content:center;gap:.5em;margin-top:clamp(20px,2.5vw,28px);
     color:var(--slate);font-size:1rem;font-weight:600;}
   .quiz-trust svg{width:16px;height:16px;flex:none;}
+  .quiz-error{color:#B91C1C;font-size:1rem;margin:.75em 0 0;}
+  .quiz-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .quiz{position:relative;}
+  .quiz-nav .btn[disabled]{opacity:.7;cursor:progress;}
+  .quiz-nav[hidden],.quiz-error[hidden]{display:none;}
   .quiz-done{text-align:center;}
   .quiz-done-icon{width:56px;height:56px;border-radius:50%;background:var(--sky-tint);color:var(--navy);
     display:flex;align-items:center;justify-content:center;margin:0 auto 1em;}
@@ -517,7 +541,9 @@
         <div class="quiz-slide" data-step="6" hidden>
           <h3>And finally, what's your phone number?</h3>
           <input type="tel" class="quiz-input" placeholder="(555) 000-0000" id="q6" autocomplete="tel">
+          <p class="quiz-error" id="quizError" role="alert" hidden></p>
         </div>
+        <div class="quiz-hp" aria-hidden="true"><label>Company<input type="text" id="qCompany" tabindex="-1" autocomplete="off"></label></div>
         <div class="quiz-slide quiz-done" data-step="7" hidden>
           <div class="quiz-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
           <h3>You're All Set<span id="quizDoneName"></span></h3>
@@ -1052,6 +1078,9 @@
       }
       backBtn.disabled = (current === 1);
       nextBtn.textContent = (current === TOTAL_STEPS) ? 'Finish' : 'Next';
+      // Completion screen: nothing left to navigate, so the Back/Next row goes away.
+      var navRow = quiz.querySelector('.quiz-nav');
+      if(navRow){ navRow.hidden = current > TOTAL_STEPS; }
       // Only auto-focus on Next/Back navigation, never on the page's initial render — focusing
       // an off-screen input on load force-scrolls the whole page down to the quiz, skipping the
       // hero entirely. Real bug, caught while checking the hero's above-the-fold reorder.
@@ -1071,16 +1100,88 @@
         input.addEventListener('input', function reset(){ input.style.borderColor=''; input.removeEventListener('input', reset); });
         return;
       }
+      if(current === 5 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())){
+        showFieldError(input, 'Please enter a valid email address.');
+        return;
+      }
       if(current === TOTAL_STEPS){
-        var nameEl = document.getElementById('q1');
-        var first = nameEl && nameEl.value.trim() ? ', ' + nameEl.value.trim().split(' ')[0] : '';
-        doneNameEl.textContent = first;
-        current = TOTAL_STEPS + 1;
-        render(true);
+        if(input.value.replace(/\D/g,'').length < 10){
+          showFieldError(input, 'Please enter a valid phone number, including area code.');
+          return;
+        }
+        submitLead();
         return;
       }
       current++;
       render(true);
+    }
+    var errorEl = document.getElementById('quizError');
+    function showFieldError(input, msg){
+      input.focus();
+      input.style.borderColor = '#DC2626';
+      if(input.id === 'q6' && errorEl){ errorEl.textContent = msg; errorEl.hidden = false; }
+      else { input.setCustomValidity(msg); input.reportValidity(); }
+      input.addEventListener('input', function reset(){
+        input.style.borderColor=''; input.setCustomValidity('');
+        if(errorEl){ errorEl.hidden = true; }
+        input.removeEventListener('input', reset);
+      });
+    }
+    // Ad attribution: keep UTMs/fbclid from the landing URL for the CRM.
+    var landingParams = new URLSearchParams(window.location.search);
+    function readCookie(n){
+      var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+    function fbcValue(){
+      var c = readCookie('_fbc');
+      if(c) return c;
+      var id = landingParams.get('fbclid');
+      return id ? 'fb.1.' + Date.now() + '.' + id : '';
+    }
+    var submitting = false;
+    var leadEventId = null;
+    function submitLead(){
+      if(submitting) return;
+      submitting = true;
+      var val = function(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+      // One event ID per quiz, reused on retry, so Meta can never count the same lead twice.
+      leadEventId = leadEventId || (window.UH_newEventId ? window.UH_newEventId('lead') : 'lead-' + Date.now());
+      var eventId = leadEventId;
+      var utm = {};
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){
+        var v = landingParams.get(k); if(v) utm[k] = v;
+      });
+      var payload = {
+        name: val('q1'), goals: val('q2'), referral: val('q3'), notes: val('q4'),
+        email: val('q5'), phone: val('q6'), company: val('qCompany'),
+        eventId: eventId, pageUrl: window.location.href.split('#')[0],
+        fbp: readCookie('_fbp'), fbc: fbcValue(), utm: utm
+      };
+      if(errorEl){ errorEl.hidden = true; }
+      nextBtn.disabled = true; backBtn.disabled = true;
+      nextBtn.textContent = 'Sending...';
+      fetch('api/lead', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+        .then(function(r){ if(!r.ok) throw new Error('status ' + r.status); return r.json(); })
+        .then(function(){
+          // Browser Lead event shares event_id with the server-side CAPI event so Meta counts it once.
+          // No quiz answers are passed to the pixel.
+          if(window.fbq){ fbq('track','Lead',{},{eventID:eventId}); }
+          var first = payload.name ? ', ' + payload.name.split(' ')[0] : '';
+          doneNameEl.textContent = first;
+          current = TOTAL_STEPS + 1;
+          nextBtn.disabled = false;
+          render(true);
+        })
+        .catch(function(){
+          submitting = false;
+          nextBtn.disabled = false; backBtn.disabled = false;
+          nextBtn.textContent = 'Finish';
+          if(errorEl){
+            errorEl.textContent = "We couldn't send your answers just now. Please tap Finish to try again.";
+            errorEl.hidden = false;
+          }
+        });
     }
     function goBack(){
       if(current === 1) return;
