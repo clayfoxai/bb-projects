@@ -87,6 +87,10 @@ module.exports = async function handler(req, res) {
     utm_content: clean(utm.utm_content, 200),
     utm_term: clean(utm.utm_term, 200),
     fbclid: clean(utm.fbclid, 500),
+    // Meta match IDs, stored on the contact so later CRM events (booked / paid) link back to the ad click.
+    meta_fbc: clean(b.fbc, 500),
+    meta_fbp: clean(b.fbp, 200),
+    meta_vid: clean(b.vid, 100),
     submitted_at: new Date().toISOString(),
   };
 
