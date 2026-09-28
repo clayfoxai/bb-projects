@@ -201,6 +201,17 @@
       "permanent": true
     },
     {
+      "source": "/upgraded-human/",
+      "has": [
+        {
+          "type": "host",
+          "value": "bb-projects.vercel.app"
+        }
+      ],
+      "destination": "https://learn.upgradedhuman.com/",
+      "permanent": true
+    },
+    {
       "source": "/upgraded-human/:path*",
       "has": [
         {
