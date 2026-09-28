@@ -60,6 +60,11 @@ module.exports = async function handler(req, res) {
   const ext = [];
   const contactId = field(b, 'contact_id', 100);
   if (contactId) ext.push(sha256('ghl:' + contactId));
+  // "Meta Match IDs" GHL field = fbc|fbp|visitorId (written by api/lead.js). Separate keys also accepted.
+  const ids = field(b, 'meta_match_ids', 800).split('|');
+  if (!b.meta_fbc && ids[0]) b.meta_fbc = ids[0];
+  if (!b.meta_fbp && ids[1]) b.meta_fbp = ids[1];
+  if (!b.meta_vid && ids[2]) b.meta_vid = ids[2];
   const vid = field(b, 'meta_vid', 100);
   if (vid) ext.push(sha256(vid));
   if (ext.length) ud.external_id = ext;
