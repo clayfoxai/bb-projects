@@ -38,6 +38,7 @@ function peptidesEnvelope(contact, a, req, referral) {
   const formData = {
     tags,
     first_name: contact.firstName, last_name: contact.lastName, email: contact.email, phone: contact.phone,
+    contact_id: contact.contactId,
     date_of_birth: val(a.date_of_birth, 20), address: val(a.address, 200), city: val(a.city, 100),
     state: val(a.state, 50), postal_code: val(a.postal_code, 20),
   };
@@ -58,10 +59,11 @@ function peptidesEnvelope(contact, a, req, referral) {
 function genericPayload(service, contact, a, referral) {
   const out = {
     first_name: contact.firstName, last_name: contact.lastName, email: contact.email, phone: contact.phone,
+    contact_id: contact.contactId,
     source: 'learn.upgradedhuman.com intake', intake_service: service, referral_source: referral,
     submitted_at: new Date().toISOString(),
   };
-  Object.keys(a).forEach((k) => { out[k] = val(a[k]); });
+  Object.keys(a).forEach((k) => { if (!(k in out)) out[k] = val(a[k]); });
   return out;
 }
 
@@ -78,8 +80,10 @@ module.exports = async function handler(req, res) {
   const contact = {
     firstName: clean(c.firstName, 100), lastName: clean(c.lastName, 100),
     email: clean(c.email, 254).toLowerCase(), phone: clean(c.phone, 40),
+    contactId: /^[A-Za-z0-9]{10,40}$/.test(clean(c.contactId, 40)) ? clean(c.contactId, 40) : '',
   };
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact.email) || contact.phone.replace(/\D/g, '').length < 10) {
+  // Contact details come from the quiz (or the CRM contact ID on reminder links); they are never re-asked.
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact.email) && !contact.contactId) {
     return res.status(400).json({ ok: false, error: 'contact' });
   }
   const answers = (b.answers && typeof b.answers === 'object') ? b.answers : {};
