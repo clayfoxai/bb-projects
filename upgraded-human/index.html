@@ -536,10 +536,10 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
     <div class="quiz" id="quiz">
       <div class="quiz-progress">
         <div class="quiz-progress-top">
-          <span class="quiz-step-label">STEP <span id="quizStepNum">1</span> OF 6</span>
-          <span class="quiz-pct" id="quizPct">17% Complete</span>
+          <span class="quiz-step-label">STEP <span id="quizStepNum">1</span> OF 7</span>
+          <span class="quiz-pct" id="quizPct">14% Complete</span>
         </div>
-        <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill" style="width:17%"></div></div>
+        <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBarFill" style="width:14%"></div></div>
       </div>
       <div class="quiz-body">
         <div class="quiz-slide" data-step="1">
@@ -547,10 +547,20 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
           <input type="text" class="quiz-input" placeholder="Enter your name..." id="q1" autocomplete="name">
         </div>
         <div class="quiz-slide" data-step="2" hidden>
-          <h3>What are your primary hormonal and longevity goals?</h3>
-          <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, weight loss, longevity..." id="q2"></textarea>
+          <h3>Which service are you most interested in?</h3>
+          <input type="hidden" class="quiz-input" id="qInterest">
+          <div class="quiz-options" id="qInterestOptions" role="radiogroup" aria-label="Which service are you most interested in?">
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Peptides & Blood Work" data-key="peptides">Peptides &amp; Blood Work</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Stem Cell / IV Therapy" data-key="stemcell">Stem Cell / IV Therapy</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Fountain of Youth Facial" data-key="facial">Fountain of Youth Facial</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Not sure yet" data-key="unsure">Not sure yet, help me choose</button>
+          </div>
         </div>
         <div class="quiz-slide" data-step="3" hidden>
+          <h3 id="qGoalsTitle">What are your primary hormonal and longevity goals?</h3>
+          <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, weight loss, longevity..." id="q2"></textarea>
+        </div>
+        <div class="quiz-slide" data-step="4" hidden>
           <h3>How did you hear about RegenX?</h3>
           <input type="hidden" class="quiz-input" id="q3">
           <div class="quiz-options" id="q3options" role="radiogroup" aria-label="How did you hear about RegenX?">
@@ -561,21 +571,21 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
           </div>
           <input type="text" class="quiz-detail" id="q3detail" hidden>
         </div>
-        <div class="quiz-slide" data-step="4" hidden>
+        <div class="quiz-slide" data-step="5" hidden>
           <h3>Is there anything else you'd like to add or share with us?</h3>
           <textarea class="quiz-input" rows="3" placeholder="Optional..." id="q4"></textarea>
         </div>
-        <div class="quiz-slide" data-step="5" hidden>
+        <div class="quiz-slide" data-step="6" hidden>
           <h3>What's the best email address to reach you at?</h3>
           <input type="email" class="quiz-input" placeholder="email@example.com" id="q5" autocomplete="email">
         </div>
-        <div class="quiz-slide" data-step="6" hidden>
+        <div class="quiz-slide" data-step="7" hidden>
           <h3>And finally, what's your phone number?</h3>
           <input type="tel" class="quiz-input" placeholder="(555) 000-0000" id="q6" autocomplete="tel">
           <p class="quiz-error" id="quizError" role="alert" hidden></p>
         </div>
         <div class="quiz-hp" aria-hidden="true"><label>Company<input type="text" id="qCompany" tabindex="-1" autocomplete="off"></label></div>
-        <div class="quiz-slide quiz-done" data-step="7" hidden>
+        <div class="quiz-slide quiz-done" data-step="8" hidden>
           <div class="quiz-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
           <h3>You're All Set<span id="quizDoneName"></span></h3>
           <p>Thanks for sharing that with us. Our team will reach out shortly to get your assessment on the calendar.</p>
@@ -1082,7 +1092,7 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
   // intake quiz
   var quiz = document.getElementById('quiz');
   if(quiz){
-    var TOTAL_STEPS = 6;
+    var TOTAL_STEPS = 7;
     var current = 1;
     var slides = Array.prototype.slice.call(quiz.querySelectorAll('.quiz-slide'));
     var backBtn = document.getElementById('quizBack');
@@ -1125,36 +1135,64 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
         } else if(input){ setTimeout(function(){ input.focus(); }, 50); }
       }
     }
-    // "How did you hear about us" choice buttons (step 3)
+    // Tap-option questions (service interest, how did you hear about us)
     var q3 = document.getElementById('q3');
-    var q3options = document.getElementById('q3options');
     var q3detail = document.getElementById('q3detail');
-    if(q3options){
-      q3options.addEventListener('click', function(e){
-        var btn = e.target.closest('.quiz-option');
-        if(!btn) return;
-        q3options.querySelectorAll('.quiz-option').forEach(function(b){ b.setAttribute('aria-checked', b === btn ? 'true' : 'false'); });
-        q3.value = btn.getAttribute('data-value');
-        q3options.classList.remove('is-error');
+    var qInterest = document.getElementById('qInterest');
+    var goalsTitle = document.getElementById('qGoalsTitle');
+    var goalsInput = document.getElementById('q2');
+    var GOALS_COPY = {
+      facial: ['What are your main skin goals?', 'e.g., firmer skin, even tone, fewer fine lines...'],
+      _default: ['What are your primary hormonal and longevity goals?', 'e.g., energy, recovery, weight loss, longevity...']
+    };
+    function selectOption(btn){
+      var group = btn.closest('.quiz-options');
+      var slide = btn.closest('.quiz-slide');
+      var hidden = slide.querySelector('input[type="hidden"]');
+      var detailBox = slide.querySelector('.quiz-detail');
+      group.querySelectorAll('.quiz-option').forEach(function(b){ b.setAttribute('aria-checked', b === btn ? 'true' : 'false'); });
+      hidden.value = btn.getAttribute('data-value');
+      group.classList.remove('is-error');
+      if(detailBox){
         var detail = btn.getAttribute('data-detail');
         if(detail){
-          q3detail.placeholder = detail;
-          q3detail.setAttribute('aria-label', detail);
-          q3detail.hidden = false;
-          q3detail.focus();
+          detailBox.placeholder = detail;
+          detailBox.setAttribute('aria-label', detail);
+          detailBox.hidden = false;
+          detailBox.focus();
         } else {
-          q3detail.hidden = true;
-          q3detail.value = '';
+          detailBox.hidden = true;
+          detailBox.value = '';
         }
-      });
+      }
+      if(hidden === qInterest && goalsTitle && goalsInput){
+        var copy = GOALS_COPY[btn.getAttribute('data-key')] || GOALS_COPY._default;
+        goalsTitle.textContent = copy[0];
+        goalsInput.placeholder = copy[1];
+      }
     }
+    quiz.querySelectorAll('.quiz-options').forEach(function(group){
+      group.addEventListener('click', function(e){
+        var btn = e.target.closest('.quiz-option');
+        if(btn){ selectOption(btn); }
+      });
+    });
+    // Ad links can pre-select the service with an opaque code (?o=1 peptides, ?o=2 stem cell/IV, ?o=3 facial).
+    // Deliberately a number, not a service name: page URLs are visible to the Meta pixel, and service
+    // names in URLs read as health-category data.
+    (function(){
+      var code = (new URLSearchParams(window.location.search).get('o') || '').replace(/[^0-9]/g,'');
+      var keyFor = { '1':'peptides', '2':'stemcell', '3':'facial' };
+      var match = keyFor[code] && document.querySelector('#qInterestOptions .quiz-option[data-key="' + keyFor[code] + '"]');
+      if(match){ selectOption(match); }
+    })();
     function referralValue(){
       var v = q3 ? q3.value : '';
       var d = (q3detail && !q3detail.hidden) ? q3detail.value.trim() : '';
       return d ? v + ': ' + d : v;
     }
     function isRequired(step){
-      return step !== 4; // "anything else" is optional
+      return step !== 5; // "anything else" is optional
     }
     function advance(){
       var input = currentInput();
@@ -1169,7 +1207,7 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
         input.addEventListener('input', function reset(){ input.style.borderColor=''; input.removeEventListener('input', reset); });
         return;
       }
-      if(current === 5 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())){
+      if(current === 6 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())){
         showFieldError(input, 'Please enter a valid email address.');
         return;
       }
@@ -1230,7 +1268,7 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
         var v = landingParams.get(k); if(v) utm[k] = v;
       });
       var payload = {
-        name: val('q1'), goals: val('q2'), referral: referralValue(), notes: val('q4'),
+        name: val('q1'), interest: val('qInterest'), goals: val('q2'), referral: referralValue(), notes: val('q4'),
         email: val('q5'), phone: val('q6'), company: val('qCompany'),
         eventId: eventId, pageUrl: window.location.href.split('#')[0],
         fbp: readCookie('_fbp'), fbc: fbcValue(), vid: window.UH_vid || '', utm: utm
