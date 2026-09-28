@@ -21,10 +21,20 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 window.UH_newEventId=function(p){return p+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);};
+window.UH_cookie=function(n){try{var m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):'';}catch(e){return '';}};
+// First-party visitor ID: same value on every event from this browser (pixel + server), sent as external_id.
+window.UH_vid=(function(){var v=UH_cookie('uh_vid');if(!v){v='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,12);try{document.cookie='uh_vid='+v+'; Max-Age=31536000; Path=/; SameSite=Lax; Secure';}catch(e){}}return v;})();
+// Keep the ad click ID even if the pixel script is blocked: store fbclid as _fbc (Meta's own format).
+(function(){try{var id=new URLSearchParams(location.search).get('fbclid');if(id&&!UH_cookie('_fbc')){document.cookie='_fbc='+encodeURIComponent('fb.1.'+Date.now()+'.'+id)+'; Max-Age=7776000; Path=/; SameSite=Lax; Secure';}}catch(e){}})();
+// Server-side copy of a pixel event with the same event ID (Meta keeps one, falls back to the server copy if the browser event is blocked).
+window.UH_serverEvent=function(name,id){try{fetch('api/event',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({event:name,eventId:id,pageUrl:location.href.split('#')[0],fbp:UH_cookie('_fbp'),fbc:UH_cookie('_fbc'),vid:UH_vid})});}catch(e){}};
 fbq.disablePushState = true; // in-page anchor jumps (#final-cta etc.) must not fire extra PageViews
 fbq('set','autoConfig',false,'2160151605383103');
-fbq('init','2160151605383103');
-fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
+fbq('init','2160151605383103',{external_id:UH_vid});
+window.UH_pvId=UH_newEventId('pv');
+fbq('track','PageView',{},{eventID:UH_pvId});
+// Give the pixel a moment to set _fbp so the server copy carries it.
+window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('PageView',UH_pvId);},1200);});
 </script>
 <style>
   :root{
@@ -1171,6 +1181,13 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
         submitLead();
         return;
       }
+      if(current === 1 && !assessmentStarted){
+        // First real engagement with the quiz: mid-funnel signal for Meta (browser + server, same ID).
+        assessmentStarted = true;
+        var asId = window.UH_newEventId ? UH_newEventId('as') : 'as-' + Date.now();
+        if(window.fbq){ fbq('trackCustom','AssessmentStarted',{},{eventID:asId}); }
+        if(window.UH_serverEvent){ UH_serverEvent('AssessmentStarted', asId); }
+      }
       current++;
       render(true);
     }
@@ -1199,6 +1216,7 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
       return id ? 'fb.1.' + Date.now() + '.' + id : '';
     }
     var submitting = false;
+    var assessmentStarted = false;
     var leadEventId = null;
     function submitLead(){
       if(submitting) return;
@@ -1215,7 +1233,7 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
         name: val('q1'), goals: val('q2'), referral: referralValue(), notes: val('q4'),
         email: val('q5'), phone: val('q6'), company: val('qCompany'),
         eventId: eventId, pageUrl: window.location.href.split('#')[0],
-        fbp: readCookie('_fbp'), fbc: fbcValue(), utm: utm
+        fbp: readCookie('_fbp'), fbc: fbcValue(), vid: window.UH_vid || '', utm: utm
       };
       if(errorEl){ errorEl.hidden = true; }
       nextBtn.disabled = true; backBtn.disabled = true;
@@ -1225,7 +1243,16 @@ fbq('track','PageView',{},{eventID:UH_newEventId('pv')});
         .then(function(){
           // Browser Lead event shares event_id with the server-side CAPI event so Meta counts it once.
           // No quiz answers are passed to the pixel.
-          if(window.fbq){ fbq('track','Lead',{},{eventID:eventId}); }
+          if(window.fbq){
+            // Manual advanced matching: the pixel hashes these in the browser before sending.
+            var nm = payload.name.toLowerCase().split(/\s+/).filter(Boolean);
+            var ph = payload.phone.replace(/\D/g,''); if(ph.length === 10){ ph = '1' + ph; }
+            var am = { em: payload.email.toLowerCase(), ph: ph, external_id: window.UH_vid || '' };
+            if(nm[0]){ am.fn = nm[0]; }
+            if(nm.length > 1){ am.ln = nm[nm.length - 1]; }
+            fbq('init','2160151605383103', am);
+            fbq('track','Lead',{},{eventID:eventId});
+          }
           var first = payload.name ? ', ' + payload.name.split(' ')[0] : '';
           doneNameEl.textContent = first;
           current = TOTAL_STEPS + 1;
