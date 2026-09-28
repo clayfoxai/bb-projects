@@ -630,26 +630,6 @@
         }
       ],
       "destination": "/ismat-duckson-aziz/:path*"
-    },
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "learn.upgradedhuman.com"
-        }
-      ],
-      "destination": "/upgraded-human/index.html"
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "learn.upgradedhuman.com"
-        }
-      ],
-      "destination": "/upgraded-human/:path*"
     }
   ]
 }
