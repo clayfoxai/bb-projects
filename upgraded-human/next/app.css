@@ -81,7 +81,7 @@ textarea.ik-input{resize:vertical;min-height:96px;}
 .ik-err{color:var(--error);font-size:1rem;margin-top:6px;}
 .ik-err[hidden]{display:none;}
 .ik-embed{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--off-white);}
-.ik-embed iframe{display:block;width:100%;height:min(75vh,720px);border:0;}
+.ik-embed iframe{display:block;width:100%;height:min(80vh,820px);border:0;}
 .ik-embed-status{display:flex;align-items:center;gap:.5em;margin-top:12px;font-weight:600;color:var(--slate);}
 .ik-embed-status.ok{color:var(--navy);}
 .ik-nav{display:flex;justify-content:space-between;align-items:center;gap:1em;margin-top:clamp(20px,3vw,28px);}
