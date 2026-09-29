@@ -250,10 +250,14 @@
     try{
       if(!/^https:\/\/([a-z0-9-]+\.)*(trm-engine\.com|leadconnectorhq\.com|msgsndr\.com)$/.test(ev.origin || '')) return;
       var d = ev.data; if(!d) return;
-      try{ (window.UH_EMBED_MSGS = window.UH_EMBED_MSGS || []).push(typeof d === 'string' ? d.slice(0,200) : JSON.stringify(d).slice(0,200)); }catch(e){}
       var s = (typeof d === 'string' ? d : JSON.stringify(d)).toLowerCase();
       var hit = /document[._-]?completed|doc[._-]?completed|signature_completed|document_signed/.test(s) ||
                 (/form[-_]submit(ted)?/.test(s) && s.indexOf('progress') === -1);
+      // Clinic GHL form/survey: after a successful submit the embed posts ["set-sticky-contacts","_ud",{contact json}].
+      if(Array.isArray(d) && d[0] === 'set-sticky-contacts' && d[1] === '_ud'){
+        hit = true;
+        try{ var ud = typeof d[2] === 'string' ? JSON.parse(d[2]) : d[2]; if(ud && ud.id && !contactId && /^[A-Za-z0-9]{10,40}$/.test(ud.id)) contactId = ud.id; }catch(e){}
+      }
       if(hit && !signed){
         signed = true;
         var st = document.getElementById('ikSignStatus');
