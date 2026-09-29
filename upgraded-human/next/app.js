@@ -95,7 +95,15 @@
       wrap.appendChild(el('span', {'class':'ik-label'}, labelHtml));
       if(f.help) wrap.appendChild(el('p', {'class':'ik-help'}, esc(f.help)));
       var box = el('div', {'class':'ik-embed'});
-      box.appendChild(el('iframe', {src:f.src, title:f.label, loading:'lazy'}));
+      var src = f.src;
+      if(f.prefillContact){
+        // Clinic signature form: carry over the name and email we already have so they are never retyped.
+        var q = [], full = ((lead.firstName || '') + ' ' + (lead.lastName || '')).trim(), em = lead.email || answers.email || '';
+        if(full) q.push('full_name=' + encodeURIComponent(full));
+        if(em) q.push('email=' + encodeURIComponent(em));
+        if(q.length) src += (src.indexOf('?') === -1 ? '?' : '&') + q.join('&');
+      }
+      box.appendChild(el('iframe', {src:src, title:f.label}));
       wrap.appendChild(box);
       var st = el('p', {'class':'ik-embed-status' + (signed ? ' ok' : '')}, signed ? 'Signed. Thank you.' : 'Please complete and sign the document above to continue.');
       st.id = 'ikSignStatus';
@@ -242,6 +250,7 @@
     try{
       if(!/^https:\/\/([a-z0-9-]+\.)*(trm-engine\.com|leadconnectorhq\.com|msgsndr\.com)$/.test(ev.origin || '')) return;
       var d = ev.data; if(!d) return;
+      try{ (window.UH_EMBED_MSGS = window.UH_EMBED_MSGS || []).push(typeof d === 'string' ? d.slice(0,200) : JSON.stringify(d).slice(0,200)); }catch(e){}
       var s = (typeof d === 'string' ? d : JSON.stringify(d)).toLowerCase();
       var hit = /document[._-]?completed|doc[._-]?completed|signature_completed|document_signed/.test(s) ||
                 (/form[-_]submit(ted)?/.test(s) && s.indexOf('progress') === -1);
