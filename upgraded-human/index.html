@@ -416,6 +416,9 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
     display:flex;align-items:center;justify-content:center;margin:0 auto 1em;}
   .quiz-done-icon svg{width:28px;height:28px;}
   .quiz-done p{color:var(--slate);font-size:1.1rem;margin:0;}
+  .quiz-continue{margin-top:22px;padding-top:20px;border-top:1px solid var(--border, #DEE6ED);}
+  .quiz-continue[hidden]{display:none;}
+  .quiz-continue .quiz-continue-lede{color:var(--navy);font-weight:600;margin:0 0 14px;text-wrap:balance;}
 
   /* Footer (matches live site: light bg, dark navy text, not a dark-mode footer) */
   footer{background:var(--sky-tint);color:var(--slate);padding:clamp(40px,5vw,56px) 0 24px;font-size:1rem;
@@ -589,6 +592,10 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
           <div class="quiz-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
           <h3>You're All Set<span id="quizDoneName"></span></h3>
           <p>Thanks for sharing that with us. Our team will reach out shortly to get your assessment on the calendar.</p>
+          <div class="quiz-continue" id="quizContinue" hidden>
+            <p class="quiz-continue-lede">One quick step left. Answer a few health questions now so our team is ready for your call.</p>
+            <a class="btn btn-primary" id="quizContinueBtn" href="#">Continue my intake</a>
+          </div>
         </div>
       </div>
       <div class="quiz-nav">
@@ -1300,6 +1307,10 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
               goals: payload.goals, referral: payload.referral
             }));
           }catch(e){}
+          // Send the lead to the follow-up page for the service they chose (same tab keeps their details).
+          var nextPage = { 'Peptides & Blood Work':'/next/1/', 'Stem Cell / IV Therapy':'/next/2/', 'Fountain of Youth Facial':'/next/3/' }[payload.interest];
+          var cont = document.getElementById('quizContinue');
+          if(nextPage && cont){ document.getElementById('quizContinueBtn').setAttribute('href', nextPage); cont.hidden = false; }
           var first = payload.name ? ', ' + payload.name.split(' ')[0] : '';
           doneNameEl.textContent = first;
           current = TOTAL_STEPS + 1;
