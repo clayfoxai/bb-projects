@@ -91,6 +91,8 @@ module.exports = async function handler(req, res) {
     // Meta match IDs, stored on the contact so later CRM events (booked / paid) link back to the ad click.
     // Stored in one GHL field ("Meta Match IDs") as fbc|fbp|visitorId, read back by api/crm-event.js.
     meta_match_ids: [clean(b.fbc, 500), clean(b.fbp, 200), clean(b.vid, 100)].join('|'),
+    // Follow-up page for the chosen service (neutral URL; used in the lead's confirmation text). Empty for "Not sure yet".
+    intake_url: ({ 'Peptides & Blood Work': 'https://learn.upgradedhuman.com/next/1/', 'Stem Cell / IV Therapy': 'https://learn.upgradedhuman.com/next/2/', 'Fountain of Youth Facial': 'https://learn.upgradedhuman.com/next/3/' })[clean(b.interest, 100)] || '',
     submitted_at: new Date().toISOString(),
   };
 
