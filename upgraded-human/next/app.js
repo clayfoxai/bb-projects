@@ -28,7 +28,7 @@
   }); });
 
   var current = 0;
-  var signed = false;
+  var signed = false, signedVia = '';
 
   function el(tag, attrs, html){
     var e = document.createElement(tag);
@@ -108,6 +108,13 @@
       var st = el('p', {'class':'ik-embed-status' + (signed ? ' ok' : '')}, signed ? 'Signed. Thank you.' : 'Please complete and sign the document above to continue.');
       st.id = 'ikSignStatus';
       wrap.appendChild(st);
+      if(f.confirmFallback && !signed){
+        // Some document signers don't report back to the page. After a short wait, let the lead confirm they signed.
+        var cf = el('label', {'class':'ik-confirm', id:'ikSignConfirm', hidden:''}, '<input type="checkbox"> I have signed the consent document above');
+        cf.querySelector('input').addEventListener('change', function(){ if(this.checked) markSigned('confirmed'); });
+        wrap.appendChild(cf);
+        setTimeout(function(){ var c = document.getElementById('ikSignConfirm'); if(c && !signed) c.hidden = false; }, f.confirmAfterMs || 30000);
+      }
     } else if(f.type === 'radio' || f.type === 'yesno' || f.type === 'checkbox'){
       wrap.appendChild(el('span', {'class':'ik-label', id: inputId + '_l'}, labelHtml));
       if(f.help) wrap.appendChild(el('p', {'class':'ik-help'}, esc(f.help)));
@@ -218,7 +225,7 @@
       if(!empty(answers[f.id])) clean[f.id] = answers[f.id];
     }); });
     fetch('/api/details', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({
-      service: S.service, contact: contact, answers: clean, signed: signed,
+      service: S.service, contact: contact, answers: clean, signed: signed, signedVia: signedVia,
       referral: lead.referral || '', company: (document.getElementById('ikCompany') || {}).value || ''
     })}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(){ done(contact); })
@@ -245,25 +252,32 @@
   });
   backBtn.addEventListener('click', function(){ if(current > 0){ current--; renderStep(); scrollToForm(); } });
 
-  // Signature document (GHL Documents) posts a completion message to the parent page.
+  function markSigned(via){
+    if(signed) return;
+    signed = true; signedVia = via;
+    var st = document.getElementById('ikSignStatus');
+    if(st){ st.textContent = 'Signed. Thank you.'; st.classList.add('ok'); }
+    var cf = document.getElementById('ikSignConfirm'); if(cf) cf.hidden = true;
+    steps[current].fields.forEach(function(f){ if(f.type === 'embed') clearError(f.id); });
+  }
+  // Signature document / clinic form posts a completion message to the parent page.
   window.addEventListener('message', function(ev){
     try{
-      if(!/^https:\/\/([a-z0-9-]+\.)*(trm-engine\.com|leadconnectorhq\.com|msgsndr\.com)$/.test(ev.origin || '')) return;
+      if(ev.source === window) return;
       var d = ev.data; if(!d) return;
       var s = (typeof d === 'string' ? d : JSON.stringify(d)).toLowerCase();
+      // Debug trail (no personal data): origin + message shape only.
+      try{ (window.__uhEmbedLog = window.__uhEmbedLog || []).push((ev.origin || '?') + ' ' + s.replace(/[^a-z_\-.:\[\]"]/g, '').slice(0, 60)); }catch(e){}
+      // Same completion patterns the clinic's own intake app listens for (any origin, like their app).
       var hit = /document[._-]?completed|doc[._-]?completed|signature_completed|document_signed/.test(s) ||
                 (/form[-_]submit(ted)?/.test(s) && s.indexOf('progress') === -1);
       // Clinic GHL form/survey: after a successful submit the embed posts ["set-sticky-contacts","_ud",{contact json}].
-      if(Array.isArray(d) && d[0] === 'set-sticky-contacts' && d[1] === '_ud'){
+      if(/^https:\/\/([a-z0-9-]+\.)*(trm-engine\.com|leadconnectorhq\.com|msgsndr\.com)$/.test(ev.origin || '') &&
+         Array.isArray(d) && d[0] === 'set-sticky-contacts' && d[1] === '_ud'){
         hit = true;
         try{ var ud = typeof d[2] === 'string' ? JSON.parse(d[2]) : d[2]; if(ud && ud.id && !contactId && /^[A-Za-z0-9]{10,40}$/.test(ud.id)) contactId = ud.id; }catch(e){}
       }
-      if(hit && !signed){
-        signed = true;
-        var st = document.getElementById('ikSignStatus');
-        if(st){ st.textContent = 'Signed. Thank you.'; st.classList.add('ok'); }
-        steps[current].fields.forEach(function(f){ if(f.type === 'embed') clearError(f.id); });
-      }
+      if(hit) markSigned('auto');
     }catch(e){}
   });
 
