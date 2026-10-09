@@ -111,3 +111,6 @@ textarea.ik-input{resize:vertical;min-height:96px;}
   .ik-card-body{padding:14px 16px;}
 }
 @media(max-width:379px){.ik-secure{font-size:0;gap:0;}.ik-secure svg{width:18px;height:18px;}}
+.ik-confirm{display:flex;align-items:center;gap:.6em;margin-top:12px;font-weight:600;color:var(--navy);cursor:pointer;font-size:1rem;}
+.ik-confirm[hidden]{display:none;}
+.ik-confirm input{width:20px;height:20px;accent-color:var(--navy);flex:none;}
