@@ -101,6 +101,20 @@ module.exports = async function handler(req, res) {
     try {
       const r = await fetch(PEPTIDES_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(peptidesEnvelope(contact, answers, req, referral)) });
       console.log(JSON.stringify({ evt: 'intake_forward', service, status: r.status }));
+      // Tag the contact so our team-alert workflow fires (the clinic's own workflow handles the lead's text).
+      if (r.ok && process.env.UH_GHL_PIT) {
+        try {
+          let id = contact.contactId;
+          if (!id && contact.email) {
+            const up = await ghl('POST', '/contacts/upsert', { locationId: LOCATION_ID, email: contact.email });
+            id = up.json && up.json.contact && up.json.contact.id;
+          }
+          if (id) {
+            const t = await ghl('POST', '/contacts/' + id + '/tags', { tags: ['lp intake', 'lp intake - peptides'] });
+            console.log(JSON.stringify({ evt: 'intake_tag', service, status: t.status }));
+          }
+        } catch (_) {}
+      }
       return res.status(r.ok ? 200 : 502).json({ ok: r.ok });
     } catch (_) { return res.status(502).json({ ok: false }); }
   }
