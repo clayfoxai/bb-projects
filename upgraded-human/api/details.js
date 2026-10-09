@@ -56,7 +56,7 @@ function peptidesEnvelope(contact, a, req, referral) {
   };
 }
 
-function genericPayload(service, contact, a, referral) {
+function _unusedGenericPayload(service, contact, a, referral) {
   const out = {
     first_name: contact.firstName, last_name: contact.lastName, email: contact.email, phone: contact.phone,
     contact_id: contact.contactId,
@@ -89,23 +89,90 @@ module.exports = async function handler(req, res) {
   const answers = (b.answers && typeof b.answers === 'object') ? b.answers : {};
   const referral = clean(b.referral, 200);
 
-  if (process.env.UH_INTAKE_MODE !== 'live') {
+  // Per-service go-live switch: UH_INTAKE_LIVE="peptides,stemcell,facial" (or UH_INTAKE_MODE=live for all).
+  const liveList = (process.env.UH_INTAKE_LIVE || '').split(',').map((x) => x.trim());
+  const isLive = process.env.UH_INTAKE_MODE === 'live' || liveList.includes(service);
+  if (!isLive) {
     console.log(JSON.stringify({ evt: 'intake_preview', service, fields: Object.keys(answers).length, signed: !!b.signed }));
     return res.status(200).json({ ok: true, mode: 'preview' });
   }
 
-  let url, payload;
-  if (service === 'peptides') { url = PEPTIDES_WEBHOOK; payload = peptidesEnvelope(contact, answers, req, referral); }
-  else {
-    url = service === 'stemcell' ? process.env.UH_GHL_INTAKE_STEMCELL : process.env.UH_GHL_INTAKE_FACIAL;
-    payload = genericPayload(service, contact, answers, referral);
+  if (service === 'peptides') {
+    try {
+      const r = await fetch(PEPTIDES_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(peptidesEnvelope(contact, answers, req, referral)) });
+      console.log(JSON.stringify({ evt: 'intake_forward', service, status: r.status }));
+      return res.status(r.ok ? 200 : 502).json({ ok: r.ok });
+    } catch (_) { return res.status(502).json({ ok: false }); }
   }
-  if (!url) return res.status(503).json({ ok: false, error: 'not_configured' });
+
+  // Stem cell / facial: write straight onto the lead's contact, into the clinic's existing custom fields.
+  if (!process.env.UH_GHL_PIT) return res.status(503).json({ ok: false, error: 'not_configured' });
   try {
-    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    console.log(JSON.stringify({ evt: 'intake_forward', service, status: r.status }));
-    return res.status(r.ok ? 200 : 502).json({ ok: r.ok });
-  } catch (_) {
+    const result = await saveToGhl(service, contact, answers, referral);
+    console.log(JSON.stringify({ evt: 'intake_ghl', service, ok: result.ok, step: result.step, status: result.status }));
+    return res.status(result.ok ? 200 : 502).json({ ok: result.ok });
+  } catch (e) {
+    console.log(JSON.stringify({ evt: 'intake_ghl', service, ok: false, error: String(e && e.message || e).slice(0, 200) }));
     return res.status(502).json({ ok: false });
   }
 };
+
+// ---------- GHL API (Private Integration token, location-scoped) ----------
+const GHL = 'https://services.leadconnectorhq.com';
+const FIELDS = require('./_ghlfields');
+const SERVICE_TAG = { stemcell: 'lp intake - stem cell iv', facial: 'lp intake - facial' };
+const SERVICE_NAME = { stemcell: 'Candidate Pre-Screening (Stem Cell / IV)', facial: 'Fountain of Youth Facial intake' };
+
+async function ghl(method, path, body) {
+  const r = await fetch(GHL + path, {
+    method,
+    headers: { Authorization: 'Bearer ' + process.env.UH_GHL_PIT, Version: '2021-07-28', 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  let j = null; try { j = await r.json(); } catch (_) {}
+  return { ok: r.ok, status: r.status, json: j };
+}
+
+function buildFields(service, a, referral) {
+  const map = FIELDS[service];
+  const customFields = [];
+  const std = {};
+  Object.keys(a).forEach((k) => {
+    if (map.standard[k]) { std[map.standard[k]] = val(a[k], 200); return; }
+    const id = map.custom[k];
+    if (!id) return;
+    const v = map.multi.includes(k) ? (Array.isArray(a[k]) ? a[k].map((x) => clean(x, 200)) : [clean(a[k], 200)]) : val(a[k]);
+    customFields.push({ id, field_value: v });
+  });
+  if (map.referralField && referral) customFields.push({ id: map.referralField, field_value: referral });
+  return { customFields, std };
+}
+
+function noteBody(service, a) {
+  const labels = FIELDS[service].labels;
+  const lines = [SERVICE_NAME[service] + ' (submitted from learn.upgradedhuman.com)', ''];
+  Object.keys(labels).forEach((k) => { if (a[k] !== undefined && a[k] !== '') lines.push(labels[k] + ': ' + val(a[k])); });
+  return lines.join('\n');
+}
+
+async function saveToGhl(service, contact, a, referral) {
+  const locationId = LOCATION_ID;
+  const { customFields, std } = buildFields(service, a, referral);
+  let id = contact.contactId;
+  if (contact.email) {
+    const up = await ghl('POST', '/contacts/upsert', Object.assign({
+      locationId, email: contact.email,
+      phone: contact.phone || undefined, firstName: contact.firstName || undefined, lastName: contact.lastName || undefined,
+      customFields,
+    }, std));
+    if (!up.ok) return { ok: false, step: 'upsert', status: up.status };
+    id = (up.json && up.json.contact && up.json.contact.id) || id;
+  } else {
+    const put = await ghl('PUT', '/contacts/' + id, Object.assign({ customFields }, std));
+    if (!put.ok) return { ok: false, step: 'update', status: put.status };
+  }
+  if (!id) return { ok: false, step: 'no_id' };
+  const t = await ghl('POST', '/contacts/' + id + '/tags', { tags: ['lp intake', SERVICE_TAG[service]] });
+  const n = await ghl('POST', '/contacts/' + id + '/notes', { body: noteBody(service, a) });
+  return { ok: true, step: 'done', status: (t.ok && n.ok) ? 200 : (t.ok ? n.status : t.status) };
+}
