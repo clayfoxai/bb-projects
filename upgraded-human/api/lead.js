@@ -76,7 +76,7 @@ module.exports = async function handler(req, res) {
     full_name: fullName,
     email,
     phone: phoneRaw,
-    service_interest: clean(b.interest, 100), // GHL only; never sent to Meta (health category)
+    service_interest: legacyInterest(clean(b.interest, 100)), // GHL only; never sent to Meta (health category)
     goals: clean(b.goals, 2000),
     referral_source: clean(b.referral, 500),
     notes: clean(b.notes, 2000),
@@ -92,7 +92,7 @@ module.exports = async function handler(req, res) {
     // Stored in one GHL field ("Meta Match IDs") as fbc|fbp|visitorId, read back by api/crm-event.js.
     meta_match_ids: [clean(b.fbc, 500), clean(b.fbp, 200), clean(b.vid, 100)].join('|'),
     // Follow-up page for the chosen service (neutral URL; used in the lead's confirmation text). Empty for "Not sure yet".
-    intake_url: ({ 'Peptides & Blood Work': 'https://learn.upgradedhuman.com/next/1/', 'Stem Cell / IV Therapy': 'https://learn.upgradedhuman.com/next/2/', 'Fountain of Youth Facial': 'https://learn.upgradedhuman.com/next/3/' })[clean(b.interest, 100)] || '',
+    intake_url: ({ 'Peptides & Blood Work': 'https://learn.upgradedhuman.com/next/1/', 'Stem Cell / IV Therapy': 'https://learn.upgradedhuman.com/next/2/', 'Fountain of Youth Facial': 'https://learn.upgradedhuman.com/next/3/' })[legacyInterest(clean(b.interest, 100))] || '',
     submitted_at: new Date().toISOString(),
   };
 
@@ -129,3 +129,9 @@ module.exports = async function handler(req, res) {
   if (!ghlRes.ok) return res.status(502).json({ ok: false, error: 'crm' });
   return res.status(200).json({ ok: true });
 };
+
+// "Safe" LP labels (2026-10-26) map back to the original Service Interest values,
+// so GHL fields, workflows and the follow-up page links stay exactly the same.
+function legacyInterest(v) {
+  return ({ 'Blood Work & Wellness Plan': 'Peptides & Blood Work', 'Regenerative IV Protocol': 'Stem Cell / IV Therapy' })[v] || v;
+}
