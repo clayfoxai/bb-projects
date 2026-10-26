@@ -12,7 +12,7 @@
 <meta property="og:description" content="A U.S.-licensed clinic in Addison, TX with physician-led protocols built around your bloodwork and goals.">
 <meta property="og:image" content="https://learn.upgradedhuman.com/assets/hero-clientphoto.webp">
 <script>document.documentElement.classList.add('js');</script>
-<!-- Meta Pixel (dataset 2160151605383103). autoConfig off: no automatic button/form scraping on a health page.
+<!-- Meta Pixel (dataset 2160151605383103). autoConfig off: no automatic button/form scraping.
      PageView and Lead carry an eventID; Lead is also sent server-side (api/lead.js) with the same ID for dedup. -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -553,15 +553,15 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
           <h3>Which service are you most interested in?</h3>
           <input type="hidden" class="quiz-input" id="qInterest">
           <div class="quiz-options" id="qInterestOptions" role="radiogroup" aria-label="Which service are you most interested in?">
-            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Blood Work & Wellness Plan" data-key="peptides">Blood Work &amp; Wellness Plan</button>
-            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Regenerative IV Protocol" data-key="stemcell">Regenerative IV Protocol</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Blood Work & Wellness Plan" data-key="svc1">Blood Work &amp; Wellness Plan</button>
+            <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Regenerative IV Protocol" data-key="svc2">Regenerative IV Protocol</button>
             <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Fountain of Youth Facial" data-key="facial">Fountain of Youth Facial</button>
             <button type="button" class="quiz-option" role="radio" aria-checked="false" data-value="Not sure yet" data-key="unsure">Not sure yet, help me choose</button>
           </div>
         </div>
         <div class="quiz-slide" data-step="3" hidden>
           <h3 id="qGoalsTitle">What are your main goals?</h3>
-          <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, weight loss, longevity..." id="q2"></textarea>
+          <textarea class="quiz-input" rows="3" placeholder="e.g., energy, recovery, staying active..." id="q2"></textarea>
         </div>
         <div class="quiz-slide" data-step="4" hidden>
           <h3>How did you hear about RegenX?</h3>
@@ -1183,12 +1183,10 @@ window.addEventListener('load',function(){setTimeout(function(){UH_serverEvent('
         if(btn){ selectOption(btn); }
       });
     });
-    // Ad links can pre-select the service with an opaque code (?o=1 peptides, ?o=2 stem cell/IV, ?o=3 facial).
-    // Deliberately a number, not a service name: page URLs are visible to the Meta pixel, and service
-    // names in URLs read as health-category data.
+    // Ad links can pre-select a service with an opaque numeric code (o=1, o=2, o=3).
     (function(){
       var code = (new URLSearchParams(window.location.search).get('o') || '').replace(/[^0-9]/g,'');
-      var keyFor = { '1':'peptides', '2':'stemcell', '3':'facial' };
+      var keyFor = { '1':'svc1', '2':'svc2', '3':'facial' };
       var match = keyFor[code] && document.querySelector('#qInterestOptions .quiz-option[data-key="' + keyFor[code] + '"]');
       if(match){ selectOption(match); }
     })();
